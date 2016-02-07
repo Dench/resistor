@@ -7,11 +7,16 @@ use yii\db\ActiveRecord;
 class Country extends ActiveRecord
 {
 	
-	public function rules()
+	public static function tableName()
+    {
+        return '{{%country}}';
+    }
+
+    public function rules()
     {
         return [
             [['code', 'name'], 'required'],
-            [['population'], 'integer', 'max' => 2],
+            [['population'], 'integer'],
             [['code'], 'string', 'min' => 2, 'max' => 2],
         ];
     }
