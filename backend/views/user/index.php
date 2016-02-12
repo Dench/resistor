@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\User;
+use backend\components\SetColumn;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -29,8 +30,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'email:email',
             [
+                'class' => SetColumn::className(),
                 'attribute' => 'status',
-                'filter' => User::getStatus(),
+                'filter' => User::getStatusList(),
+                'name' => 'statusName',
+                'cssClasses' => [
+                    User::STATUS_DELETED => 'default',
+                    User::STATUS_BANNED => 'warning',
+                    User::STATUS_ACTIVE => 'success',
+                ],
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

@@ -72,6 +72,8 @@ class UserController extends Controller
             }
         }
 
+        $model->status = User::STATUS_ACTIVE;
+
         return $this->render('create', [
             'model' => $model,
         ]);

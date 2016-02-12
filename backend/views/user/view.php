@@ -34,7 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'password_hash',
             'password_reset_token',
             'email:email',
-            'status',
+            [
+                'label' => 'Status',
+                'value' => $model->statusName,
+            ],
             'created_at',
             'updated_at',
         ],

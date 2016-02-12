@@ -57,13 +57,19 @@ class User extends ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             [['email'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED, self::STATUS_BANNED]],
             ['email','email'],
             ['password', 'string', 'min' => 6],
         ];
     }
 
-    public static function getStatus()
+    public function getStatusName()
+    {
+        $a = self::getStatusList();
+        return $a[$this->status];
+    }
+
+    public static function getStatusList()
     {
         return [
             self::STATUS_DELETED => 'Deleted',
