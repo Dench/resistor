@@ -9,14 +9,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<action:(login|logout|about|signup|contact|request-password-reset|reset-password)>' => 'site/<action>',
                 ''=>'site/index',
-                'about'=>'site/about',
-                'contact'=>'site/contact',
-                'login'=>'site/login',
-                'logout'=>'site/logout',
-                'signup'=>'site/signup',
-                'request-password-reset'=>'site/request-password-reset',
-                'reset-password'=>'site/reset-password',
                 'country'=>'country/index',
                 'personal'=>'personal/index',
             ]
