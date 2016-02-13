@@ -4,9 +4,10 @@ namespace frontend\controllers;
 
 use common\models\User;
 use Yii;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class PersonalController extends \yii\web\Controller
+class PersonalController extends Controller
 {
     public function actionIndex()
     {
