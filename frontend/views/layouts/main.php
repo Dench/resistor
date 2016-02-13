@@ -39,16 +39,16 @@ AppAsset::register($this);
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Country', 'url' => ['/country/']],
-        ['label' => 'Personal', 'url' => ['/personal/']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
+        $menuItems[] = ['label' => 'Personal', 'url' => ['/personal/']];
         $menuItems[] = [
             'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
+            'linkOptions' => ['data-method' => 'post'],
         ];
     }
     echo Nav::widget([
