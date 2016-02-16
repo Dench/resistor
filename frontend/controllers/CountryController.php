@@ -27,11 +27,4 @@ class CountryController extends Controller
             'pagination' => $pagination,
         ]);
     }
-
-    public function actionUpdate()
-    {
-        $errors = Country::updatePopulation('UA', rand(100000,999999));
-
-        return $this->render('update', ['errors' => $errors]);
-    }
 }

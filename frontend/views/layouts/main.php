@@ -28,25 +28,25 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => Yii::$app->params['sitename'],
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Country', 'url' => ['/country/index']],
+        ['label' => Yii::t('app', 'NAV_HOME'), 'url' => ['/site/index']],
+        ['label' => Yii::t('app', 'NAV_ABOUT'), 'url' => ['/site/about']],
+        ['label' => Yii::t('app', 'NAV_CONTACT'), 'url' => ['/site/contact']],
+        ['label' => Yii::t('app', 'NAV_COUNTRY'), 'url' => ['/country/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => Yii::t('app', 'NAV_SIGNUP'), 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => Yii::t('app', 'NAV_LOGIN'), 'url' => ['/site/login']];
     } else {
-        $menuItems[] = ['label' => 'Personal', 'url' => ['/personal/index']];
+        $menuItems[] = ['label' => Yii::t('app', 'NAV_PROFILE', ['username' => Yii::$app->user->identity->username]), 'url' => ['/personal/index']];
         $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'label' => Yii::t('app', 'NAV_LOGOUT'),
             'url' => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post'],
         ];
@@ -69,7 +69,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= Yii::$app->params['sitename'] ?> <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

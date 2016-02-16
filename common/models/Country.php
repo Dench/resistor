@@ -20,11 +20,4 @@ class Country extends ActiveRecord
             [['code'], 'string', 'min' => 2, 'max' => 2],
         ];
     }
-
-	public static function updatePopulation($code, $population)
-	{
-		$temp = self::findOne($code);
-        $temp->population = $population;
-        if (!$temp->save()) return $temp->errors;
-	}
 }

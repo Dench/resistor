@@ -1,5 +1,6 @@
 <?php
 return [
+    'language' => 'ru',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'cache' => [
@@ -14,6 +15,14 @@ return [
                 'country'=>'country/index',
                 'personal'=>'personal/index',
             ]
+        ],
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'forceTranslation' => true,
+                ],
+            ],
         ],
     ],
 ];
