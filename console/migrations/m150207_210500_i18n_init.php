@@ -27,13 +27,13 @@ class m150207_210500_i18n_init extends Migration
 
         $this->createTable('source_message', [
             'id' => $this->primaryKey(),
-            'category' => $this->string(),
+            'category' => $this->string(16),
             'message' => $this->text(),
         ], $tableOptions);
 
         $this->createTable('message', [
             'id' => $this->integer()->notNull(),
-            'language' => $this->string(16)->notNull(),
+            'language' => $this->string(2)->notNull(),
             'translation' => $this->text(),
         ], $tableOptions);
 
