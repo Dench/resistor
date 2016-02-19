@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use backend\assets\AppAsset;
+use common\widgets\LangChange;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -37,6 +38,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'Country', 'url' => ['/country/index']],
+        ['label' => 'District', 'url' => ['/district/index']],
         ['label' => 'User', 'url' => ['/user/index']],
     ];
     if (Yii::$app->user->isGuest) {
@@ -66,7 +68,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; My Company <?= date('Y') ?> <?= date('Y') ?> <?= LangChange::widget();?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

@@ -70,4 +70,16 @@ class District extends ActiveRecord
     {
         return $this->hasMany(Lang::className(), ['id' => 'lang_id'])->viaTable('district_lang', ['id' => 'id']);
     }
+
+    public function getContent($lang_id = null)
+    {
+        $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
+
+        return $this->hasOne(DistrictLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
+        /*if ($content = $this->hasOne(DistrictLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id])) {
+            return $content;
+        } else {
+            return new DistrictLang();
+        }*/
+    }
 }

@@ -58,4 +58,11 @@ class Region extends ActiveRecord
     {
         return $this->hasMany(RegionLang::className(), ['id' => 'id']);
     }
+
+    public function getContent($lang_id = null)
+    {
+        $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
+
+        return $this->hasOne(RegionLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
+    }
 }
