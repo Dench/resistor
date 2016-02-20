@@ -2,22 +2,20 @@
 
 namespace backend\controllers;
 
-use common\models\DistrictLang;
 use common\models\Lang;
-use common\models\Region;
+use common\models\RegionLang;
 use Yii;
-use common\models\District;
+use common\models\Region;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DistrictController implements the CRUD actions for District model.
+ * RegionController implements the CRUD actions for Region model.
  */
-class DistrictController extends Controller
+class RegionController extends Controller
 {
     public function behaviors()
     {
@@ -32,13 +30,13 @@ class DistrictController extends Controller
     }
 
     /**
-     * Lists all District models.
+     * Lists all Region models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => District::find(),
+            'query' => Region::find(),
         ]);
 
         return $this->render('index', [
@@ -47,7 +45,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * Displays a single District model.
+     * Displays a single Region model.
      * @param integer $id
      * @return mixed
      */
@@ -59,21 +57,20 @@ class DistrictController extends Controller
     }
 
     /**
-     * Creates a new District model.
+     * Creates a new Region model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new District();
+        $model = new Region();
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = new DistrictLang();
+            $model_content[$i] = new RegionLang();
             $model_content[$i]['lang_id'] = $i;
             $model_content[$i]['id'] = 0;
         }
 
-        if ($model->load(Yii::$app->request->post()) &&
-            Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+        if (Model::loadMultiple($model_content, Yii::$app->request->post()) &&
             Model::validateMultiple($model_content) &&
             $model->save())
         {
@@ -87,13 +84,12 @@ class DistrictController extends Controller
             return $this->render('create', [
                 'model' => $model,
                 'model_content' => $model_content,
-                'region' => ArrayHelper::map(Region::find()->all(),'id','content.name'),
             ]);
         }
     }
 
     /**
-     * Updates an existing District model.
+     * Updates an existing Region model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -102,12 +98,10 @@ class DistrictController extends Controller
     {
         $model = $this->findModel($id);
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = DistrictLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
+            $model_content[$i] = RegionLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
         }
-        if ($model->load(Yii::$app->request->post()) &&
-            Model::loadMultiple($model_content, Yii::$app->request->post()) &&
-            Model::validateMultiple($model_content) &&
-            $model->save())
+        if (Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+            Model::validateMultiple($model_content))
         {
             foreach ($model_content as $key => $content) {
                 $content->save(false);
@@ -117,13 +111,12 @@ class DistrictController extends Controller
             return $this->render('update', [
                 'model' => $model,
                 'model_content' => $model_content,
-                'region' => ArrayHelper::map(Region::find()->all(),'id','content.name'),
             ]);
         }
     }
 
     /**
-     * Deletes an existing District model.
+     * Deletes an existing Region model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -136,15 +129,15 @@ class DistrictController extends Controller
     }
 
     /**
-     * Finds the District model based on its primary key value.
+     * Finds the Region model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return District the loaded model
+     * @return Region the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = District::findOne($id)) !== null) {
+        if (($model = Region::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -29,6 +29,27 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'request' => [
+            'class' => 'common\components\LangRequest'
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'class'=>'common\components\LangUrlManager',
+            'rules' => [
+                '/' => 'site/index',
+                'country' => 'country/index',
+                'personal' => 'personal/index',
+            ]
+        ],
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\DbMessageSource',
+                    'forceTranslation' => true,
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
