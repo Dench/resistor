@@ -11,22 +11,23 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="district-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="box">
+        <div class="box-body">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create District'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+                    'id',
+                    'region.content.name',
+                    'content.name',
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-
-            'id',
-            'region.content.name',
-            'content.name',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+        </div>
+        <div class="box-footer">
+            <?= Html::a(Yii::t('app', 'Create District'), ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+    </div>
 
 </div>

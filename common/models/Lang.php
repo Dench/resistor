@@ -65,7 +65,7 @@ class Lang extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%lang}}';
+        return 'lang';
     }
 
     /**

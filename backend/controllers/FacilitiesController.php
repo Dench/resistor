@@ -2,22 +2,20 @@
 
 namespace backend\controllers;
 
-use common\models\DistrictLang;
+use common\models\FacilitiesLang;
 use common\models\Lang;
-use common\models\Region;
 use Yii;
-use common\models\District;
+use common\models\Facilities;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DistrictController implements the CRUD actions for District model.
+ * FacilitiesController implements the CRUD actions for Facilities model.
  */
-class DistrictController extends Controller
+class FacilitiesController extends Controller
 {
     public function behaviors()
     {
@@ -32,13 +30,13 @@ class DistrictController extends Controller
     }
 
     /**
-     * Lists all District models.
+     * Lists all Facilities models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => District::find(),
+            'query' => Facilities::find(),
         ]);
 
         return $this->render('index', [
@@ -47,7 +45,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * Displays a single District model.
+     * Displays a single Facilities model.
      * @param integer $id
      * @return mixed
      */
@@ -59,21 +57,20 @@ class DistrictController extends Controller
     }
 
     /**
-     * Creates a new District model.
+     * Creates a new Facilities model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new District();
+        $model = new Facilities();
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = new DistrictLang();
+            $model_content[$i] = new FacilitiesLang();
             $model_content[$i]['lang_id'] = $i;
             $model_content[$i]['id'] = 0;
         }
 
-        if ($model->load(Yii::$app->request->post()) &&
-            Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+        if (Model::loadMultiple($model_content, Yii::$app->request->post()) &&
             Model::validateMultiple($model_content) &&
             $model->save())
         {
@@ -92,7 +89,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * Updates an existing District model.
+     * Updates an existing Facilities model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -101,12 +98,10 @@ class DistrictController extends Controller
     {
         $model = $this->findModel($id);
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = DistrictLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
+            $model_content[$i] = FacilitiesLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
         }
-        if ($model->load(Yii::$app->request->post()) &&
-            Model::loadMultiple($model_content, Yii::$app->request->post()) &&
-            Model::validateMultiple($model_content) &&
-            $model->save())
+        if (Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+            Model::validateMultiple($model_content))
         {
             foreach ($model_content as $key => $content) {
                 $content->save(false);
@@ -121,7 +116,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * Deletes an existing District model.
+     * Deletes an existing Facilities model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -134,31 +129,18 @@ class DistrictController extends Controller
     }
 
     /**
-     * Finds the District model based on its primary key value.
+     * Finds the Facilities model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return District the loaded model
+     * @return Facilities the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = District::findOne($id)) !== null) {
+        if (($model = Facilities::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    public function actionList() {
-        if (isset($_POST['depdrop_parents'])) {
-            if ($parents = $_POST['depdrop_parents']) {
-                $out = District::getList($parents[0]);
-                foreach ($out as $key => $value) {
-                    $result[] = ['id' => $key, 'name' => $value];
-                }
-                print Json::encode(['output' => @$result, 'selected' => '']);
-                return;
-            }
         }
     }
 }

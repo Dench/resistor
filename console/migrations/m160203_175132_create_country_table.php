@@ -5,7 +5,6 @@ use yii\db\Migration;
 
 class m160203_175132_create_country_table extends Migration
 {
-    
     private $table_name = '{{%country}}';
 
     public function safeUp()

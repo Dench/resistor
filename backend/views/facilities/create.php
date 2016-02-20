@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Region */
+/* @var $model common\models\Facilities */
 
-$this->title = Yii::t('app', 'Create Region');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Regions'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Facilities');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Facilities'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="region-create">
+<div class="facilities-create">
 
     <?= $this->render('_form', [
         'model' => $model,

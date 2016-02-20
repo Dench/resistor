@@ -1,26 +1,21 @@
 <?php
 
-use common\models\Region;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\District */
-/* @var $region array */
+/* @var $model common\models\Facilities */
 /* @var $form yii\widgets\ActiveForm */
-
 ?>
 
-<div class="district-form">
+<div class="facilities-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'region_id')->dropDownList(Region::getList())->label(Yii::t('app', 'REGION')) ?>
-
     <?php
-        foreach ($model_content as $key => $content) {
-            echo $form->field($content, "[$key]name")->label($content->name);
-        }
+    foreach ($model_content as $key => $content) {
+        echo $form->field($content, "[$key]name")->label($content->name);
+    }
     ?>
 
     <div class="form-group">

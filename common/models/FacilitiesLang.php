@@ -3,26 +3,25 @@
 namespace common\models;
 
 use Yii;
-use \yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "region_lang".
+ * This is the model class for table "facilities_lang".
  *
  * @property integer $id
  * @property integer $lang_id
  * @property string $name
  *
+ * @property Facilities $id0
  * @property Lang $lang
- * @property Region $id0
  */
-class RegionLang extends ActiveRecord
+class FacilitiesLang extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'region_lang';
+        return 'facilities_lang';
     }
 
     /**
@@ -33,7 +32,8 @@ class RegionLang extends ActiveRecord
         return [
             [['id', 'lang_id', 'name'], 'required'],
             [['id', 'lang_id'], 'integer'],
-            [['name'], 'string', 'max' => 64]
+            [['name'], 'string', 'max' => 32],
+            [['id', 'lang_id'], 'unique', 'targetAttribute' => ['id', 'lang_id'], 'message' => 'The combination of ID and Lang ID has already been taken.']
         ];
     }
 
@@ -52,16 +52,16 @@ class RegionLang extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLang()
+    public function getId0()
     {
-        return $this->hasOne(Lang::className(), ['id' => 'lang_id']);
+        return $this->hasOne(Facilities::className(), ['id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getLang()
     {
-        return $this->hasOne(Region::className(), ['id' => 'id']);
+        return $this->hasOne(Lang::className(), ['id' => 'lang_id']);
     }
 }

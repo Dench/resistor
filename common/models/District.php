@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use \yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "district".
@@ -22,7 +23,7 @@ class District extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%district}}';
+        return 'district';
     }
 
     /**
@@ -76,10 +77,10 @@ class District extends ActiveRecord
         $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
 
         return $this->hasOne(DistrictLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
-        /*if ($content = $this->hasOne(DistrictLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id])) {
-            return $content;
-        } else {
-            return new DistrictLang();
-        }*/
+    }
+
+    public static function getList($id)
+    {
+        return ArrayHelper::map(self::find()->where(['region_id' => $id])->all(), 'id', 'content.name');
     }
 }

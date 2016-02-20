@@ -39,7 +39,6 @@ AppAsset::register($this);
         ['label' => Yii::t('app', 'NAV_HOME'), 'url' => ['/site/index']],
         ['label' => Yii::t('app', 'NAV_ABOUT'), 'url' => ['/site/about']],
         ['label' => Yii::t('app', 'NAV_CONTACT'), 'url' => ['/site/contact']],
-        ['label' => Yii::t('app', 'NAV_COUNTRY'), 'url' => ['/country/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => Yii::t('app', 'NAV_SIGNUP'), 'url' => ['/site/signup']];

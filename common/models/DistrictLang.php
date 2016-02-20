@@ -22,7 +22,7 @@ class DistrictLang extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%district_lang}}';
+        return 'district_lang';
     }
 
     /**

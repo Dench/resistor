@@ -38,7 +38,6 @@ return [
             'rules' => [
                 '<action:(login|logout|about|signup|contact|request-password-reset|reset-password)>' => 'site/<action>',
                 '/' => 'site/index',
-                'country' => 'country/index',
                 'personal' => 'personal/index',
             ]
         ],
