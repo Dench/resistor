@@ -12,9 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="region-index">
 
     <div class="box">
-        <div class="box-header with-border">
-            <?= Html::a(Yii::t('app', 'Create Region'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -26,6 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]); ?>
+        </div>
+        <div class="box-footer">
+            <?= Html::a(Yii::t('app', 'Create Region'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
     </div>
 

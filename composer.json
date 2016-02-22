@@ -19,7 +19,9 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "dmstr/yii2-adminlte-asset": "2.*",
-        "kartik-v/yii2-widget-depdrop": "@dev"
+        "kartik-v/yii2-widget-depdrop": "@dev",
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "yiisoft/yii2-imagine": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
