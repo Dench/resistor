@@ -124,4 +124,12 @@ class Sale extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPhotos()
+    {
+        return $this->hasMany(SalePhoto::className(), ['sale_id' => 'id']);
+    }
 }

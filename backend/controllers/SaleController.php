@@ -3,12 +3,15 @@
 namespace backend\controllers;
 
 use common\models\Region;
+use common\models\SalePhoto;
 use Yii;
 use common\models\Sale;
 use backend\models\SaleSearch;
+use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * SaleController implements the CRUD actions for Sale model.
@@ -117,6 +120,29 @@ class SaleController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionUploadPhoto()
+    {
+        if (Yii::$app->request->isPost) {
+            $id = Yii::$app->request->post('sale_id');
+            $path = Yii::$app->params['uploadSalePath'].'/'.$id;
+            BaseFileHelper::createDirectory($path);
+            $file = UploadedFile::getInstanceByName('photos');
+            $model = new SalePhoto();
+            $model->sale_id = $id;
+            if ($model->save()) {
+                $model->sort = $model->id;
+                $name = $model->id.'.jpg';
+                if ($model->save()) {
+                    if (!$file->saveAs($path.'/'.$name)) {
+                        $model->delete();
+                    }
+                }
+            }
+            sleep(1);
+            return true;
         }
     }
 }

@@ -110,60 +110,50 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('app', 'PHOTOS') ?></h3>
-                </div>
-                <div class="box-body">
-
-                    <div class="form-group field-sale-image">
-                        <?php
-                        echo Html::label(Yii::t('app', 'Image'));
-                        echo FileInput::widget([
-                            'name' => 'image',
-                            'pluginOptions' => [
-                                'showCaption' => false,
-                                'showRemove' => false,
-                                'showUpload' => false,
-                                'dropZoneEnabled' => false,
-                                'browseClass' => 'btn btn-primary btn-block',
-                                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                'browseLabel' =>  Yii::t('app', 'Select Photo'),
-                                'allowedFileExtensions' => ['jpg'],
-                                'uploadUrl' => Url::to(['file-upload-image'])
-                            ],
-                            'options' => ['accept' => 'image/*']
-                        ]);
-                        ?>
+            <?php if ($model->id): ?>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= Yii::t('app', 'PHOTOS') ?></h3>
                     </div>
+                    <div class="box-body">
 
-                    <div class="form-group field-sale-images">
-                        <?php
-                        echo Html::label(Yii::t('app', 'Images'));
-                        echo FileInput::widget([
-                            'name' => 'images',
-                            'pluginOptions' => [
-                                'showCaption' => false,
-                                'showRemove' => false,
-                                'showUpload' => false,
-                                'overwriteInitial' => false,
-                                'dropZoneEnabled' => false,
-                                'browseClass' => 'btn btn-primary btn-block',
-                                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                'browseLabel' =>  Yii::t('app', 'Select Photo'),
-                                'allowedFileExtensions' => ['jpg'],
-                                'uploadUrl' => Url::to(['file-upload-images'])
-                            ],
-                            'options' => [
-                                'accept' => 'image/*',
-                                'multiple' => true
-                            ]
-                        ]);
-                        ?>
+                        <div class="form-group field-sale-images">
+                            <?php
+                                $preview = [];
+                                foreach($model->photos as $item){
+                                    $preview[] = Html::img(Yii::$app->params['salePhotoThumb'].'/'.$item->id.'.jpg');
+                                }
+                                echo Html::label(Yii::t('app', 'Photos'));
+                                echo FileInput::widget([
+                                    'name' => 'photos',
+                                    'pluginOptions' => [
+                                        'showCaption' => false,
+                                        'showRemove' => false,
+                                        'showUpload' => false,
+                                        'overwriteInitial' => false,
+                                        'dropZoneEnabled' => false,
+                                        'initialPreview' => $preview,
+                                        'browseClass' => 'btn btn-primary btn-block',
+                                        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                                        'browseLabel' =>  Yii::t('app', 'Select Photo'),
+                                        'allowedFileExtensions' => ['jpg'],
+                                        'uploadUrl' => Url::to(['upload-photo']),
+                                        'uploadExtraData' => [
+                                            'sale_id' => $model->id
+                                        ]
+                                    ],
+                                    'options' => [
+                                        'accept' => 'image/jpeg',
+                                        'multiple' => true
+                                    ]
+                                ]);
+                            ?>
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
+            <?php endif; ?>
+
 
         </div>
     </div>
