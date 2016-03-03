@@ -87,8 +87,8 @@ class Lang extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'name' => Yii::t('app', 'NAME'),
+            'code' => Yii::t('app', 'Code'),
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 

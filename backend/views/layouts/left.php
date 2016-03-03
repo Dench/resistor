@@ -7,41 +7,14 @@
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
                     ['label' => 'Menu', 'options' => ['class' => 'header']],
-                    ['label' => 'Sales', 'icon' => 'fa fa-file-code-o', 'url' => ['/sale']],
+                    ['label' => Yii::t('app', 'Sales'), 'icon' => 'fa fa-file-code-o', 'url' => ['/sale']],
                     ['label' => 'Menu', 'options' => ['class' => 'header']],
-                    ['label' => 'Region', 'icon' => 'fa fa-file-code-o', 'url' => ['/region']],
-                    ['label' => 'District', 'icon' => 'fa fa-file-code-o', 'url' => ['/district']],
-                    ['label' => 'Facilities', 'icon' => 'fa fa-file-code-o', 'url' => ['/facilities']],
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
+                    ['label' => Yii::t('app', 'Regions'), 'icon' => 'fa fa-file-code-o', 'url' => ['/region']],
+                    ['label' => Yii::t('app', 'Districts'), 'icon' => 'fa fa-file-code-o', 'url' => ['/district']],
+                    ['label' => Yii::t('app', 'Facilities'), 'icon' => 'fa fa-file-code-o', 'url' => ['/facilities']],
+                    ['label' => 'Menu', 'options' => ['class' => 'header']],
+                    ['label' => Yii::t('app', 'Phrases'), 'icon' => 'fa fa-file-code-o', 'url' => ['/message']],
                     ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    [
-                        'label' => 'Same tools',
-                        'icon' => 'fa fa-share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'fa fa-circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'fa fa-circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'fa fa-circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'fa fa-circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'fa fa-circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
                 ],
             ]
         ) ?>

@@ -4,19 +4,21 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
+/* @var $searchModel backend\models\MessageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Regions');
+$this->title = Yii::t('app', 'Phrases');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
     <div class="box-body">
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
             'columns' => [
 
-                'id',
-                'content.name',
+                'message',
+                'content.translation:ntext',
 
                 [
                     'class' => 'yii\grid\ActionColumn',
@@ -30,4 +32,3 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
     </div>
 </div>
-

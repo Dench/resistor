@@ -47,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'storage',
             'tennis',
             'title',
+            'parking',
             'contacts:ntext',
             'owner:ntext',
             'address:ntext',

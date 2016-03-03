@@ -2,22 +2,20 @@
 
 namespace backend\controllers;
 
-use common\models\DistrictLang;
 use common\models\Lang;
-use common\models\Region;
+use common\models\Message;
 use Yii;
-use common\models\District;
+use common\models\SourceMessage;
+use backend\models\MessageSearch;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DistrictController implements the CRUD actions for District model.
+ * MessageController implements the CRUD actions for SourceMessage model.
  */
-class DistrictController extends Controller
+class MessageController extends Controller
 {
     public function behaviors()
     {
@@ -32,32 +30,34 @@ class DistrictController extends Controller
     }
 
     /**
-     * Lists all District models.
+     * Lists all SourceMessage models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => District::find(),
-        ]);
+        $searchModel = new MessageSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Creates a new District model.
+     * Creates a new SourceMessage model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new District();
-        for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = new DistrictLang();
-            $model_content[$i]['lang_id'] = $i;
-            $model_content[$i]['id'] = 0;
+        $model = new SourceMessage();
+
+        $lang = Lang::find()->all();
+        foreach ($lang as $i) {
+            $model_content[$i->code] = new Message();
+            $model_content[$i->code]['language'] = $i->code;
+            $model_content[$i->code]['id'] = 0;
         }
 
         if ($model->load(Yii::$app->request->post()) &&
@@ -67,10 +67,10 @@ class DistrictController extends Controller
         {
             foreach ($model_content as $key => $content) {
                 $content->id = $model->id;
-                $content->lang_id = $key;
+                $content->language = $key;
                 $content->save(false);
             }
-            return $this->redirect(['/district']);
+            return $this->redirect(['/message']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -80,7 +80,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * Updates an existing District model.
+     * Updates an existing SourceMessage model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -88,9 +88,12 @@ class DistrictController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = DistrictLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
+
+        $lang = Lang::find()->all();
+        foreach ($lang as $i) {
+           $model_content[$i->code] = Message::find()->where(['id' => $id, 'language' => $i->code])->one();
         }
+
         if ($model->load(Yii::$app->request->post()) &&
             Model::loadMultiple($model_content, Yii::$app->request->post()) &&
             Model::validateMultiple($model_content) &&
@@ -99,7 +102,7 @@ class DistrictController extends Controller
             foreach ($model_content as $key => $content) {
                 $content->save(false);
             }
-            return $this->redirect(['/district']);
+            return $this->redirect(['/message']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -109,7 +112,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * Deletes an existing District model.
+     * Deletes an existing SourceMessage model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -118,35 +121,22 @@ class DistrictController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/district']);
+        return $this->redirect(['/message']);
     }
 
     /**
-     * Finds the District model based on its primary key value.
+     * Finds the SourceMessage model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return District the loaded model
+     * @return SourceMessage the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = District::findOne($id)) !== null) {
+        if (($model = SourceMessage::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    public function actionList() {
-        if (isset($_POST['depdrop_parents'])) {
-            if ($parents = $_POST['depdrop_parents']) {
-                $out = District::getList($parents[0]);
-                foreach ($out as $key => $value) {
-                    $result[] = ['id' => $key, 'name' => $value];
-                }
-                print Json::encode(['output' => @$result, 'selected' => '']);
-                return;
-            }
         }
     }
 }

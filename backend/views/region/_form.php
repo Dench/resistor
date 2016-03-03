@@ -8,20 +8,19 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="region-form">
+<?php $form = ActiveForm::begin(); ?>
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?php
+<div class="box">
+    <div class="box-body">
+        <?php
         foreach ($model_content as $key => $content) {
-            echo $form->field($content, "[$key]name")->label($content->name);
+            echo $form->field($content, "[$key]name")->label(Yii::t('app', 'Lang_'.$key));
         }
-    ?>
-
-    <div class="form-group">
+        ?>
+    </div>
+    <div class="box-footer">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
+
+<?php ActiveForm::end(); ?>

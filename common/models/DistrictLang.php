@@ -45,7 +45,7 @@ class DistrictLang extends ActiveRecord
         return [
             'id' => 'ID',
             'lang_id' => 'Lang ID',
-            'name' => Yii::t('app', 'NAME'),
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 

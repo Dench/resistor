@@ -6,21 +6,22 @@ use Yii;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "facilities".
+ * This is the model class for table "view".
  *
  * @property integer $id
+ * @property string $name
  *
- * @property FacilitiesLang[] $facilitiesLangs
- * @property Lang[] $langs
+ * @property SaleView[] $saleViews
+ * @property Sale[] $sales
  */
-class Facilities extends ActiveRecord
+class View extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'facilities';
+        return 'view';
     }
 
     /**
@@ -29,7 +30,8 @@ class Facilities extends ActiveRecord
     public function rules()
     {
         return [
-            
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 32]
         ];
     }
 
@@ -40,29 +42,30 @@ class Facilities extends ActiveRecord
     {
         return [
             'id' => 'ID',
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFacilitiesLangs()
+    public function getSaleViews()
     {
-        return $this->hasMany(FacilitiesLang::className(), ['id' => 'id']);
+        return $this->hasMany(SaleView::className(), ['view_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLangs()
+    public function getSales()
     {
-        return $this->hasMany(Lang::className(), ['id' => 'lang_id'])->viaTable('facilities_lang', ['id' => 'id']);
+        return $this->hasMany(Sale::className(), ['id' => 'sale_id'])->viaTable('sale_view', ['view_id' => 'id']);
     }
 
     public function getContent($lang_id = null)
     {
         $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
 
-        return $this->hasOne(FacilitiesLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
+        return $this->hasOne(ViewLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
     }
 }

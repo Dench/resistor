@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Facilities */
+/* @var $model common\models\SourceMessage */
 
 $this->title = Yii::t('app', 'Creating');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Facilities'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Phrases'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="facilities-create">
+<div class="source-message-create">
 
     <?= $this->render('_form', [
         'model' => $model,

@@ -3,11 +3,14 @@
 use common\models\District;
 use common\models\Region;
 use common\models\Sale;
+use common\models\SaleView;
+use common\models\View;
 use kartik\depdrop\DepDrop;
 use kartik\file\FileInput;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Sale */
@@ -18,6 +21,59 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?php if ($model->id): ?>
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?= Yii::t('app', 'Photos') ?></h3>
+            </div>
+            <div class="box-body">
+
+                <div class="form-group field-sale-images">
+                    <?php
+
+                    $preview = [];
+                    $preview_config = [];
+                    foreach($model->photos as $item){
+                        $preview[] = Html::img(Yii::$app->params['http'].Yii::$app->params['salePhotoThumb']['path'].$item->id.'.jpg');
+                        $preview_config[] = [
+                            'url' => 'delete-photo',
+                            'key' => $item->id
+                        ];
+                    }
+                    echo Html::label(Yii::t('app', 'Photos'));
+                    echo FileInput::widget([
+                        'name' => 'photos',
+                        'pluginOptions' => [
+                            'minImageWidth' => Yii::$app->params['salePhotoBig']['width'],
+                            'minImageHeight' => Yii::$app->params['salePhotoBig']['height'],
+                            'showCaption' => false,
+                            'showRemove' => false,
+                            'showUpload' => false,
+                            'overwriteInitial' => false,
+                            'dropZoneEnabled' => false,
+                            'initialPreview' => $preview,
+                            'initialPreviewConfig' => $preview_config,
+                            'browseClass' => 'btn btn-primary btn-block',
+                            'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                            'browseLabel' =>  Yii::t('app', 'Select Photo'),
+                            'allowedFileExtensions' => ['jpg'],
+                            'uploadUrl' => Url::to(['upload-photo']),
+                            'uploadExtraData' => [
+                                'sale_id' => $model->id
+                            ]
+                        ],
+                        'options' => [
+                            'accept' => 'image/jpeg',
+                            'multiple' => true
+                        ]
+                    ]);
+                    ?>
+                </div>
+
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-8">
 
@@ -27,7 +83,7 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="box-body">
 
-                    <?= $form->field($model, 'region_id')->dropDownList(Region::getList(), ['id' => 'region-id', 'prompt' => ''])->label(Yii::t('app', 'REGION')) ?>
+                    <?= $form->field($model, 'region_id')->dropDownList(Region::getList(), ['id' => 'region-id', 'prompt' => ''])->label(Yii::t('app', 'Region')) ?>
 
                     <?=
                     $form->field($model, 'district_id')->widget(DepDrop::classname(), array(
@@ -38,7 +94,7 @@ use yii\widgets\ActiveForm;
                             'placeholder' => false,
                             'url' => Url::to(array('/district/list')),
                         )
-                    ))->label(Yii::t('app', 'DISTRICT'));
+                    ))->label(Yii::t('app', 'District'));
                     ?>
 
                     <?= $form->field($model, 'gps')->textInput(['maxlength' => true]) ?>
@@ -89,71 +145,30 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="box-body">
 
-                    <?= $form->field($model, 'solarpanel')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'type')->dropDownList($model->type_list) ?>
 
-                    <?= $form->field($model, 'sauna')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'solarpanel')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
 
-                    <?= $form->field($model, 'furniture')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'sauna')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
 
-                    <?= $form->field($model, 'conditioner')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'furniture')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
 
-                    <?= $form->field($model, 'heating')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'conditioner')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
 
-                    <?= $form->field($model, 'storage')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'heating')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
 
-                    <?= $form->field($model, 'tennis')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'storage')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
 
-                    <?= $form->field($model, 'title')->dropDownList(['', Yii::t('app', 'YES'), Yii::t('app', 'NO')]) ?>
+                    <?= $form->field($model, 'tennis')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+
+                    <?= $form->field($model, 'title')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+
+                    <?= $form->field($model, 'parking')->dropDownList($model->parking_list) ?>
 
                     <?= $form->field($model, 'status')->dropDownList(Sale::getStatusList()) ?>
 
                 </div>
             </div>
-
-            <?php if ($model->id): ?>
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><?= Yii::t('app', 'PHOTOS') ?></h3>
-                    </div>
-                    <div class="box-body">
-
-                        <div class="form-group field-sale-images">
-                            <?php
-                                $preview = [];
-                                foreach($model->photos as $item){
-                                    $preview[] = Html::img(Yii::$app->params['salePhotoThumb'].'/'.$item->id.'.jpg');
-                                }
-                                echo Html::label(Yii::t('app', 'Photos'));
-                                echo FileInput::widget([
-                                    'name' => 'photos',
-                                    'pluginOptions' => [
-                                        'showCaption' => false,
-                                        'showRemove' => false,
-                                        'showUpload' => false,
-                                        'overwriteInitial' => false,
-                                        'dropZoneEnabled' => false,
-                                        'initialPreview' => $preview,
-                                        'browseClass' => 'btn btn-primary btn-block',
-                                        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                        'browseLabel' =>  Yii::t('app', 'Select Photo'),
-                                        'allowedFileExtensions' => ['jpg'],
-                                        'uploadUrl' => Url::to(['upload-photo']),
-                                        'uploadExtraData' => [
-                                            'sale_id' => $model->id
-                                        ]
-                                    ],
-                                    'options' => [
-                                        'accept' => 'image/jpeg',
-                                        'multiple' => true
-                                    ]
-                                ]);
-                            ?>
-                        </div>
-
-                    </div>
-                </div>
-            <?php endif; ?>
-
 
         </div>
     </div>

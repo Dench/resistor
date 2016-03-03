@@ -10,50 +10,45 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Sales');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="sale-index">
+<div class="box">
+    <div class="box-body">
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            //'filterModel' => $searchModel,
+            'columns' => [
 
-    <div class="box">
-        <div class="box-body">
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                'id',
+                'name',
+                'region.content.name',
+                'district.content.name',
+                'year',
+                // 'commission',
+                // 'price',
+                // 'gps',
+                // 'covered',
+                // 'uncovered',
+                // 'plot',
+                // 'bathroom',
+                // 'bedroom',
+                // 'solarpanel',
+                // 'sauna',
+                // 'furniture',
+                // 'conditioner',
+                // 'heating',
+                // 'storage',
+                // 'tennis',
+                // 'contacts:ntext',
+                // 'owner:ntext',
+                // 'address:ntext',
+                // 'status',
+                // 'created_at',
+                // 'updated_at',
 
-                    'id',
-                    'region_id',
-                    'district_id',
-                    'title',
-                    'year',
-                    // 'commission',
-                    // 'price',
-                    // 'gps',
-                    // 'covered',
-                    // 'uncovered',
-                    // 'plot',
-                    // 'bathroom',
-                    // 'bedroom',
-                    // 'solarpanel',
-                    // 'sauna',
-                    // 'furniture',
-                    // 'conditioner',
-                    // 'heating',
-                    // 'storage',
-                    // 'tennis',
-                    // 'contacts:ntext',
-                    // 'owner:ntext',
-                    // 'address:ntext',
-                    // 'status',
-                    // 'created_at',
-                    // 'updated_at',
-
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]); ?>
-        </div>
-        <div class="box-footer">
-            <?= Html::a(Yii::t('app', 'Create Sale'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
     </div>
-
+    <div class="box-footer">
+        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+    </div>
 </div>

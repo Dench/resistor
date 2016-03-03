@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "facilities_lang".
@@ -14,7 +15,7 @@ use Yii;
  * @property Facilities $id0
  * @property Lang $lang
  */
-class FacilitiesLang extends \yii\db\ActiveRecord
+class FacilitiesLang extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -45,7 +46,7 @@ class FacilitiesLang extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'lang_id' => 'Lang ID',
-            'name' => Yii::t('app', 'NAME'),
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 

@@ -67,7 +67,7 @@ class SaleController extends Controller
         $model = new Sale();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -123,11 +123,20 @@ class SaleController extends Controller
         }
     }
 
+    public function actionDeletePhoto()
+    {
+        $id = Yii::$app->request->post('key');
+        $model = SalePhoto::findOne($id);
+        if ($model ->delete())
+            return true;
+        return false;
+    }
+
     public function actionUploadPhoto()
     {
         if (Yii::$app->request->isPost) {
             $id = Yii::$app->request->post('sale_id');
-            $path = Yii::$app->params['uploadSalePath'].'/'.$id;
+            $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$id;
             BaseFileHelper::createDirectory($path);
             $file = UploadedFile::getInstanceByName('photos');
             $model = new SalePhoto();
@@ -136,7 +145,7 @@ class SaleController extends Controller
                 $model->sort = $model->id;
                 $name = $model->id.'.jpg';
                 if ($model->save()) {
-                    if (!$file->saveAs($path.'/'.$name)) {
+                    if (!$file->saveAs($path.DIRECTORY_SEPARATOR.$name)) {
                         $model->delete();
                     }
                 }
@@ -144,5 +153,6 @@ class SaleController extends Controller
             sleep(1);
             return true;
         }
+        return false;
     }
 }

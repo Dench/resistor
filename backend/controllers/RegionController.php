@@ -45,18 +45,6 @@ class RegionController extends Controller
     }
 
     /**
-     * Displays a single Region model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Region model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -79,7 +67,7 @@ class RegionController extends Controller
                 $content->lang_id = $key;
                 $content->save(false);
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/region']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -106,7 +94,7 @@ class RegionController extends Controller
             foreach ($model_content as $key => $content) {
                 $content->save(false);
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/region']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -125,7 +113,7 @@ class RegionController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/region']);
     }
 
     /**

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\District */
 /* @var $region common\models\Region */
 
-$this->title = Yii::t('app', 'Create District');
+$this->title = Yii::t('app', 'Creating');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Districts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
