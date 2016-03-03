@@ -1,4 +1,5 @@
 <?php
+use common\widgets\LangChange;
 use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
 
@@ -41,4 +42,5 @@ use dmstr\widgets\Alert;
     </div>
     <strong>Copyright &copy; 2016 <a href="#">Dench</a>.</strong> All rights
     reserved.
+    <?= LangChange::widget();?>
 </footer>
