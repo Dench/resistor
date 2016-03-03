@@ -56,22 +56,6 @@ class District extends ActiveRecord
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDistrictLangs()
-    {
-        return $this->hasMany(DistrictLang::className(), ['id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLangs()
-    {
-        return $this->hasMany(Lang::className(), ['id' => 'lang_id'])->viaTable('district_lang', ['id' => 'id']);
-    }
-
     public function getContent($lang_id = null)
     {
         $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;

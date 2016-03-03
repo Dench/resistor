@@ -2,19 +2,21 @@
 
 namespace backend\controllers;
 
-use common\models\Group;
+use common\models\Lang;
+use common\models\ViewLang;
 use Yii;
-use common\models\User;
-use backend\models\UserSearch;
+use common\models\View;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UserController implements the CRUD actions for User model.
+ * ViewController implements the CRUD actions for View model.
  */
-class UserController extends Controller
+class ViewController extends Controller
 {
     public function behaviors()
     {
@@ -45,22 +47,22 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all View models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => View::find(),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single User model.
+     * Displays a single View model.
      * @param integer $id
      * @return mixed
      */
@@ -72,34 +74,39 @@ class UserController extends Controller
     }
 
     /**
-     * Creates a new User model.
+     * Creates a new View model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new User();
-
-        if ($model->load(Yii::$app->request->post())) {
-            if (!empty($model->password)) {
-                $model->setPassword($model->password);
-            }
-            $model->generateAuthKey();
-            if ($model->save()) {
-                return $this->redirect(['/user']);
-            }
+        $model = new View();
+        for ($i = 1; $i <= Lang::find()->count(); $i++) {
+            $model_content[$i] = new ViewLang();
+            $model_content[$i]['lang_id'] = $i;
+            $model_content[$i]['id'] = 0;
         }
 
-        $model->status = User::STATUS_ACTIVE;
-        $model->group_id = Group::GROUP_DEFAULT;
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        if (Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+            Model::validateMultiple($model_content) &&
+            $model->save())
+        {
+            foreach ($model_content as $key => $content) {
+                $content->id = $model->id;
+                $content->lang_id = $key;
+                $content->save(false);
+            }
+            return $this->redirect(['/view']);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+                'model_content' => $model_content,
+            ]);
+        }
     }
 
     /**
-     * Updates an existing User model.
+     * Updates an existing View model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -107,23 +114,26 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post())) {
-            if (!empty($model->password)) {
-                $model->setPassword($model->password);
-            }
-            if ($model->save()) {
-                return $this->redirect(['/user']);
-            }
+        for ($i = 1; $i <= Lang::find()->count(); $i++) {
+            $model_content[$i] = ViewLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        if (Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+            Model::validateMultiple($model_content))
+        {
+            foreach ($model_content as $key => $content) {
+                $content->save(false);
+            }
+            return $this->redirect(['/view']);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+                'model_content' => $model_content,
+            ]);
+        }
     }
 
     /**
-     * Deletes an existing User model.
+     * Deletes an existing View model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -132,19 +142,19 @@ class UserController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/user']);
+        return $this->redirect(['/view']);
     }
 
     /**
-     * Finds the User model based on its primary key value.
+     * Finds the View model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return View the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = View::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

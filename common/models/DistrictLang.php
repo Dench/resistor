@@ -48,20 +48,4 @@ class DistrictLang extends ActiveRecord
             'name' => Yii::t('app', 'Name'),
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(District::className(), ['id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLang()
-    {
-        return $this->hasOne(Lang::className(), ['id' => 'lang_id']);
-    }
 }

@@ -1,13 +1,12 @@
 <?php
 
 use common\models\District;
+use common\models\Facilities;
 use common\models\Region;
 use common\models\Sale;
-use common\models\SaleView;
 use common\models\View;
 use kartik\depdrop\DepDrop;
 use kartik\file\FileInput;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
@@ -122,7 +121,7 @@ use yii\bootstrap\ActiveForm;
 
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('app', 'COMMENTS') ?></h3>
+                    <h3 class="box-title"><?= Yii::t('app', 'CONTACTS') ?></h3>
                 </div>
                 <div class="box-body">
 
@@ -164,6 +163,10 @@ use yii\bootstrap\ActiveForm;
                     <?= $form->field($model, 'title')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
 
                     <?= $form->field($model, 'parking')->dropDownList($model->parking_list) ?>
+
+                    <?= $form->field($model, 'view_ids')->checkBoxList(View::getList()) ?>
+
+                    <?= $form->field($model, 'facility_ids')->checkBoxList(Facilities::getList()) ?>
 
                     <?= $form->field($model, 'status')->dropDownList(Sale::getStatusList()) ?>
 

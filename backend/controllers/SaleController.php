@@ -4,9 +4,11 @@ namespace backend\controllers;
 
 use common\models\Region;
 use common\models\SalePhoto;
+use common\models\View;
 use Yii;
 use common\models\Sale;
 use backend\models\SaleSearch;
+use yii\filters\AccessControl;
 use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -21,6 +23,22 @@ class SaleController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            if (Yii::$app->user->identity->group_id != 1) {
+                                Yii::$app->user->logout();
+                                return $this->goHome();
+                            }
+                            return true;
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

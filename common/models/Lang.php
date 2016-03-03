@@ -91,36 +91,4 @@ class Lang extends ActiveRecord
             'name' => Yii::t('app', 'Name'),
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDistrictLangs()
-    {
-        return $this->hasMany(DistrictLang::className(), ['lang_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIds()
-    {
-        return $this->hasMany(District::className(), ['id' => 'id'])->viaTable('district_lang', ['lang_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRegionLangs()
-    {
-        return $this->hasMany(RegionLang::className(), ['lang_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIds0()
-    {
-        return $this->hasMany(Region::className(), ['id' => 'id'])->viaTable('region_lang', ['lang_id' => 'id']);
-    }
 }

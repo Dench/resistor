@@ -5,10 +5,12 @@ namespace backend\controllers;
 use common\models\DistrictLang;
 use common\models\Lang;
 use common\models\Region;
+use common\models\User;
 use Yii;
 use common\models\District;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -22,6 +24,22 @@ class DistrictController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            if (Yii::$app->user->identity->group_id != 1) {
+                                Yii::$app->user->logout();
+                                return $this->goHome();
+                            }
+                            return true;
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

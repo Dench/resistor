@@ -8,6 +8,7 @@ use Yii;
 use common\models\SourceMessage;
 use backend\models\MessageSearch;
 use yii\base\Model;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +21,22 @@ class MessageController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            if (Yii::$app->user->identity->group_id != 1) {
+                                Yii::$app->user->logout();
+                                return $this->goHome();
+                            }
+                            return true;
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -11,9 +11,6 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $lang_id
  * @property string $name
- *
- * @property View $id0
- * @property Lang $lang
  */
 class ViewLang extends ActiveRecord
 {
@@ -44,25 +41,9 @@ class ViewLang extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'lang_id' => Yii::t('app', 'Lang ID'),
+            'id' => 'ID',
+            'lang_id' => 'Lang ID',
             'name' => Yii::t('app', 'Name'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(View::className(), ['id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLang()
-    {
-        return $this->hasOne(Lang::className(), ['id' => 'lang_id']);
     }
 }

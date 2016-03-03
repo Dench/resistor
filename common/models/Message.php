@@ -46,12 +46,4 @@ class Message extends ActiveRecord
             'translation' => Yii::t('app', 'Translation'),
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(SourceMessage::className(), ['id' => 'id']);
-    }
 }

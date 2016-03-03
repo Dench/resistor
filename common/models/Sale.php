@@ -74,6 +74,13 @@ class Sale extends ActiveRecord
     {
         return [
             TimestampBehavior::className(),
+            [
+                'class' => \voskobovich\behaviors\ManyToManyBehavior::className(),
+                'relations' => [
+                    'view_ids' => 'views',
+                    'facility_ids' => 'facilities',
+                ],
+            ],
         ];
     }
 
@@ -95,6 +102,7 @@ class Sale extends ActiveRecord
             [['commission', 'gps'], 'string', 'max' => 32],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_HIDE]],
+            [['view_ids', 'facility_ids'], 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -141,6 +149,8 @@ class Sale extends ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
+            'view_ids' => Yii::t('app', 'View from the window'),
+            'facility_ids' => Yii::t('app', 'Facilities'),
         ];
     }
 
@@ -162,14 +172,18 @@ class Sale extends ActiveRecord
         return $this->hasOne(District::className(), ['id' => 'district_id']);
     }
 
-    public function getSaleViews()
-    {
-        return $this->hasMany(SaleView::className(), ['sale_id' => 'id']);
-    }
-
     public function getViews()
     {
-        return ArrayHelper::map($this->saleViews, 'view_id', 'view_id');
+        return $this->hasMany(View::className(), ['id' => 'view_id'])
+            ->viaTable('sale_view', ['sale_id' => 'id']);
+
+    }
+
+    public function getFacilities()
+    {
+        return $this->hasMany(Facilities::className(), ['id' => 'facility_id'])
+            ->viaTable('sale_facilities', ['sale_id' => 'id']);
+
     }
 
     /*public function afterSave($insert, $changedAttributes) {

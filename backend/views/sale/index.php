@@ -16,8 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             //'filterModel' => $searchModel,
             'columns' => [
-
-                'id',
+                [
+                    'attribute' => 'id',
+                    'headerOptions' => ['width' => '50'],
+                ],
                 'name',
                 'region.content.name',
                 'district.content.name',
@@ -44,7 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'created_at',
                 // 'updated_at',
 
-                ['class' => 'yii\grid\ActionColumn'],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'headerOptions' => ['width' => '70'],
+                ],
             ],
         ]); ?>
     </div>

@@ -44,22 +44,6 @@ class Region extends ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDistricts()
-    {
-        return $this->hasMany(District::className(), ['region_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRegionLangs()
-    {
-        return $this->hasMany(RegionLang::className(), ['id' => 'id']);
-    }
-
     public function getContent($lang_id = null)
     {
         $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;

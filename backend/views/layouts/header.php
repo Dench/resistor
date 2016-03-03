@@ -16,5 +16,12 @@ use yii\helpers\Html;
             <span class="sr-only">Toggle navigation</span>
         </a>
 
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li><?= Html::a(Yii::t('app', 'Logout'), ['site/logout'], ['data-method' => 'post']) ?></li>
+            </ul>
+        </div>
+
     </nav>
+
 </header>

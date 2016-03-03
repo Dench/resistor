@@ -7,22 +7,22 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "view".
+ * This is the model class for table "group".
  *
  * @property integer $id
  * @property string $name
  *
- * @property SaleView[] $saleViews
- * @property Sale[] $sales
+ * @property User[] $users
  */
-class View extends ActiveRecord
+class Group extends ActiveRecord
 {
+    const GROUP_DEFAULT = 2;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'view';
+        return 'group';
     }
 
     /**
@@ -31,7 +31,8 @@ class View extends ActiveRecord
     public function rules()
     {
         return [
-
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 32]
         ];
     }
 
@@ -46,15 +47,16 @@ class View extends ActiveRecord
         ];
     }
 
-    public static function getList()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
     {
-        return ArrayHelper::map(self::find()->all(), 'id', 'content.name');
+        return $this->hasMany(User::className(), ['group_id' => 'id']);
     }
 
-    public function getContent($lang_id = null)
+    public static function getList()
     {
-        $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
-
-        return $this->hasOne(ViewLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 }

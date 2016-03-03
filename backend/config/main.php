@@ -38,7 +38,6 @@ return [
             'class'=>'common\components\LangUrlManager',
             'rules' => [
                 '/' => 'site/index',
-                'personal' => 'personal/index',
             ]
         ],
         'i18n' => [

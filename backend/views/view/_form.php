@@ -1,12 +1,10 @@
 <?php
 
-use common\models\Group;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\models\User;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\User */
+/* @var $model common\models\View */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -14,15 +12,11 @@ use common\models\User;
 
 <div class="box">
     <div class="box-body">
-        <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'group_id')->dropDownList(Group::getList()) ?>
-
-        <?= $form->field($model, 'status')->dropDownList(User::getStatusList()) ?>
-
-        <?= $form->field($model, 'password')->passwordInput() ?>
+        <?php
+        foreach ($model_content as $key => $content) {
+            echo $form->field($content, "[$key]name")->label(Yii::t('app', 'Lang_'.$key));
+        }
+        ?>
     </div>
     <div class="box-footer">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

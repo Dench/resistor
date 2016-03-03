@@ -24,8 +24,7 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
-    const STATUS_BANNED = 1;
-    const STATUS_ACTIVE = 10;
+    const STATUS_ACTIVE = 1;
 
     public $password = '';
 
@@ -53,15 +52,46 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['group_id'], 'integer'],
+            ['group_id', 'default', 'value' => Group::GROUP_DEFAULT],
             [['username', 'email'], 'required'],
             [['username', 'email'], 'trim'],
             [['username'], 'unique'],
             [['email'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED, self::STATUS_BANNED]],
+            ['status', 'in', 'range' => [self::STATUS_DELETED, self::STATUS_ACTIVE]],
             ['email','email'],
             ['password', 'string', 'min' => 6],
         ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'group_id' => Yii::t('app', 'Group'),
+            'username' => Yii::t('app', 'Username'),
+            'password' => Yii::t('app', 'Password'),
+            'email' => Yii::t('app', 'E-mail'),
+            'status' => Yii::t('app', 'Status'),
+            'created_at' => Yii::t('app', 'Registered'),
+        ];
+    }
+
+    public static function isAdmin()
+    {
+        return [
+            self::STATUS_DELETED => 'Deleted',
+            self::STATUS_ACTIVE => 'Active',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroup()
+    {
+        return $this->hasOne(Group::className(), ['id' => 'group_id']);
     }
 
     public function getStatusName()
@@ -74,8 +104,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             self::STATUS_DELETED => 'Deleted',
-            self::STATUS_BANNED => 'Banned',
-            self::STATUS_ACTIVE => 'Acvive',
+            self::STATUS_ACTIVE => 'Active',
         ];
     }
 

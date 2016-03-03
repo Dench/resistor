@@ -30,6 +30,17 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            if (Yii::$app->user->identity->group_id != 1) {
+                                Yii::$app->user->logout();
+                                return $this->goHome();
+                            }
+                            return true;
+                        }
+                    ],
                 ],
             ],
             'verbs' => [

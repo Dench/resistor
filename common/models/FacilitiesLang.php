@@ -11,9 +11,6 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $lang_id
  * @property string $name
- *
- * @property Facilities $id0
- * @property Lang $lang
  */
 class FacilitiesLang extends ActiveRecord
 {
@@ -48,21 +45,5 @@ class FacilitiesLang extends ActiveRecord
             'lang_id' => 'Lang ID',
             'name' => Yii::t('app', 'Name'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(Facilities::className(), ['id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLang()
-    {
-        return $this->hasOne(Lang::className(), ['id' => 'lang_id']);
     }
 }

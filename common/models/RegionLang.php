@@ -48,20 +48,4 @@ class RegionLang extends ActiveRecord
             'name' => Yii::t('app', 'Name'),
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLang()
-    {
-        return $this->hasOne(Lang::className(), ['id' => 'lang_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(Region::className(), ['id' => 'id']);
-    }
 }

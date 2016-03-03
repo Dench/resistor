@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "facilities".
@@ -44,19 +45,11 @@ class Facilities extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return mixed
      */
-    public function getFacilitiesLangs()
+    public static function getList()
     {
-        return $this->hasMany(FacilitiesLang::className(), ['id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLangs()
-    {
-        return $this->hasMany(Lang::className(), ['id' => 'lang_id'])->viaTable('facilities_lang', ['id' => 'id']);
+        return ArrayHelper::map(self::find()->all(), 'id', 'content.name');
     }
 
     public function getContent($lang_id = null)
