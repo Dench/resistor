@@ -96,10 +96,11 @@ class Sale extends ActiveRecord
             [['bathroom', 'bedroom'], 'string', 'max' => 2],
             [['region_id', 'district_id', 'year', 'price', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
                 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'title',
-                'type', 'parking', 'created_at', 'updated_at'], 'integer'],
-            [['contacts', 'owner', 'address'], 'string'],
+                'type', 'pool', 'parking', 'created_at', 'updated_at'], 'integer'],
+            [['contacts', 'owner', 'address', 'note_user', 'note_admin'], 'string'],
             [['name'], 'string', 'max' => 64],
-            [['commission', 'gps'], 'string', 'max' => 32],
+            [['address'], 'string', 'max' => 255],
+            [['commission', 'gps'], 'string', 'max' => 40],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_HIDE]],
             [['view_ids', 'facility_ids'], 'each', 'rule' => ['integer']],
@@ -121,14 +122,15 @@ class Sale extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'region_id' => 'Region ID',
-            'district_id' => 'District ID',
+            'user_id' => Yii::t('app', 'User'),
+            'region_id' => Yii::t('app', 'Region'),
+            'district_id' => Yii::t('app', 'District'),
             'type' => Yii::t('app', 'Property type'),
             'name' => Yii::t('app', 'Name'),
             'year' => Yii::t('app', 'Year built'),
             'commission' => Yii::t('app', 'Commission'),
             'price' => Yii::t('app', 'Price'),
-            'gps' => Yii::t('app', 'GPS coordinates'),
+            'gps' => Yii::t('app', 'Coordinates'),
             'covered' => Yii::t('app', 'Covered area'),
             'uncovered' => Yii::t('app', 'Uncovered area'),
             'plot' => Yii::t('app', 'Plot area'),
@@ -141,10 +143,13 @@ class Sale extends ActiveRecord
             'heating' => Yii::t('app', 'Central heating'),
             'storage' => Yii::t('app', 'Storage'),
             'tennis' => Yii::t('app', 'Tennis court'),
+            'pool' => Yii::t('app', 'Pool'),
             'title' => Yii::t('app', 'Title deeds'),
             'parking' => Yii::t('app', 'Parking'),
             'contacts' => Yii::t('app', 'Contacts'),
             'owner' => Yii::t('app', 'Owner contacts'),
+            'note_user' => Yii::t('app', 'Note for facilitator'),
+            'note_admin' => Yii::t('app', 'Note for admin'),
             'address' => Yii::t('app', 'Address'),
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created'),
@@ -152,6 +157,13 @@ class Sale extends ActiveRecord
             'view_ids' => Yii::t('app', 'View from the window'),
             'facility_ids' => Yii::t('app', 'Facilities'),
         ];
+    }
+
+    public function getContent($lang_id = null)
+    {
+        $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
+
+        return $this->hasOne(SaleLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
     }
 
     /**
@@ -186,9 +198,21 @@ class Sale extends ActiveRecord
 
     }
 
-    /*public function afterSave($insert, $changedAttributes) {
-        parent::afterSave($insert, $changedAttributes);
-        SalePhoto::clearCache($this->id);
-    }*/
+    public function afterDelete()
+    {
+        SalePhoto::delPhotos($this->id);
+        return parent::afterDelete();
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (!$this->id) {
+                $this->user_id = Yii::$app->user->identity->id;
+            }
+            return true;
+        }
+        return false;
+    }
 
 }

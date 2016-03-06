@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use common\models\Region;
+use common\models\Lang;
+use common\models\SaleLang;
 use common\models\SalePhoto;
-use common\models\View;
 use Yii;
 use common\models\Sale;
 use backend\models\SaleSearch;
+use yii\base\Model;
 use yii\filters\AccessControl;
 use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
@@ -48,6 +49,12 @@ class SaleController extends Controller
         ];
     }
 
+    public function init()
+    {
+        Yii::$app->view->registerJsFile('http://maps.googleapis.com/maps/api/js',['position' => \yii\web\View::POS_HEAD]);
+        Yii::$app->view->registerJsFile('/js/gapi.js', ['depends' => 'yii\web\JqueryAsset']);
+    }
+
     /**
      * Lists all Sale models.
      * @return mixed
@@ -83,12 +90,29 @@ class SaleController extends Controller
     public function actionCreate()
     {
         $model = new Sale();
+        $model->status = 1;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        for ($i = 1; $i <= Lang::find()->count(); $i++) {
+            $model_content[$i] = new SaleLang();
+            $model_content[$i]['lang_id'] = $i;
+            $model_content[$i]['id'] = 0;
+        }
+
+        if ($model->load(Yii::$app->request->post()) &&
+            Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+            Model::validateMultiple($model_content) &&
+            $model->save())
+        {
+            foreach ($model_content as $key => $content) {
+                $content->id = $model->id;
+                $content->lang_id = $key;
+                $content->save(false);
+            }
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'model_content' => $model_content,
             ]);
         }
     }
@@ -102,12 +126,23 @@ class SaleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        for ($i = 1; $i <= Lang::find()->count(); $i++) {
+            $model_content[$i] = SaleLang::findOne(['id' => $id, 'lang_id' => $i]);
+        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) &&
+            Model::loadMultiple($model_content, Yii::$app->request->post()) &&
+            Model::validateMultiple($model_content) &&
+            $model->save())
+        {
+            foreach ($model_content as $key => $content) {
+                $content->save(false);
+            }
+            return $this->redirect(['/sale']);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'model_content' => $model_content,
             ]);
         }
     }

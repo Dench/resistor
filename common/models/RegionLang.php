@@ -12,8 +12,6 @@ use \yii\db\ActiveRecord;
  * @property integer $lang_id
  * @property string $name
  *
- * @property Lang $lang
- * @property Region $id0
  */
 class RegionLang extends ActiveRecord
 {
@@ -44,7 +42,7 @@ class RegionLang extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'lang_id' => 'Lang ID',
+            'lang_id' => Yii::t('app', 'Lang'),
             'name' => Yii::t('app', 'Name'),
         ];
     }

@@ -1,25 +1,29 @@
 <?php
 return [
-    'sitename' => 'Resistor Yii2',
+    'sitename' => 'Cyprus',
     'http' => 'http://www.resistor.ua',
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
     'langDef' => 2,
     'uploadSalePath' => dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'sale',
+    'salePhotoMin' => [
+        'width' => 640,
+        'height' => 480,
+    ],
     'salePhotoBig' => [
         'width' => 1000,
         'height' => 760,
         'path' => '/photo/big/'
     ],
     'salePhotoSmall' => [
-        'width' => 500,
-        'height' => 380,
+        'width' => 850,
+        'height' => 500,
         'path' => '/photo/small/'
     ],
     'salePhotoThumb' => [
-        'width' => 240,
-        'height' => 180,
+        'width' => 260,
+        'height' => 195,
         'path' => '/photo/thumb/'
     ],
 ];

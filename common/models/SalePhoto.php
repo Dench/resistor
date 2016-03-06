@@ -60,7 +60,7 @@ class SalePhoto extends ActiveRecord
 
     public static function delPhotos($sale_id)
     {
-        $model = SalePhoto::find()->where(['sale_id' => $sale_id])->one();
+        $model = self::find()->where(['sale_id' => $sale_id])->all();
         foreach ($model as $item) {
             $item->delete();
         }
@@ -68,7 +68,7 @@ class SalePhoto extends ActiveRecord
 
     public static function clearCache($sale_id)
     {
-        $model = SalePhoto::find()->where(['sale_id' => $sale_id])->all();
+        $model = self::find()->where(['sale_id' => $sale_id])->all();
         foreach ($model as $item) {
             Yii::info('PhotoID '.print_r($item, true));
             $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoBig']['path'].$item->id.'.jpg';
@@ -82,7 +82,7 @@ class SalePhoto extends ActiveRecord
 
     public static function resize($id, $param)
     {
-        if (!$model = SalePhoto::findOne($id)) return false;
+        if (!$model = self::findOne($id)) return false;
 
         $original = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$model->sale_id.DIRECTORY_SEPARATOR.$id.'.jpg';
         $thumb = Yii::getAlias('@webroot').$param['path'].$id.'.jpg';
@@ -96,9 +96,11 @@ class SalePhoto extends ActiveRecord
         $x = 0;
         $y = 0;
 
-        $watermark = Image::getImagine()->open(Yii::$app->params['watermark']['file']);
+        if ($width < 300) $wm = '_thumb'; else $wm = '';
+
+        $watermark = Image::getImagine()->open(Yii::$app->params['watermark'.$wm]['file']);
         $wSize = $watermark->getSize();
-        $bottomRight = new Point($width-$wSize->getWidth()-Yii::$app->params['watermark']['x'], $height-$wSize->getHeight()-Yii::$app->params['watermark']['y']);
+        $bottomRight = new Point($width-$wSize->getWidth()-Yii::$app->params['watermark'.$wm]['x'], $height-$wSize->getHeight()-Yii::$app->params['watermark'.$wm]['y']);
 
         if ($ratio > 1) {
             $width = round($height * $ratio);

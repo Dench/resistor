@@ -12,7 +12,6 @@ use yii\helpers\ArrayHelper;
  * @property integer $id
  *
  * @property District[] $districts
- * @property RegionLang[] $regionLangs
  */
 class Region extends ActiveRecord
 {

@@ -42,7 +42,7 @@ class FacilitiesLang extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'lang_id' => 'Lang ID',
+            'lang_id' => Yii::t('app', 'Lang'),
             'name' => Yii::t('app', 'Name'),
         ];
     }

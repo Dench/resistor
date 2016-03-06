@@ -89,3 +89,43 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+.form-control {
+    border-radius: 2px !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .050) !important;
+}
+.form-control:hover {
+    border-color: #B5BDCC;
+}
+
+.file-preview {
+    border: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+.file-preview-frame {
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    margin: 0 10px 0 0;
+    height: auto;
+    padding: 4px;
+    overflow: hidden;
+}
+.file-preview-frame:not(.file-preview-error):hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .6);
+}
+.file-preview-frame img {
+    height: 160px;
+    vertical-align: baseline;
+}
+.file-footer-caption {
+    display: none;
+}
+.file-actions {
+    position: relative;
+    margin-top: -33px;
+    padding: 0 5px;
+}
+/*.fileinput-remove {
+    display: none;
+}*/

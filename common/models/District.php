@@ -44,7 +44,7 @@ class District extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'region_id' => 'Region ID',
+            'region_id' => Yii::t('app', 'Region'),
         ];
     }
 
