@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 use yii\bootstrap\Carousel;
+use yii\bootstrap\Html;
 
 $this->title = $model->name;
 ?>
@@ -12,15 +13,11 @@ $this->title = $model->name;
                 <article class="post">
                     <?php
                         $images = [];
-                        foreach ($model->photos as $item) {
-
+                        foreach ($model->images['small'] as $item) {
+                            $images[] = Html::img($item, ['alt' => $model->name]);
                         }
                         echo Carousel::widget([
-                            'items' => [
-                                ['content' => '<img src="/assets/img/slide-1.jpg"/>'],
-                                ['content' => '<img src="/assets/img/slide-1.jpg"/>'],
-                                ['content' => '<img src="/assets/img/slide-1.jpg"/>'],
-                            ],
+                            'items' => $images,
                             'id' => 'my-carousel',
                             'controls' => [
                                 '<span class="glyphicon glyphicon-chevron-left"></span>',
@@ -32,7 +29,7 @@ $this->title = $model->name;
                         ]);
                     ?>
 
-                    <h2><i class="fa fa-map-marker"></i> 294 River Road, <span class="text-muted">Windsor CA, 95492</span></h2>
+                    <h2><i class="fa fa-map-marker"></i> <?= $model->name ?>, <span class="text-muted">Windsor CA, 95492</span></h2>
                     <p class="lead">Welcome to Grand Lagoon. This home offers a great family comfort.</p>
 
                     <hr>
@@ -42,14 +39,30 @@ $this->title = $model->name;
                             <div class="widget padding-md bg-secondary">
                                 <h3 class="headline">Features:</h3>
                                 <ul class="list-unstyled">
-                                    <li><i class="fa fa-fw fa-th"></i> <strong>Property:</strong> 1.460 Ft<sup>2</sup></li>
-                                    <li><i class="fa fa-fw fa-calendar"></i> <strong>Year Built:</strong> 1890</li>
-                                    <li><i class="fa fa-fw fa-columns"></i> <strong>Bedrooms:</strong> 2</li>
-                                    <li><i class="fa fa-fw fa-female"></i> <strong>Bathrooms:</strong> 1.5</li>
-                                    <li><i class="fa fa-fw fa-truck"></i> <strong>Garage:</strong> 2 Spots</li>
-                                    <li><i class="fa fa-fw fa-signal"></i> <strong>Internet:</strong> Wireless</li>
-                                    <li><i class="fa fa-fw fa-fire"></i> <strong>Heating Type:</strong> Forced air</li>
-                                    <li><i class="fa fa-fw fa-briefcase"></i> <strong>Last Sold:</strong> May 2006, for $106.000</li>
+                                    <? if ($model->covered): ?>
+                                        <li><i class="fa fa-fw fa-th"></i> <strong><?= $model->getAttributeLabel('covered') ?>:</strong> <?= $model->covered ?> m<sup>2</sup></li>
+                                    <? endif ?>
+                                    <? if ($model->uncovered): ?>
+                                        <li><i class="fa fa-fw fa-th"></i> <strong><?= $model->getAttributeLabel('uncovered') ?>:</strong> <?= $model->uncovered ?> m<sup>2</sup></li>
+                                    <? endif ?>
+                                    <? if ($model->plot): ?>
+                                        <li><i class="fa fa-fw fa-th"></i> <strong><?= $model->getAttributeLabel('plot') ?>:</strong> <?= $model->plot ?> m<sup>2</sup></li>
+                                    <? endif ?>
+                                    <? if ($model->year): ?>
+                                        <li><i class="fa fa-fw fa-calendar"></i> <strong><?= $model->getAttributeLabel('year') ?>:</strong> <?= $model->year ?></li>
+                                    <? endif ?>
+                                    <? if ($model->bedroom): ?>
+                                        <li><i class="fa fa-fw fa-columns"></i> <strong><?= $model->getAttributeLabel('bedroom') ?>:</strong> <?= $model->bedroom ?></li>
+                                    <? endif ?>
+                                    <? if ($model->year): ?>
+                                        <li><i class="fa fa-fw fa-female"></i> <strong><?= $model->getAttributeLabel('bathroom') ?>:</strong> <?= $model->bathroom ?></li>
+                                    <? endif ?>
+                                    <? if ($model->parking): ?>
+                                        <li><i class="fa fa-fw fa-truck"></i> <strong><?= $model->getAttributeLabel('parking') ?>:</strong> <?= $model->parking_list[$model->parking] ?></li>
+                                    <? endif ?>
+                                    <? if ($model->price): ?>
+                                        <li><i class="fa fa-fw fa-briefcase"></i> <strong><?= $model->getAttributeLabel('price') ?>:</strong> <?= $model->price ?></li>
+                                    <? endif ?>
                                 </ul>
                             </div><!-- /.widget -->
                         </div><!-- /.col -->
@@ -75,55 +88,6 @@ $this->title = $model->name;
                             </p>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
-
-                    <div class="panel panel-secondary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Contact agent</h3>
-                        </div>
-                        <div class="panel-body padding-md">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6">
-                                    <h3>Agent details</h3>
-                                    <div class="media">
-                                        <a class="pull-left" href="#"><img class="media-object" src="/assets/img/user.jpg" width="64" height="64" alt="64x64"></a>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Troy J. Myers</h4>
-                                            <ul class="list-unstyled">
-                                                <li><i class="fa fa-fw fa-building-o"></i> <strong>Company:</strong> Graphikaria</li>
-                                                <li><i class="fa fa-fw fa-phone"></i> <strong>Phone:</strong> 940-689-5799</li>
-                                                <li><i class="fa fa-fw fa-mobile"></i> <strong>Mobile:</strong> 549-689-5710</li>
-                                                <li><i class="fa fa-fw fa-map-marker"></i> <strong>Address:</strong> 1728 Olen Thomas Drive</li>
-                                                <li><i class="fa fa-fw fa-globe"></i> <strong>Website:</strong> <a href="#link">www.graphikaria.com</a></li>
-                                            </ul>
-                                        </div><!-- /.media-body -->
-                                    </div><!-- /.media -->
-                                </div><!-- /.col -->
-                                <div class="col-sm-12 col-md-6">
-                                    <h3>Contact by email</h3>
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label for="exmaple-contact-email">Email address</label>
-                                            <input type="email" class="form-control" id="exmaple-contact-email" placeholder="Enter email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-contact-name">Name</label>
-                                            <input type="text" class="form-control" id="example-contact-name" placeholder="Your name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-contact-message">Message</label>
-                                            <textarea id="example-contact-message" class="form-control" rows="5"></textarea>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> Send me a copy
-                                            </label>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Send Message</button>
-                                    </form>
-                                </div><!-- /.col -->
-                            </div><!-- /.row -->
-                        </div><!-- /.panel-body -->
-                    </div><!-- /.panel -->
 
                 </article><!-- /.post -->
             </div><!-- /.col -->

@@ -107,44 +107,102 @@ use yii\bootstrap\ActiveForm;
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><?= Yii::t('app', 'Description') ?></h3>
+                            <h3 class="box-title"><?= Yii::t('app', 'Location') ?></h3>
                         </div>
                         <div class="box-body">
-                            <?php
-                            foreach ($model_content as $key => $content) {
-                                echo $form->field($content, "[$key]description")->textarea(['rows' => 3])->label(Yii::t('app', 'Lang_'.$key));
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><?= Yii::t('app', 'Notes') ?></h3>
-                        </div>
-                        <div class="box-body">
-                            <?= $form->field($model, 'note_user')->textarea(['rows' => 3]) ?>
-                            <?= $form->field($model, 'note_admin')->textarea(['rows' => 3]) ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('app', 'Contact Info') ?></h3>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'contacts')->textarea(['rows' => 2]) ?>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'region_id')->dropDownList(Region::getList(), ['id' => 'region_id', 'prompt' => ''])->label(Yii::t('app', 'Region')) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?=
+                                    $form->field($model, 'district_id')->widget(DepDrop::classname(), array(
+                                        'data' => District::getList($model->region_id),
+                                        'options'=> array('id' => 'district_id'),
+                                        'pluginOptions' => array(
+                                            'depends' => array('region_id'),
+                                            'placeholder' => false,
+                                            'url' => Url::to(array('/district/list')),
+                                        )
+                                    ))->label(Yii::t('app', 'District'));
+                                    ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'gps')->textInput(['maxlength' => true]) ?>
+                                </div>
+                            </div>
+
+                            <div id="map_canvas" style="height: 300px; margin-bottom: 20px;"></div>
+
+                            <?= $form->field($model, 'view_ids')->checkBoxList(View::getList()) ?>
+
                         </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'owner')->textarea(['rows' => 2]) ?>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><?= Yii::t('app', 'Extra') ?></h3>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'conditioner')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'heating')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'sauna')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'pool')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'parking')->dropDownList($model->parking_list) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'furniture')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'solarpanel')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'tennis')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'storage')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>
+
+                            <?= $form->field($model, 'facility_ids')->checkBoxList(Facilities::getList()) ?>
+
                         </div>
                     </div>
                 </div>
@@ -156,98 +214,34 @@ use yii\bootstrap\ActiveForm;
 
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('app', 'Location') ?></h3>
+                    <h3 class="box-title"><?= Yii::t('app', 'Description') ?></h3>
                 </div>
                 <div class="box-body">
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'region_id')->dropDownList(Region::getList(), ['id' => 'region_id', 'prompt' => ''])->label(Yii::t('app', 'Region')) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?=
-                            $form->field($model, 'district_id')->widget(DepDrop::classname(), array(
-                                'data' => District::getList($model->region_id),
-                                'options'=> array('id' => 'district_id'),
-                                'pluginOptions' => array(
-                                    'depends' => array('region_id'),
-                                    'placeholder' => false,
-                                    'url' => Url::to(array('/district/list')),
-                                )
-                            ))->label(Yii::t('app', 'District'));
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'gps')->textInput(['maxlength' => true]) ?>
-                        </div>
-                    </div>
-
-                    <div id="map_canvas" style="height: 300px; margin-bottom: 20px;"></div>
-
-                    <?= $form->field($model, 'view_ids')->checkBoxList(View::getList()) ?>
-
+                    <?php
+                    foreach ($model_content as $key => $content) {
+                        echo $form->field($content, "[$key]description")->textarea(['rows' => 5])->label(Yii::t('app', 'Lang_'.$key));
+                    }
+                    ?>
                 </div>
             </div>
 
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('app', 'Extra') ?></h3>
+                    <h3 class="box-title"><?= Yii::t('app', 'Notes') ?></h3>
                 </div>
                 <div class="box-body">
+                    <?= $form->field($model, 'note_user')->textarea(['rows' => 3]) ?>
+                    <?= $form->field($model, 'note_admin')->textarea(['rows' => 3]) ?>
+                </div>
+            </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'conditioner')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'heating')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'sauna')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'pool')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'parking')->dropDownList($model->parking_list) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'furniture')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'solarpanel')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'tennis')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'storage')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                        </div>
-                        <div class="col-md-6">
-
-                        </div>
-                    </div>
-
-                    <?= $form->field($model, 'facility_ids')->checkBoxList(Facilities::getList()) ?>
-
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= Yii::t('app', 'Contact Info') ?></h3>
+                </div>
+                <div class="box-body">
+                    <?= $form->field($model, 'contacts')->textarea(['rows' => 3]) ?>
+                    <?= $form->field($model, 'owner')->textarea(['rows' => 3]) ?>
                 </div>
             </div>
 

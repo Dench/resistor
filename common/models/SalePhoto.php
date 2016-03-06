@@ -6,6 +6,7 @@ use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\BaseFileHelper;
 use yii\imagine\Image;
 
 /**
@@ -47,8 +48,6 @@ class SalePhoto extends ActiveRecord
     }
 
     public function afterDelete() {
-        $file = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$this->sale_id.DIRECTORY_SEPARATOR.$this->id.'.jpg';
-        if (file_exists($file)) unlink($file);
         $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoBig']['path'].$this->id.'.jpg';
         if (file_exists($file)) unlink($file);
         $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoSmall']['path'].$this->id.'.jpg';
@@ -60,24 +59,12 @@ class SalePhoto extends ActiveRecord
 
     public static function delPhotos($sale_id)
     {
-        $model = self::find()->where(['sale_id' => $sale_id])->all();
+        $model = self::findAll(['sale_id' => $sale_id]);
         foreach ($model as $item) {
             $item->delete();
         }
-    }
-
-    public static function clearCache($sale_id)
-    {
-        $model = self::find()->where(['sale_id' => $sale_id])->all();
-        foreach ($model as $item) {
-            Yii::info('PhotoID '.print_r($item, true));
-            $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoBig']['path'].$item->id.'.jpg';
-            if (file_exists($file)) unlink($file);
-            $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoSmall']['path'].$item->id.'.jpg';
-            if (file_exists($file)) unlink($file);
-            $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoThumb']['path'].$item->id.'.jpg';
-            if (file_exists($file)) unlink($file);
-        }
+        $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$sale_id;
+        BaseFileHelper::removeDirectory($path);
     }
 
     public static function resize($id, $param)
@@ -89,37 +76,20 @@ class SalePhoto extends ActiveRecord
 
         $img = Image::getImagine()->open($original);
         $size = $img->getSize();
-        $ratio = $size->getWidth() / $size->getHeight();
 
-        $width = $param['width'];
-        $height = $param['height'];
-        $x = 0;
-        $y = 0;
+        $k1 = $param['width']/$size->getWidth();
+        $k2 = $param['height']/$size->getHeight();
+        $k = $k1 > $k2 ? $k1 : $k2;
+        $width = round($size->getWidth()*$k);
+        $height = round($size->getHeight()*$k);
+        $x = -round(($param['width']-$width)/2);
+        $y = -round(($param['height']-$height)/2);
 
-        if ($width < 300) $wm = '_thumb'; else $wm = '';
-
+        if ($param['width'] < 300) $wm = '_thumb'; else $wm = '';
         $watermark = Image::getImagine()->open(Yii::$app->params['watermark'.$wm]['file']);
         $wSize = $watermark->getSize();
-        $bottomRight = new Point($width-$wSize->getWidth()-Yii::$app->params['watermark'.$wm]['x'], $height-$wSize->getHeight()-Yii::$app->params['watermark'.$wm]['y']);
+        $bottomRight = new Point($param['width']-$wSize->getWidth()-Yii::$app->params['watermark'.$wm]['x'], $param['height']-$wSize->getHeight()-Yii::$app->params['watermark'.$wm]['y']);
 
-        if ($ratio > 1) {
-            $width = round($height * $ratio);
-            $x = round(($width - $param['width']) / 2);
-        }
-        if ($ratio < 1) {
-            $height = round($width / $ratio);
-            $y = round(($height - $param['height']) / 2);
-        }
-        if ($ratio == 1) {
-            if ($width > $height) {
-                $height = $width;
-                $y = round(($height - $param['height']) / 2);
-            }
-            if ($width < $height) {
-                $width = $height;
-                $x = round(($width - $param['width']) / 2);
-            }
-        }
         if ($img->resize(new Box($width, $height))
             ->crop(new Point($x, $y), new Box($param['width'], $param['height']))
             ->paste($watermark, $bottomRight)

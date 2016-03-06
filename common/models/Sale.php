@@ -166,6 +166,32 @@ class Sale extends ActiveRecord
         return $this->hasOne(SaleLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
     }
 
+    public function getCover()
+    {
+        $image['thumb'] = false;
+        $image['small'] = false;
+        $image['big'] = false;
+        if (!empty($this->photos[0])) {
+            $image['thumb'] = Yii::$app->params['salePhotoThumb']['path'] . $this->photos[0]['id'] . '.jpg';
+            $image['small'] = Yii::$app->params['salePhotoSmall']['path'] . $this->photos[0]['id'] . '.jpg';
+            $image['big'] = Yii::$app->params['salePhotoBig']['path'] . $this->photos[0]['id'] . '.jpg';
+        }
+        return $image;
+    }
+
+    public function getImages()
+    {
+        $images['thumb'] = [];
+        $images['small'] = [];
+        $images['big'] = [];
+        foreach ($this->photos as $i) {
+            $images['thumb'][$i['id']] = Yii::$app->params['salePhotoThumb']['path'].$i['id'].'.jpg';
+            $images['small'][$i['id']] = Yii::$app->params['salePhotoSmall']['path'].$i['id'].'.jpg';
+            $images['big'][$i['id']] = Yii::$app->params['salePhotoBig']['path'].$i['id'].'.jpg';
+        }
+        return $images;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

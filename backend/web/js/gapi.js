@@ -16,7 +16,9 @@ var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 var geocoder = new google.maps.Geocoder();
 var markersArray = [];
 
-setMarker(myLatlng);
+if (zoom == 17) {
+	setMarker(myLatlng);
+}
 
 function setMarker(pos) {
 	var marker = new google.maps.Marker({
