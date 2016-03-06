@@ -108,7 +108,7 @@ class MessageController extends Controller
 
         $lang = Lang::find()->all();
         foreach ($lang as $i) {
-           $model_content[$i->code] = Message::find()->where(['id' => $id, 'language' => $i->code])->one();
+            $model_content[$i->code] = Message::findOne(['id' => $id, 'language' => $i->code]);
         }
 
         if ($model->load(Yii::$app->request->post()) &&

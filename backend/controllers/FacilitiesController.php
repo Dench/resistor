@@ -103,7 +103,8 @@ class FacilitiesController extends Controller
     {
         $model = $this->findModel($id);
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = FacilitiesLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
+            //$model_content[$i] = FacilitiesLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
+            $model_content[$i] = FacilitiesLang::findOne(['id' => $id, 'lang_id' => $i]);
         }
         if (Model::loadMultiple($model_content, Yii::$app->request->post()) &&
             Model::validateMultiple($model_content))

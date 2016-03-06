@@ -39,6 +39,7 @@ return [
                 '<action:(login|logout|about|signup|contact|request-password-reset|reset-password)>' => 'site/<action>',
                 '/' => 'site/index',
                 'personal' => 'personal/index',
+                'sale/<id:\d+>' => 'sale/index',
                 'photo/<action:(big|small|thumb)>/<id:\d+>.jpg' => 'photo/<action>',
             ]
         ],

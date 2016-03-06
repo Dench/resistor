@@ -12,8 +12,6 @@ use yii\helpers\ArrayHelper;
  * @property integer $id
  * @property string $name
  *
- * @property SaleView[] $saleViews
- * @property Sale[] $sales
  */
 class View extends ActiveRecord
 {

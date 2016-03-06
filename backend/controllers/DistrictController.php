@@ -72,6 +72,7 @@ class DistrictController extends Controller
     public function actionCreate()
     {
         $model = new District();
+
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
             $model_content[$i] = new DistrictLang();
             $model_content[$i]['lang_id'] = $i;
@@ -107,7 +108,7 @@ class DistrictController extends Controller
     {
         $model = $this->findModel($id);
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
-            $model_content[$i] = DistrictLang::find()->where(['id' => $id, 'lang_id' => $i])->one();
+            $model_content[$i] = DistrictLang::findOne(['id' => $id, 'lang_id' => $i]);
         }
         if ($model->load(Yii::$app->request->post()) &&
             Model::loadMultiple($model_content, Yii::$app->request->post()) &&
