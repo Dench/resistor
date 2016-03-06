@@ -18,7 +18,7 @@ return [
     ],
     'salePhotoSmall' => [
         'width' => 850,
-        'height' => 500,
+        'height' => 400,
         'path' => '/photo/small/'
     ],
     'salePhotoThumb' => [
