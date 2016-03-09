@@ -1,9 +1,5 @@
 <?php
 return [
-    'sitename' => 'Cyprus',
-    'http' => 'http://www.resistor.ua',
-    'adminEmail' => 'admin@example.com',
-    'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
     'langDef' => 2,
     'uploadSalePath' => dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'sale',
