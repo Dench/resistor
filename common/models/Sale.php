@@ -45,20 +45,6 @@ class Sale extends ActiveRecord
     const STATUS_HIDE = 0;
     const STATUS_ACTIVE = 1;
 
-    public $parking_list = [
-        0 => '',
-        1 => 'Private parking',
-        2 => 'Communal parking',
-        3 => 'Garage',
-    ];
-
-    public $type_list = [
-        0 => '',
-        1 => 'Townhouse',
-        2 => 'Villa',
-        3 => 'Apartments',
-    ];
-
     /**
      * @inheritdoc
      */
@@ -96,7 +82,7 @@ class Sale extends ActiveRecord
             [['bathroom', 'bedroom'], 'string', 'max' => 2],
             [['region_id', 'district_id', 'year', 'price', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
                 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'title',
-                'type', 'pool', 'parking', 'created_at', 'updated_at'], 'integer'],
+                'type_id', 'pool', 'parking_id', 'created_at', 'updated_at'], 'integer'],
             [['contacts', 'owner', 'address', 'note_user', 'note_admin'], 'string'],
             [['name'], 'string', 'max' => 64],
             [['address'], 'string', 'max' => 255],
@@ -104,6 +90,31 @@ class Sale extends ActiveRecord
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_HIDE]],
             [['view_ids', 'facility_ids'], 'each', 'rule' => ['integer']],
+        ];
+    }
+
+    public function getParking()
+    {
+        $temp = self::getParkingList();
+        return @$temp[$this->parking_id];
+    }
+
+    public static function getParkingList()
+    {
+        return [
+            0 => '',
+            1 => 'Private parking',
+            2 => 'Communal parking',
+            3 => 'Garage',
+        ];
+    }
+
+    public static function getTypeList()
+    {
+        return [
+            1 => 'Townhouse',
+            2 => 'Villa',
+            3 => 'Apartments',
         ];
     }
 
@@ -125,7 +136,7 @@ class Sale extends ActiveRecord
             'user_id' => Yii::t('app', 'User'),
             'region_id' => Yii::t('app', 'Region'),
             'district_id' => Yii::t('app', 'District'),
-            'type' => Yii::t('app', 'Property type'),
+            'type_id' => Yii::t('app', 'Property type'),
             'name' => Yii::t('app', 'Name'),
             'year' => Yii::t('app', 'Year built'),
             'commission' => Yii::t('app', 'Commission'),
@@ -145,7 +156,7 @@ class Sale extends ActiveRecord
             'tennis' => Yii::t('app', 'Tennis court'),
             'pool' => Yii::t('app', 'Pool'),
             'title' => Yii::t('app', 'Title deeds'),
-            'parking' => Yii::t('app', 'Parking'),
+            'parking_id' => Yii::t('app', 'Parking'),
             'contacts' => Yii::t('app', 'Contacts'),
             'owner' => Yii::t('app', 'Owner contacts'),
             'note_user' => Yii::t('app', 'Note for facilitator'),
@@ -158,6 +169,18 @@ class Sale extends ActiveRecord
             'facility_ids' => Yii::t('app', 'Facilities'),
         ];
     }
+
+    public static function weekItems($limit = 4)
+    {
+        return self::find()->orderBy(['id' => SORT_DESC])->limit($limit)->all();
+    }
+
+    public static function lastItems($limit = 6)
+    {
+        return self::find()->orderBy(['id' => SORT_DESC])->limit($limit)->all();
+    }
+
+
 
     public function getContent($lang_id = null)
     {

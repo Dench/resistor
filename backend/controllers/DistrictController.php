@@ -156,7 +156,8 @@ class DistrictController extends Controller
         }
     }
 
-    public function actionList() {
+    public function actionList()
+    {
         if (isset($_POST['depdrop_parents'])) {
             if ($parents = $_POST['depdrop_parents']) {
                 $out = District::getList($parents[0]);

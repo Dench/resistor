@@ -84,7 +84,7 @@ use yii\bootstrap\ActiveForm;
 
                     <div class="row">
                         <div class="col-md-4">
-                            <?= $form->field($model, 'type')->dropDownList($model->type_list) ?>
+                            <?= $form->field($model, 'type_id')->dropDownList($model->typeList) ?>
                             <?= $form->field($model, 'covered')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'uncovered')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'plot')->textInput(['maxlength' => true]) ?>
@@ -120,15 +120,15 @@ use yii\bootstrap\ActiveForm;
                                 </div>
                                 <div class="col-md-6">
                                     <?=
-                                    $form->field($model, 'district_id')->widget(DepDrop::classname(), array(
+                                    $form->field($model, 'district_id')->widget(DepDrop::classname(), [
                                         'data' => District::getList($model->region_id),
-                                        'options'=> array('id' => 'district_id'),
-                                        'pluginOptions' => array(
-                                            'depends' => array('region_id'),
+                                        'options'=> ['id' => 'district_id'],
+                                        'pluginOptions' => [
+                                            'depends' => ['region_id'],
                                             'placeholder' => false,
-                                            'url' => Url::to(array('/district/list')),
-                                        )
-                                    ))->label(Yii::t('app', 'District'));
+                                            'url' => Url::to(['/district/list']),
+                                        ]
+                                    ])->label(Yii::t('app', 'District'));
                                     ?>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@ use yii\bootstrap\ActiveForm;
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'parking')->dropDownList($model->parking_list) ?>
+                                    <?= $form->field($model, 'parking_id')->dropDownList($model->parkingList) ?>
                                 </div>
                                 <div class="col-md-6">
                                     <?= $form->field($model, 'furniture')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>

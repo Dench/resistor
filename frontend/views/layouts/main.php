@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use common\widgets\Alert;
+use common\widgets\LangChange;
 use frontend\assets\AppAssetIE9;
 use frontend\assets\BootstrapSelect;
 use frontend\assets\FontAwesome;
@@ -32,40 +33,17 @@ FontAwesome::register($this);
 <?php $this->beginBody() ?>
 <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/images/logo.jpg', ['alt' => Yii::$app->params['sitename']]),
+        'brandLabel' => Html::img('@web/source/img/logo.png', ['alt' => Yii::$app->params['sitename'], 'height' => '55']),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-default navbar-static-top',
         ],
     ]);
     $menuItems = [
-        ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
-        [
-            'label' => Yii::t('app', 'Real Estate'),
-            'url' => ['/site/contact'],
-            'items' => [
-                ['label' => Yii::t('app', 'Search Results'), 'url' => ['/site/about']],
-                ['label' => Yii::t('app', 'Item Page'), 'url' => ['/site/about']],
-                ['label' => Yii::t('app', 'Services'), 'url' => ['/site/about']],
-                ['label' => Yii::t('app', 'Gallery'), 'url' => ['/site/about']],
-            ]
-        ],
-        [
-            'label' => Yii::t('app', 'Agents'),
-            'url' => ['/site/contact'],
-            'items' => [
-                ['label' => Yii::t('app', 'All Agents'), 'url' => ['/site/about']],
-                ['label' => Yii::t('app', 'Agent Profile'), 'url' => ['/site/about']],
-            ]
-        ],
-        [
-            'label' => Yii::t('app', 'Corporate'),
-            'url' => ['/site/contact'],
-            'items' => [
-                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
-                ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/about']],
-            ]
-        ],
+        ['label' => Yii::t('app', 'Home'), 'url' => ['/']],
+        ['label' => Yii::t('app', 'Property search'), 'url' => ['/search']],
+        ['label' => Yii::t('app', 'Agents'), 'url' => ['/site/about']],
+        ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
@@ -139,7 +117,10 @@ FontAwesome::register($this);
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <p class="no-margin-bottom">All Rights Reserved ® Designed by <a href="http://twitter.com/graphikaria" target="_blank">@Graphikaria</a></p>
+                    <p class="no-margin-bottom">
+                        All Rights Reserved ® Designed by <a href="http://twitter.com/graphikaria" target="_blank">@Graphikaria</a>
+                        <?= LangChange::widget() ?>
+                    </p>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container -->

@@ -29,8 +29,8 @@ $this->title = $model->name;
                         ]);
                     ?>
 
-                    <h2><i class="fa fa-map-marker"></i> <?= $model->name ?>, <span class="text-muted">Windsor CA, 95492</span></h2>
-                    <p class="lead">Welcome to Grand Lagoon. This home offers a great family comfort.</p>
+                    <h2><i class="fa fa-map-marker"></i> <?= Html::encode($model->region->content->name) ?>, <?= Html::encode($model->district->content->name) ?></h2>
+                    <p class="lead"><?= Html::encode($model->name) ?></p>
 
                     <hr>
 
@@ -58,10 +58,10 @@ $this->title = $model->name;
                                         <li><i class="fa fa-fw fa-female"></i> <strong><?= $model->getAttributeLabel('bathroom') ?>:</strong> <?= $model->bathroom ?></li>
                                     <? endif ?>
                                     <? if ($model->parking): ?>
-                                        <li><i class="fa fa-fw fa-truck"></i> <strong><?= $model->getAttributeLabel('parking') ?>:</strong> <?= $model->parking_list[$model->parking] ?></li>
+                                        <li><i class="fa fa-fw fa-truck"></i> <strong><?= $model->getAttributeLabel('parking_id') ?>:</strong> <?= $model->parking ?></li>
                                     <? endif ?>
                                     <? if ($model->price): ?>
-                                        <li><i class="fa fa-fw fa-briefcase"></i> <strong><?= $model->getAttributeLabel('price') ?>:</strong> <?= $model->price ?></li>
+                                        <li><i class="fa fa-fw fa-briefcase"></i> <strong><?= $model->getAttributeLabel('price') ?>:</strong> <?= number_format($model->price, 0, ',', '.') ?></li>
                                     <? endif ?>
                                 </ul>
                             </div><!-- /.widget -->
@@ -72,7 +72,7 @@ $this->title = $model->name;
                                     <h3 class="panel-title">Description</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <p><?= nl2br($model->content->description) ?></p>
+                                    <p><?= nl2br(Html::encode($model->content->description)) ?></p>
                                 </div><!-- /.panel-body -->
                             </div><!-- /.panel -->
                             <h3 class="h4">User Tools:</h3>

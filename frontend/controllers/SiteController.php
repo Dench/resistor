@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Sale;
+use frontend\models\SaleSearch;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -72,7 +74,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new SaleSearch();
+        $lastItems = Sale::lastItems();
+        $weekItems = Sale::weekItems();
+
+        return $this->render('index', [
+                'searchModel' => $searchModel,
+                'last' => $lastItems,
+                'week' => $weekItems
+            ]);
     }
 
     /**

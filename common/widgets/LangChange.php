@@ -2,8 +2,9 @@
 
 namespace common\widgets;
 use common\models\Lang;
+use yii\base\Widget;
 
-class LangChange extends \yii\bootstrap\Widget
+class LangChange extends Widget
 {
     public function init() {}
 
