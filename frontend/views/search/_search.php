@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
     'enableClientValidation' => false
 ]); ?>
 
-<?php if (Yii::$app->request->get('advanced')): ?>
+<?php if (!Yii::$app->request->get('advanced')): ?>
     <div class="row">
         <div class="col-sm-4 col-md-2">
             <?= $form->field($model, 'region_id')->dropDownList(Region::getList(), [
@@ -79,7 +79,7 @@ use yii\widgets\ActiveForm;
             ])->label(Yii::t('app', 'Bath')) ?>
         </div>
         <div class="col-sm-4 col-md-2">
-            <label>&nbsp;</label>
+            <label style="font-weight: normal; font-size: 12px;"><?= Html::a(Yii::t('app', 'Advanced search'), Url::toRoute(['/search', 'advanced' => 1])) ?></label>
             <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary btn-block']) ?>
         </div>
     </div>
@@ -128,10 +128,10 @@ use yii\widgets\ActiveForm;
             <?= Html::label($model->getAttributeLabel('bedroom')) ?>
             <div class="row fromto">
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'bedroom[from]')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
+                    <?= $form->field($model, 'bedroom_from')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
                 </div>
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'bedroom[to]')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
+                    <?= $form->field($model, 'bedroom_to')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
                 </div>
             </div>
         </div>
@@ -139,10 +139,10 @@ use yii\widgets\ActiveForm;
             <?= Html::label($model->getAttributeLabel('bathroom')) ?>
             <div class="row fromto">
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'bathroom[from]')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
+                    <?= $form->field($model, 'bathroom_from')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
                 </div>
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'bathroom[to]')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
+                    <?= $form->field($model, 'bathroom_to')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
                 </div>
             </div>
         </div>
@@ -150,10 +150,10 @@ use yii\widgets\ActiveForm;
             <?= Html::label($model->getAttributeLabel('year')) ?>
             <div class="row fromto">
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'year[from]')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
+                    <?= $form->field($model, 'year_from')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
                 </div>
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'year[to]')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
+                    <?= $form->field($model, 'year_to')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
                 </div>
             </div>
         </div>
@@ -163,21 +163,10 @@ use yii\widgets\ActiveForm;
             <?= Html::label($model->getAttributeLabel('price')) ?>
             <div class="row fromto">
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'price[from]')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
+                    <?= $form->field($model, 'price_from')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
                 </div>
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'price[to]')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= Html::label($model->getAttributeLabel('covered')) ?>
-            <div class="row fromto">
-                <div class="col-xs-6">
-                    <?= $form->field($model, 'covered[from]')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
-                </div>
-                <div class="col-xs-6">
-                    <?= $form->field($model, 'covered[to]')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
+                    <?= $form->field($model, 'price_to')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
                 </div>
             </div>
         </div>
@@ -185,10 +174,10 @@ use yii\widgets\ActiveForm;
             <?= Html::label($model->getAttributeLabel('covered')) ?>
             <div class="row fromto">
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'uncovered[from]')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
+                    <?= $form->field($model, 'covered_from')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
                 </div>
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'uncovered[to]')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
+                    <?= $form->field($model, 'covered_to')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
                 </div>
             </div>
         </div>
@@ -196,10 +185,21 @@ use yii\widgets\ActiveForm;
             <?= Html::label($model->getAttributeLabel('covered')) ?>
             <div class="row fromto">
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'plot[from]')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
+                    <?= $form->field($model, 'uncovered_from')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
                 </div>
                 <div class="col-xs-6">
-                    <?= $form->field($model, 'plot[to]')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
+                    <?= $form->field($model, 'uncovered_to')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-2">
+            <?= Html::label($model->getAttributeLabel('covered')) ?>
+            <div class="row fromto">
+                <div class="col-xs-6">
+                    <?= $form->field($model, 'plot_from')->label(false)->textInput(['placeholder' => Yii::t('app', 'From')]) ?>
+                </div>
+                <div class="col-xs-6">
+                    <?= $form->field($model, 'plot_to')->label(false)->textInput(['placeholder' => Yii::t('app', 'To')]) ?>
                 </div>
             </div>
         </div>
@@ -302,7 +302,8 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <label>&nbsp;</label>
+            <label style="font-weight: normal; font-size: 12px;"><?= Html::a(Yii::t('app', 'Simple search'), Url::toRoute(['/search'])) ?></label>
+            <?= Html::hiddenInput('advanced', 1); ?>
             <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary btn-block']) ?>
         </div>
     </div>

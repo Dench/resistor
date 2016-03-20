@@ -4,7 +4,7 @@
 
 use yii\helpers\Html;
 
-$this->title = Yii::t('app', 'TITLE_ABOUT');
+$this->title = Yii::t('app', 'About Cyprus');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="wrapper-lg bg-highlight">

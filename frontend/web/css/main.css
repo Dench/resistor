@@ -205,3 +205,10 @@ footer .social-networks {
 .navbar-default {
     border: 0;
 }
+section.post {
+    border-top: 1px solid #DDD;
+    padding-top: 20px;
+}
+section.post h1 {
+    margin-bottom: 20px;
+}

@@ -11,15 +11,41 @@ use yii\data\ActiveDataProvider;
  */
 class SaleSearch extends Sale
 {
+    public $year_from;
+    public $year_to;
+    public $covered_from;
+    public $covered_to;
+    public $uncovered_from;
+    public $uncovered_to;
+    public $plot_from;
+    public $plot_to;
+    public $bathroom_from;
+    public $bathroom_to;
+    public $bedroom_from;
+    public $bedroom_to;
+    public $price_from;
+    public $price_to;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'region_id', 'district_id', 'type_id', 'parking_id', 'year', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom', 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'created_at', 'updated_at', 'top', 'title'], 'integer'],
-            [['name', 'commission', 'gps', 'contacts', 'owner', 'address'], 'safe'],
-            ['price', 'each', 'rule' => ['integer']],
+            [[
+                'id', 'region_id', 'district_id', 'type_id', 'parking_id', 'bathroom', 'bedroom',
+                'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating',
+                'year_from', 'year_to',
+                'covered_from', 'covered_to',
+                'uncovered_from', 'uncovered_to',
+                'plot_from', 'plot_to',
+                'bathroom_from', 'bathroom_to',
+                'bedroom_from', 'bedroom_to',
+                'price_from', 'price_to',
+                'storage', 'tennis', 'status', 'created_at', 'updated_at', 'top', 'title'
+            ], 'integer'],
+            [[
+                'name', 'commission', 'gps', 'contacts', 'owner', 'address', 'view_ids', 'facility_ids'
+            ], 'safe'],
         ];
     }
 
@@ -43,6 +69,8 @@ class SaleSearch extends Sale
     {
         $query = Sale::find();
 
+        $query->joinWith(['views', 'facilities']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -56,15 +84,11 @@ class SaleSearch extends Sale
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'sale.id' => $this->id,
             'region_id' => $this->region_id,
             'district_id' => $this->district_id,
             'type_id' => $this->type_id,
             'parking_id' => $this->parking_id,
-            'year' => $this->year,
-            'covered' => $this->covered,
-            'uncovered' => $this->uncovered,
-            'plot' => $this->plot,
             'bathroom' => $this->bathroom,
             'bedroom' => $this->bedroom,
             'solarpanel' => $this->solarpanel,
@@ -86,8 +110,22 @@ class SaleSearch extends Sale
             ->andFilterWhere(['like', 'contacts', $this->contacts])
             ->andFilterWhere(['like', 'owner', $this->owner])
             ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['>=', 'price', $this->price['from']])
-            ->andFilterWhere(['<=', 'price', $this->price['to']]);
+            ->andFilterWhere(['>=', 'price', $this->price_from])
+            ->andFilterWhere(['<=', 'price', $this->price_to])
+            ->andFilterWhere(['>=', 'year', $this->year_from])
+            ->andFilterWhere(['<=', 'year', $this->year_to])
+            ->andFilterWhere(['>=', 'covered', $this->covered_from])
+            ->andFilterWhere(['<=', 'covered', $this->covered_to])
+            ->andFilterWhere(['>=', 'uncovered', $this->uncovered_from])
+            ->andFilterWhere(['<=', 'uncovered', $this->uncovered_to])
+            ->andFilterWhere(['>=', 'plot', $this->plot_from])
+            ->andFilterWhere(['<=', 'plot', $this->plot_to])
+            ->andFilterWhere(['>=', 'bathroom', $this->bathroom_from])
+            ->andFilterWhere(['<=', 'bathroom', $this->bathroom_to])
+            ->andFilterWhere(['>=', 'bedroom', $this->bedroom_from])
+            ->andFilterWhere(['<=', 'bedroom', $this->bedroom_to])
+            ->andFilterWhere(['in', 'sale_view.view_id', $this->view_ids])
+            ->andFilterWhere(['in', 'sale_facilities.facility_id', $this->facility_ids]);
 
         return $dataProvider;
     }
