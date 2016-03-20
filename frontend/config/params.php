@@ -15,4 +15,7 @@ return [
         'x' => 20,
         'y' => 15
     ],
+    'image_none' => [
+        'small' => '/img/none_small.jpg',
+    ],
 ];

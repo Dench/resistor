@@ -67,4 +67,9 @@ class District extends ActiveRecord
     {
         return ArrayHelper::map(self::find()->where(['region_id' => $id])->all(), 'id', 'content.name');
     }
+
+    public static function getListAll()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'content.name');
+    }
 }

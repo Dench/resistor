@@ -5,7 +5,7 @@ namespace backend\controllers;
 use common\models\Lang;
 use common\models\SaleLang;
 use common\models\SalePhoto;
-use frontend\models\SaleSearch;
+use common\models\SaleSearch;
 use Yii;
 use common\models\Sale;
 use yii\base\Model;

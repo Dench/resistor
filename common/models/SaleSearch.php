@@ -17,8 +17,9 @@ class SaleSearch extends Sale
     public function rules()
     {
         return [
-            [['id', 'region_id', 'district_id', 'year', 'price', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom', 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'commission', 'gps', 'contacts', 'owner', 'address'], 'safe'],
+            [['id', 'region_id', 'district_id', 'type_id', 'parking_id', 'year', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom', 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'created_at', 'updated_at', 'top', 'title'], 'integer'],
+            [['name', 'commission', 'gps', 'contacts', 'owner', 'address'], 'safe'],
+            ['price', 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -58,8 +59,9 @@ class SaleSearch extends Sale
             'id' => $this->id,
             'region_id' => $this->region_id,
             'district_id' => $this->district_id,
+            'type_id' => $this->type_id,
+            'parking_id' => $this->parking_id,
             'year' => $this->year,
-            'price' => $this->price,
             'covered' => $this->covered,
             'uncovered' => $this->uncovered,
             'plot' => $this->plot,
@@ -75,14 +77,17 @@ class SaleSearch extends Sale
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'top' => $this->top,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'commission', $this->commission])
             ->andFilterWhere(['like', 'gps', $this->gps])
             ->andFilterWhere(['like', 'contacts', $this->contacts])
             ->andFilterWhere(['like', 'owner', $this->owner])
-            ->andFilterWhere(['like', 'address', $this->address]);
+            ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['>=', 'price', $this->price['from']])
+            ->andFilterWhere(['<=', 'price', $this->price['to']]);
 
         return $dataProvider;
     }

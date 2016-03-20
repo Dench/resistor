@@ -19,7 +19,7 @@ $this->title = 'Home';
         <div class="row">
             <div class="col-sm-12">
                 <div class="widget padding-lg bg-dark">
-                    <h1 class="heading-lg text-center text-light"><?= Yii::t('app', 'Slogan') ?></h1>
+                    <h1 class="text-center text-light"><?= Yii::t('app', 'Slogan') ?></h1>
                     <br class="spacer-lg">
 
                     <?= $this->render('../search/_search', ['model' => $searchModel]); ?>
@@ -50,12 +50,12 @@ $this->title = 'Home';
     <div class="container">
         <div class="row">
             <?php
-                foreach (array_slice($last,0,4) as $item) {
+                foreach ($last as $item) {
                     echo SaleItem::widget([
                         'col' => 'col-sm-6 col-md-3',
                         'id' => $item->id,
                         'url' => Url::toRoute(['sale/index', 'id' => $item->id]),
-                        'cover' => $item->cover['thumb'],
+                        'cover' => $item->cover['small'],
                         'name' => $item->name,
                         'region' => $item->region->content->name,
                         'district' => $item->district->content->name,
@@ -65,45 +65,6 @@ $this->title = 'Home';
                     ]);
                 }
             ?>
-        </div>
-        <div class="row">
-            <?php
-                foreach (array_slice($last,4,2) as $item) {
-                    echo SaleItem::widget([
-                        'col' => 'col-sm-6 col-md-3',
-                        'id' => $item->id,
-                        'url' => Url::toRoute(['sale/index', 'id' => $item->id]),
-                        'cover' => $item->cover['thumb'],
-                        'name' => $item->name,
-                        'region' => $item->region->content->name,
-                        'district' => $item->district->content->name,
-                        'price' => $item->price,
-                        'bedroom' => $item->bedroom,
-                        'bathroom' => $item->bathroom
-                    ]);
-                }
-            ?>
-            <div class="col-md-6">
-                <?php
-                    $images[] = [
-                        'content' => Html::img('/source/img/wallpaper.jpg', ['alt' => '']),
-                        'caption' => '<h1>We help you being awesome at what you really do</h1><p class="lead">Providing the best service so you can concentrate on your thing</p>'
-                    ];
-                    $images[] = $images[0];
-                    echo Carousel::widget([
-                        'items' => $images,
-                        'id' => 'my-carousel',
-                        'controls' => [
-                            '<span class="glyphicon glyphicon-chevron-left"></span>',
-                            '<span class="glyphicon glyphicon-chevron-right"></span>'
-                        ],
-                        'options' => [
-                            'class' => 'slide'
-                        ]
-                    ]);
-                ?>
-
-            </div>
         </div>
     </div>
 </section>
@@ -119,7 +80,7 @@ $this->title = 'Home';
                         'col' => 'col-sm-6 col-md-3',
                         'id' => $item->id,
                         'url' => Url::toRoute(['sale/index', 'id' => $item->id]),
-                        'cover' => $item->cover['thumb'],
+                        'cover' => $item->cover['small'],
                         'name' => $item->name,
                         'region' => $item->region->content->name,
                         'district' => $item->district->content->name,

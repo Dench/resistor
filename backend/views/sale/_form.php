@@ -100,6 +100,7 @@ use yii\bootstrap\ActiveForm;
                             <?= $form->field($model, 'title')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
                             <?= $form->field($model, 'commission')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'status')->inline()->radioList(Sale::getStatusList()) ?>
+                            <?= $form->field($model, 'top')->inline()->checkbox(['value' => 1]) ?>
                         </div>
                     </div>
 

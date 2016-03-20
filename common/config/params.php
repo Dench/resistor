@@ -4,17 +4,17 @@ return [
     'langDef' => 2,
     'uploadSalePath' => dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'sale',
     'salePhotoMin' => [
-        'width' => 640,
-        'height' => 480,
+        'width' => 600,
+        'height' => 450,
     ],
     'salePhotoBig' => [
-        'width' => 1000,
-        'height' => 760,
+        'width' => 900,
+        'height' => 450,
         'path' => '/photo/big/'
     ],
     'salePhotoSmall' => [
-        'width' => 850,
-        'height' => 400,
+        'width' => 600,
+        'height' => 450,
         'path' => '/photo/small/'
     ],
     'salePhotoThumb' => [

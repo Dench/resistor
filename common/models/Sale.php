@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $id
  * @property integer $region_id
  * @property integer $district_id
- * @property integer $type
+ * @property integer $type_id
  * @property string $name
  * @property integer $year
  * @property string $commission
@@ -32,18 +32,21 @@ use yii\helpers\ArrayHelper;
  * @property integer $storage
  * @property integer $tennis
  * @property integer $title
- * @property integer $parking
+ * @property integer $parking_id
  * @property string $contacts
  * @property string $owner
  * @property string $address
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $top
  */
 class Sale extends ActiveRecord
 {
     const STATUS_HIDE = 0;
     const STATUS_ACTIVE = 1;
+    const TOP_DISABLED = 0;
+    const TOP_ENABLED = 1;
 
     /**
      * @inheritdoc
@@ -89,6 +92,8 @@ class Sale extends ActiveRecord
             [['commission', 'gps'], 'string', 'max' => 40],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_HIDE]],
+            ['top', 'default', 'value' => self::TOP_DISABLED],
+            ['top', 'in', 'range' => [self::TOP_ENABLED, self::TOP_DISABLED]],
             [['view_ids', 'facility_ids'], 'each', 'rule' => ['integer']],
         ];
     }
@@ -102,7 +107,6 @@ class Sale extends ActiveRecord
     public static function getParkingList()
     {
         return [
-            0 => '',
             1 => 'Private parking',
             2 => 'Communal parking',
             3 => 'Garage',
@@ -118,12 +122,32 @@ class Sale extends ActiveRecord
         ];
     }
 
+    public static function getTopList()
+    {
+        return [
+            self::TOP_DISABLED => '-',
+            self::TOP_ENABLED => Yii::t('app', 'Top'),
+        ];
+    }
+
+    public function getTopName()
+    {
+        $a = self::getTopList();
+        return $a[$this->top];
+    }
+
     public static function getStatusList()
     {
         return [
             self::STATUS_ACTIVE => Yii::t('app', 'Acvive'),
             self::STATUS_HIDE => Yii::t('app', 'Hide'),
         ];
+    }
+
+    public function getStatusName()
+    {
+        $a = self::getStatusList();
+        return $a[$this->status];
     }
 
     /**
@@ -167,15 +191,16 @@ class Sale extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated'),
             'view_ids' => Yii::t('app', 'View from the window'),
             'facility_ids' => Yii::t('app', 'Facilities'),
+            'top' => Yii::t('app', 'Top'),
         ];
     }
 
     public static function weekItems($limit = 4)
     {
-        return self::find()->orderBy(['id' => SORT_DESC])->limit($limit)->all();
+        return self::find()->where(['top' => self::TOP_ENABLED])->orderBy(['id' => SORT_DESC])->limit($limit)->all();
     }
 
-    public static function lastItems($limit = 6)
+    public static function lastItems($limit = 8)
     {
         return self::find()->orderBy(['id' => SORT_DESC])->limit($limit)->all();
     }

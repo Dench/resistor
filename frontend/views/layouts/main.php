@@ -31,18 +31,49 @@ FontAwesome::register($this);
 
 <body>
 <?php $this->beginBody() ?>
+
+<section id="top" class="bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-sm-8 col-md-8">
+                <?php
+                    if (Yii::$app->params['phone1']) {
+                        echo '<span><i class="fa fa-phone"></i> '.Yii::$app->params['phone1'].'</span>';
+                    }
+                    if (Yii::$app->params['phone2']) {
+                        echo '<span class="hidden-xs"><i class="fa fa-phone"></i> '.Yii::$app->params['phone2'].'</span>';
+                    }
+                    if (Yii::$app->params['email']) {
+                        echo '<a href="#" class="hidden-xs"><i class="fa fa-envelope"></i> '.Yii::$app->params['email'].'</a>';
+                    }
+                ?>
+            </div>
+            <div class="col-xs-3 col-sm-2 col-md-2">
+                <?php
+                    if (!Yii::$app->user->isGuest) {
+                        echo Html::a('<i class="fa fa-user fa-fw"></i> '.Yii::t('app', 'Personal'), '/personal');
+                    }
+                ?>
+            </div>
+            <div class="col-xs-3 col-sm-2 col-md-2">
+                <?= LangChange::widget() ?>
+            </div>
+        </div>
+    </div>
+</section>
 <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/source/img/logo.png', ['alt' => Yii::$app->params['sitename'], 'height' => '55']),
+        'brandLabel' => Html::img('@web/source/img/logo.png', ['alt' => Yii::$app->params['sitename'], 'height' => '100%']),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-default navbar-static-top',
         ],
     ]);
     $menuItems = [
-        ['label' => Yii::t('app', 'Home'), 'url' => ['/']],
-        ['label' => Yii::t('app', 'Property search'), 'url' => ['/search']],
-        ['label' => Yii::t('app', 'Agents'), 'url' => ['/site/about']],
+        ['label' => Yii::t('app', 'Home'), 'url' => ['/'], 'active' => (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'index')],
+        ['label' => Yii::t('app', 'Property search'), 'url' => ['/search'], 'active' => Yii::$app->controller->id == 'search'],
+        ['label' => Yii::t('app', 'Agents'), 'url' => ['/site/agent']],
+        ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
         ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
     ];
     echo Nav::widget([
@@ -56,76 +87,27 @@ FontAwesome::register($this);
 
 <?= $content ?>
 
-<!-- Footer -->
 <footer class="footer-container">
-    <section class="footer-primary">
+    <section class="footer-secondary">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-md-3">
-                    <h3>Footer Component</h3>
-                    <p>Choose from our favourite tags:</p>
-                    <ul class="tags">
-                        <li><a href="#link">design</a></li>
-                        <li><a href="#link">layout</a></li>
-                        <li><a href="#link">stack</a></li>
-                        <li><a href="#link">PSD</a></li>
-                        <li><a href="#link">bootstrap</a></li>
-                        <li><a href="#link">menu</a></li>
-                        <li><a href="#link">type</a></li>
-                        <li><a href="#link">paper</a></li>
-                        <li><a href="#link">press</a></li>
-                    </ul>
-                </div><!-- /.col -->
-                <div class="col-sm-6 col-md-3">
-                    <h3>Image Stream List</h3>
-                    <p>View our latest stills in Flicker:</p>
-                    <ul class="img-stream">
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                        <li><a href="#link"><img class="media-object" data-src="holder.js/55x55" alt="img"></a></li>
-                    </ul>
-                </div><!-- /.col -->
-                <div class="col-sm-6 col-md-3">
-                    <h3>Hyperlinks List</h3>
-                    <p>Contact us whenever you want:</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-angle-right"></i> <a href="#link">9am-6pm ET Mon-Fri</a></li>
-                        <li><i class="fa fa-angle-right"></i> <a href="#link">US (877) 977-8732</a></li>
-                        <li><i class="fa fa-angle-right"></i> <a href="#link">International +1 646 490 1679</a></li>
-                    </ul>
-                </div><!-- /.col -->
-                <div class="col-sm-6 col-md-3">
-                    <h3>Social Media List</h3>
-                    <p>Stick to the social media hype:</p>
+                <div class="col-sm-8">
+                    <div class="copy">
+                        All Rights Reserved ® <a href="#" target="_blank">Cyprus</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-right">
                     <ul class="social-networks">
                         <li><a class="btn btn-twitter" href="#"><i class="fa fa-fw fa-twitter"></i></a></li>
                         <li><a class="btn btn-facebook" href="#"><i class="fa fa-fw fa-facebook"></i></a></li>
                         <li><a class="btn btn-google-plus" href="#"><i class="fa fa-fw fa-google-plus"></i></a></li>
                         <li><a class="btn btn-pinterest" href="#"><i class="fa fa-fw fa-pinterest"></i></a></li>
                     </ul>
-                    <p>We are friendly. Give us a ding!</p>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section><!-- /.wrapper-sm -->
-    <section class="footer-secondary">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <p class="no-margin-bottom">
-                        All Rights Reserved ® Designed by <a href="http://twitter.com/graphikaria" target="_blank">@Graphikaria</a>
-                        <?= LangChange::widget() ?>
-                    </p>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section><!-- /.footer-secondary -->
-</footer><!-- /.footer-container --> <!-- End of footer -->
+                </div>
+            </div>
+        </div>
+    </section>
+</footer>
 <?php $this->endBody() ?>
 </body>
 </html>

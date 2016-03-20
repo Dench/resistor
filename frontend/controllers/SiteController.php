@@ -2,7 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Sale;
-use frontend\models\SaleSearch;
+use common\models\SaleSearch;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -149,6 +149,11 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionAgent()
+    {
+        return $this->render('agent');
     }
 
     /**

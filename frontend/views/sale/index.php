@@ -12,21 +12,23 @@ $this->title = $model->name;
             <div class="col-sm-12 col-md-9">
                 <article class="post">
                     <?php
-                        $images = [];
-                        foreach ($model->images['small'] as $item) {
-                            $images[] = Html::img($item, ['alt' => $model->name]);
+                        if ($model->images['big']) {
+                            $images = [];
+                            foreach ($model->images['big'] as $item) {
+                                $images[] = Html::img($item, ['alt' => $model->name]);
+                            }
+                            echo Carousel::widget([
+                                'items' => $images,
+                                'id' => 'my-carousel',
+                                'controls' => [
+                                    '<span class="glyphicon glyphicon-chevron-left"></span>',
+                                    '<span class="glyphicon glyphicon-chevron-right"></span>'
+                                ],
+                                'options' => [
+                                    'class' => 'slide'
+                                ]
+                            ]);
                         }
-                        echo Carousel::widget([
-                            'items' => $images,
-                            'id' => 'my-carousel',
-                            'controls' => [
-                                '<span class="glyphicon glyphicon-chevron-left"></span>',
-                                '<span class="glyphicon glyphicon-chevron-right"></span>'
-                            ],
-                            'options' => [
-                                'class' => 'slide'
-                            ]
-                        ]);
                     ?>
 
                     <h2><i class="fa fa-map-marker"></i> <?= Html::encode($model->region->content->name) ?>, <?= Html::encode($model->district->content->name) ?></h2>
