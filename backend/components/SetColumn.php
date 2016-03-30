@@ -13,14 +13,7 @@ class SetColumn extends DataColumn
      */
     public $name;
     /**
-     * Array of status classes
-     * ```
-     * [
-     *     User::STATUS_ACTIVE => 'success',
-     *     User::STATUS_WAIT => 'warning',
-     *     User::STATUS_BLOCKED => 'default',
-     * ]
-     * ```
+     *
      * @var array
      */
     public $cssClasses = [];

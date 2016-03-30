@@ -8,6 +8,7 @@
                 'items' => [
                     ['label' => 'Menu', 'options' => ['class' => 'header']],
                     ['label' => Yii::t('app', 'Sales'), 'icon' => 'fa fa-home', 'url' => ['/sale']],
+                    ['label' => Yii::t('app', 'Objects'), 'icon' => 'fa fa-home', 'url' => ['/object']],
                     ['label' => 'Menu', 'options' => ['class' => 'header']],
                     ['label' => Yii::t('app', 'Regions'), 'icon' => 'fa fa-map', 'url' => ['/region']],
                     ['label' => Yii::t('app', 'Districts'), 'icon' => 'fa fa-map-o', 'url' => ['/district']],

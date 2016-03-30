@@ -253,6 +253,11 @@ class Sale extends ActiveRecord
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
 
+    public function getObject()
+    {
+        return $this->hasOne(Object::className(), ['id' => 'object_id']);
+    }
+
     public function getDistrict()
     {
         return $this->hasOne(District::className(), ['id' => 'district_id']);

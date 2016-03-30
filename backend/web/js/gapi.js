@@ -1,7 +1,7 @@
 var N = 35.0457574;
 var E = 33.2241134;
 var zoom = 10;
-var gps = jQuery('#sale-gps').val();
+var gps = jQuery('#sale-gps,#object-gps').val();
 if (gps != '') {
 	parseLatlng(gps);
 	zoom = 17;
@@ -28,10 +28,10 @@ function setMarker(pos) {
 	});
 	markersArray.push(marker);
 	getLatlng(pos);
-	jQuery('#sale-gps').val(N+','+E);
+	jQuery('#sale-gps,#object-gps').val(N+','+E);
 	google.maps.event.addListener(marker, "dragend", function() {
 		getLatlng(marker.getPosition());
-		jQuery('#sale-gps').val(N+','+E);
+		jQuery('#sale-gps,#object-gps').val(N+','+E);
 	});
 }
 
@@ -67,10 +67,10 @@ function codeAddress(zoom) {
 	});
 }
 
-jQuery('#sale-address').change(function(){
+jQuery('#sale-address, #object-address').change(function(){
 	codeAddress(17);
 });
 jQuery('#district_id, #region_id').change(function(){
-	jQuery('#sale-gps, #sale-address').val('');
+	jQuery('#sale-gps, #object-gps, #sale-address, #object-address').val('');
 	codeAddress(12);
 });
