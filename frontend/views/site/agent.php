@@ -5,7 +5,9 @@
 /* @var $message string */
 /* @var $exception Exception */
 
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = Yii::t('app', 'Agents');
 ?>
@@ -18,20 +20,23 @@ $this->title = Yii::t('app', 'Agents');
             <div class="col-md-4">
             </div>
             <div class="col-md-4">
-                <div class="widget padding-md">
-                    <h3>Access your account</h3>
-                    <form action="/login" role="form">
-                        <div class="form-group">
-                            <label for="exmaple-contact-email">Username</label>
-                            <input type="text" name="username" class="form-control" id="exmaple-contact-email" placeholder="Username">
-                        </div>
-                        <div class="form-group">
-                            <label for="example-contact-password">Password</label>
-                            <input type="password" name="password" class="form-control" id="example-contact-password" placeholder="Your password">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Access account</button>
-                    </form>
-                </div>
+                <?php $form = ActiveForm::begin(['id' => 'login-form', 'method' => 'post', 'action' => Url::toRoute('site/login')]); ?>
+
+                    <?= $form->field($model, 'username') ?>
+
+                    <?= $form->field($model, 'password')->passwordInput() ?>
+
+                    <?= $form->field($model, 'rememberMe')->checkbox() ?>
+
+                    <div style="color:#999;margin:1em 0">
+                        <?= Yii::t('app', 'If forgot password', ['link' => Html::a(Yii::t('app', 'Reset it'), ['site/request-password-reset'])]) ?>
+                    </div>
+
+                    <div class="form-group">
+                        <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    </div>
+
+                <?php ActiveForm::end(); ?>
             </div>
             <div class="col-md-4">
             </div>

@@ -206,12 +206,12 @@ class Sale extends ActiveRecord
 
     public static function weekItems($limit = 4)
     {
-        return self::find()->where(['top' => self::TOP_ENABLED])->orderBy(['id' => SORT_DESC])->limit($limit)->all();
+        return self::find()->where(['top' => self::TOP_ENABLED, 'status' => 1])->orderBy(['id' => SORT_DESC])->limit($limit)->all();
     }
 
     public static function lastItems($limit = 8)
     {
-        return self::find()->orderBy(['id' => SORT_DESC])->limit($limit)->all();
+        return self::find()->where(['status' => 1])->orderBy(['id' => SORT_DESC])->limit($limit)->all();
     }
 
     public static function gpsMarkers($district_id)

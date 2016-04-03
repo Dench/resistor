@@ -212,3 +212,9 @@ section.post {
 section.post h1 {
     margin-bottom: 20px;
 }
+.tools a {
+    margin-bottom: 5px;
+}
+.carousel {
+    margin-bottom: 20px;
+}

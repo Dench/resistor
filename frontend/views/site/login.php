@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                     <div style="color:#999;margin:1em 0">
-                        <?= Yii::t('app', 'IF_FORGOT_PASSWORD', ['link' => Html::a(Yii::t('app', 'RESET_IT'), ['site/request-password-reset'])]) ?>
+                        <?= Yii::t('app', 'If forgot password', ['link' => Html::a(Yii::t('app', 'Reset it'), ['site/request-password-reset'])]) ?>
                     </div>
 
                     <div class="form-group">

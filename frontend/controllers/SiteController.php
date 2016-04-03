@@ -153,7 +153,10 @@ class SiteController extends Controller
 
     public function actionAgent()
     {
-        return $this->render('agent');
+        $model = new LoginForm();
+        return $this->render('agent', [
+        'model' => $model,
+    ]);
     }
 
     /**
