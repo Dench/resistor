@@ -4,7 +4,9 @@ use backend\components\SetColumn;
 use common\models\District;
 use common\models\Region;
 use common\models\Sale;
+use yii\bootstrap\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ObjectSearch */
@@ -42,6 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'sale.district.content.name',
             ],
             [
+                'class' => SetColumn::className(),
+                'label' => Yii::t('app', 'Address'),
+                'attribute' => 'address',
+                'value' => 'sale.address',
+            ],
+            [
                 'attribute' => 'sale.created_at',
                 'format' =>  ['date', 'dd.MM.Y'],
                 'options' => ['width' => '80']
@@ -54,6 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'cssClasses' => [
                     Sale::STATUS_HIDE => 'default',
                     Sale::STATUS_ACTIVE => 'success',
+                ],
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'headerOptions' => ['width' => '40'],
+                'template' => '{link}',
+                'buttons' => [
+                    'link' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app', 'Create'), Url::toRoute(['sale/create', 'object_id' => $model->id]), ['class' => 'btn btn-success btn-xs']);
+                    },
                 ],
             ],
         ],

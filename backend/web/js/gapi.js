@@ -1,7 +1,7 @@
 var N = 35.0457574;
 var E = 33.2241134;
 var zoom = 10;
-var gps = jQuery('#sale-gps,#object-gps').val();
+var gps = $('#sale-gps').val();
 if (gps != '') {
 	parseLatlng(gps);
 	zoom = 17;
@@ -14,6 +14,7 @@ var myOptions = {
 };
 var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 var geocoder = new google.maps.Geocoder();
+var markerArray = [];
 var markersArray = [];
 
 if (zoom == 17) {
@@ -26,15 +27,24 @@ function setMarker(pos) {
 		map: map,
 		draggable: true
 	});
-	markersArray.push(marker);
+	markerArray.push(marker);
 	getLatlng(pos);
-	jQuery('#sale-gps,#object-gps').val(N+','+E);
+	$('#sale-gps').val(N+','+E);
 	google.maps.event.addListener(marker, "dragend", function() {
 		getLatlng(marker.getPosition());
-		jQuery('#sale-gps,#object-gps').val(N+','+E);
+		$('#sale-gps').val(N+','+E);
 	});
 }
 
+function setMarkers(pos, title) {
+	var marker = new google.maps.Marker({
+		position: pos,
+		map: map,
+		title: title,
+		icon: 'http://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png'
+	});
+	markersArray.push(marker);
+}
 
 function parseLatlng(val) {
 	var arr = val.split(',');
@@ -48,6 +58,7 @@ function getLatlng(val) {
 }
 
 function clearOverlays() {
+	clearOverlay();
 	if (markersArray) {
 		for (i in markersArray) {
 			markersArray[i].setMap(null);
@@ -55,9 +66,17 @@ function clearOverlays() {
 	}
 }
 
+function clearOverlay() {
+	if (markerArray) {
+		for (i in markerArray) {
+			markerArray[i].setMap(null);
+		}
+	}
+}
+
 function codeAddress(zoom) {
-	var address = $('#region_id option:selected').text() + ' ' + jQuery('#district_id option:selected').text() + ' ' + jQuery('#sale-address').val();
-	clearOverlays();
+	var address = $('#region_id option:selected').text() + ' ' + $('#district_id option:selected').text() + ' ' + $('#sale-address').val();
+	clearOverlay();
 	geocoder.geocode({'address': address}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			map.setCenter(results[0].geometry.location);
@@ -67,10 +86,22 @@ function codeAddress(zoom) {
 	});
 }
 
-jQuery('#sale-address, #object-address').change(function(){
+$('#sale-address').change(function(){
 	codeAddress(17);
 });
-jQuery('#district_id, #region_id').change(function(){
-	jQuery('#sale-gps, #object-gps, #sale-address, #object-address').val('');
-	codeAddress(12);
+$('#district_id').change(function(){
+	$('#sale-gps, #sale-address').val('');
+	clearOverlays();
+	saleMarkers();
+}).each(function(){
+	saleMarkers();
 });
+
+function saleMarkers() {
+	$.get('/sale/markers', { district_id: $('#district_id').val() }, function(data) {
+		for (var key in data) {
+			parseLatlng(data[key]['pos']);
+			setMarkers(new google.maps.LatLng(N, E), data[key]['title']);
+		}
+	}, 'json');
+}

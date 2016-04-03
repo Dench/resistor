@@ -19,7 +19,7 @@ class ObjectSearch extends Object
     {
         return [
             [['id','region_id','district_id'], 'integer'],
-            [['name'], 'string']
+            [['name','address'], 'string']
         ];
     }
 
@@ -41,7 +41,7 @@ class ObjectSearch extends Object
      */
     public function search($params)
     {
-        $query = Object::find()->joinWith(['sale']);
+        $query = Object::find()->joinWith(['sale']);//->orderBy(['id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -62,7 +62,8 @@ class ObjectSearch extends Object
             'sale.district_id' => $this->district_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

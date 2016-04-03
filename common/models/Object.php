@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "object".
@@ -14,6 +15,7 @@ class Object extends ActiveRecord
 {
 
     public $name;
+    public $address;
     public $status;
     public $region_id;
     public $district_id;
@@ -33,6 +35,20 @@ class Object extends ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getList($id)
+    {
+        return ArrayHelper::map(
+            Sale::find()->where(['district_id' => $id])->all(),
+            'object_id',
+            function ($e) {
+                return 'ID '.$e['object_id'].' ('.$e['address'].')';
+            }
+        );
     }
 
     public function getSales()

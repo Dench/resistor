@@ -126,6 +126,9 @@ a.desc:after {
     margin-top: -33px;
     padding: 0 5px;
 }
+.navbar .fa {
+    width: 20px;
+}
 /*.fileinput-remove {
     display: none;
 }*/

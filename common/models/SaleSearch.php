@@ -32,7 +32,7 @@ class SaleSearch extends Sale
     {
         return [
             [[
-                'id', 'region_id', 'district_id', 'type_id', 'parking_id', 'bathroom', 'bedroom',
+                'id', 'object_id', 'region_id', 'district_id', 'type_id', 'parking_id', 'bathroom', 'bedroom',
                 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating',
                 'year_from', 'year_to',
                 'covered_from', 'covered_to',
@@ -85,6 +85,7 @@ class SaleSearch extends Sale
 
         $query->andFilterWhere([
             'sale.id' => $this->id,
+            'object_id' => $this->object_id,
             'region_id' => $this->region_id,
             'district_id' => $this->district_id,
             'type_id' => $this->type_id,

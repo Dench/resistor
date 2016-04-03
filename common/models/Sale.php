@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
+use yii\helpers\BaseFileHelper;
 
 /**
  * This is the model class for table "sale".
@@ -79,11 +79,11 @@ class Sale extends ActiveRecord
     public function rules()
     {
         return [
-            [['region_id', 'district_id'], 'required'],
+            [['type_id', 'region_id', 'district_id'], 'required'],
             [['price','covered', 'uncovered', 'plot'], 'string', 'max' => 11],
             [['year'], 'string', 'max' => 4],
             [['bathroom', 'bedroom'], 'string', 'max' => 2],
-            [['region_id', 'district_id', 'year', 'price', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
+            [['object_id', 'region_id', 'district_id', 'year', 'price', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
                 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'title',
                 'type_id', 'pool', 'parking_id', 'created_at', 'updated_at'], 'integer'],
             [['contacts', 'owner', 'address', 'note_user', 'note_admin'], 'string'],
@@ -110,6 +110,14 @@ class Sale extends ActiveRecord
             1 => 'Private parking',
             2 => 'Communal parking',
             3 => 'Garage',
+        ];
+    }
+
+    public static function getYesList()
+    {
+        return [
+            Yii::t('app', 'Yes'),
+            Yii::t('app', 'No')
         ];
     }
 
@@ -157,6 +165,7 @@ class Sale extends ActiveRecord
     {
         return [
             'id' => 'ID',
+            'object_id' => Yii::t('app', 'Object'),
             'user_id' => Yii::t('app', 'User'),
             'region_id' => Yii::t('app', 'Region'),
             'district_id' => Yii::t('app', 'District'),
@@ -205,7 +214,18 @@ class Sale extends ActiveRecord
         return self::find()->orderBy(['id' => SORT_DESC])->limit($limit)->all();
     }
 
-
+    public static function gpsMarkers($district_id)
+    {
+        $temp = self::find()->where(['district_id' => $district_id])->select(['gps','address','object_id'])->groupBy('object_id')->orderBy(['id' => SORT_DESC])->asArray()->all();
+        $items = [];
+        foreach ($temp as $t) {
+            $items[] = [
+                'pos' => $t['gps'],
+                'title' => 'ID '.$t['object_id'].' ('.$t['address'].')'
+            ];
+        }
+        return $items;
+    }
 
     public function getContent($lang_id = null)
     {
@@ -280,6 +300,11 @@ class Sale extends ActiveRecord
     public function afterDelete()
     {
         SalePhoto::delPhotos($this->id);
+        $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$this->id;
+        BaseFileHelper::removeDirectory($path);
+        if (!self::findOne(['object_id' => $this->object_id])) {
+            Object::findOne($this->object_id)->delete();
+        }
         return parent::afterDelete();
     }
 
@@ -288,10 +313,46 @@ class Sale extends ActiveRecord
         if (parent::beforeSave($insert)) {
             if (!$this->id) {
                 $this->user_id = Yii::$app->user->identity->id;
+                if ($this->object_id<1) {
+                    $object = new Object();
+                    $object->save();
+                    $this->object_id = $object->id;
+                }
             }
             return true;
         }
         return false;
+    }
+
+    public function afterSave($insert, $changedAttributes){
+        parent::afterSave($insert, $changedAttributes);
+
+        // Photo copy - Start
+        if (Yii::$app->request->post('photos')) {
+            $new_path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$this->id;
+            BaseFileHelper::createDirectory($new_path);
+            foreach (Yii::$app->request->post('photos') as $k => $v) {
+                $old_photo = SalePhoto::findOne($k);
+                if ($old_photo) {
+                    $old = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$v.DIRECTORY_SEPARATOR.$old_photo->id.'.jpg';
+                    if (file_exists($old)) {
+                        $new_photo = new SalePhoto();
+                        $new_photo->sale_id = $this->id;
+                        if ($new_photo->save()) {
+                            $new_photo->sort = $new_photo->id;
+                            $new_photo->hash = md5_file($old);
+                            if ($new_photo->save()) {
+                                if (!copy($old, $new_path.DIRECTORY_SEPARATOR.$new_photo->id.'.jpg')) {
+                                    $new_photo->delete();
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        // Photo copy - End
     }
 
 }

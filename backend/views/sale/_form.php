@@ -2,8 +2,10 @@
 
 use common\models\District;
 use common\models\Facilities;
+use common\models\Object;
 use common\models\Region;
 use common\models\Sale;
+use common\models\SalePhoto;
 use common\models\View;
 use kartik\depdrop\DepDrop;
 use kartik\file\FileInput;
@@ -19,6 +21,23 @@ use yii\bootstrap\ActiveForm;
 <div class="sale-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <?php if (!$model->id && $model->object_id): ?>
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('app', 'Photos') ?></h3>
+        </div>
+        <div class="box-body">
+            <?php
+                $photos = SalePhoto::getPhotos($model->object_id);
+
+                foreach ($photos as $item) {
+                    echo '<label><input type="checkbox" name="photos['.$item['id'].']" value="'.$item['sale_id'].'" style="position: absolute;"><img src="'.(Yii::$app->params['http'].Yii::$app->params['salePhotoThumb']['path'].$item['id']).'.jpg" width="120"></label> ';
+                }
+            ?>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <?php if ($model->id): ?>
         <div class="box">
@@ -84,7 +103,7 @@ use yii\bootstrap\ActiveForm;
 
                     <div class="row">
                         <div class="col-md-4">
-                            <?= $form->field($model, 'type_id')->dropDownList($model->typeList) ?>
+                            <?= $form->field($model, 'type_id')->dropDownList($model->typeList, ['prompt' => '']) ?>
                             <?= $form->field($model, 'covered')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'uncovered')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'plot')->textInput(['maxlength' => true]) ?>
@@ -97,7 +116,7 @@ use yii\bootstrap\ActiveForm;
                         </div>
                         <div class="col-md-4">
                             <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-                            <?= $form->field($model, 'title')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                            <?= $form->field($model, 'title')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                             <?= $form->field($model, 'commission')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'status')->inline()->radioList(Sale::getStatusList()) ?>
                             <?= $form->field($model, 'top')->inline()->checkbox(['value' => 1]) ?>
@@ -117,7 +136,7 @@ use yii\bootstrap\ActiveForm;
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'region_id')->dropDownList(Region::getList(), ['id' => 'region_id', 'prompt' => ''])->label(Yii::t('app', 'Region')) ?>
+                                    <?= $form->field($model, 'region_id')->dropDownList(Region::getList(), ['id' => 'region_id', 'prompt' => '']) ?>
                                 </div>
                                 <div class="col-md-6">
                                     <?=
@@ -128,8 +147,11 @@ use yii\bootstrap\ActiveForm;
                                             'depends' => ['region_id'],
                                             'placeholder' => false,
                                             'url' => Url::to(['/district/list']),
-                                        ]
-                                    ])->label(Yii::t('app', 'District'));
+                                        ],
+                                        /*'pluginEvents' => [
+                                            'change' => 'function(){ console.log(10); }'
+                                        ]*/
+                                    ]);
                                     ?>
                                 </div>
                             </div>
@@ -140,6 +162,28 @@ use yii\bootstrap\ActiveForm;
                                 </div>
                                 <div class="col-md-6">
                                     <?= $form->field($model, 'gps')->textInput(['maxlength' => true]) ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?=
+                                    $form->field($model, 'object_id')->widget(DepDrop::classname(), [
+                                        'data' => Object::getList($model->district_id),
+                                        'options'=> [
+                                            'id' => 'object_id',
+                                            'prompt' => Yii::t('app', 'New object')
+                                        ],
+                                        'pluginOptions' => [
+                                            'depends' => ['district_id'],
+                                            'placeholder' => false,
+                                            'url' => Url::to(['/object/list']),
+                                        ]
+                                    ]);
+                                    ?>
+                                </div>
+                                <div class="col-md-6">
+
                                 </div>
                             </div>
 
@@ -159,43 +203,43 @@ use yii\bootstrap\ActiveForm;
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'conditioner')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                    <?= $form->field($model, 'conditioner')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                                 </div>
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'heating')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <?= $form->field($model, 'sauna')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                                </div>
-                                <div class="col-md-6">
-                                    <?= $form->field($model, 'pool')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                    <?= $form->field($model, 'heating')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'parking_id')->dropDownList($model->parkingList) ?>
+                                    <?= $form->field($model, 'sauna')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                                 </div>
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'furniture')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <?= $form->field($model, 'solarpanel')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
-                                </div>
-                                <div class="col-md-6">
-                                    <?= $form->field($model, 'tennis')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                    <?= $form->field($model, 'pool')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'storage')->dropDownList(['', Yii::t('app', 'Yes'), Yii::t('app', 'No')]) ?>
+                                    <?= $form->field($model, 'parking_id')->dropDownList($model->parkingList, ['prompt' => '']) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'furniture')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'solarpanel')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'tennis')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $form->field($model, 'storage')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                                 </div>
                                 <div class="col-md-6">
 

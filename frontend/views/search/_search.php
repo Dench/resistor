@@ -233,7 +233,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'conditioner')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'conditioner')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),
@@ -241,7 +241,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'sauna')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'sauna')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),
@@ -249,7 +249,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'heating')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'heating')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),
@@ -257,7 +257,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'pool')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'pool')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),
@@ -270,7 +270,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'id')->textInput() ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'furniture')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'furniture')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),
@@ -278,7 +278,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'solarpanel')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'solarpanel')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),
@@ -286,7 +286,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'tennis')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'tennis')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),
@@ -294,7 +294,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'storage')->dropDownList([Yii::t('app', 'Yes'), Yii::t('app', 'No')], [
+            <?= $form->field($model, 'storage')->dropDownList(Sale::getYesList(), [
                 'class' => 'form-control selectpicker',
                 'data-style' => 'form-control',
                 'title' => Yii::t('app', 'Choose One'),

@@ -160,7 +160,8 @@ class DistrictController extends Controller
     {
         if (isset($_POST['depdrop_parents'])) {
             if ($parents = $_POST['depdrop_parents']) {
-                $out = District::getList($parents[0]);
+                $out[-1] = '';
+                $out += District::getList($parents[0]);
                 foreach ($out as $key => $value) {
                     $result[] = ['id' => $key, 'name' => $value];
                 }

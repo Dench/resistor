@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Lang;
+use common\models\Object;
 use common\models\SaleLang;
 use common\models\SalePhoto;
 use common\models\SaleSearch;
@@ -10,6 +11,7 @@ use Yii;
 use common\models\Sale;
 use yii\base\Model;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -87,10 +89,21 @@ class SaleController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($object_id = 0)
     {
         $model = new Sale();
         $model->status = 1;
+
+        if ($object_id) {
+            $object = Object::findOne($object_id);
+            if ($object) {
+                $temp = ArrayHelper::toArray($object->sale);
+                unset($temp['id']);
+                foreach ($temp as $k => $v) {
+                    $model->$k = $v;
+                }
+            }
+        }
 
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
             $model_content[$i] = new SaleLang();
@@ -200,6 +213,9 @@ class SaleController extends Controller
                 if ($model->save()) {
                     if (!$file->saveAs($path.DIRECTORY_SEPARATOR.$name)) {
                         $model->delete();
+                    } else {
+                        $model->hash = md5_file($path.DIRECTORY_SEPARATOR.$name);
+                        $model->save();
                     }
                 }
             }
@@ -207,5 +223,10 @@ class SaleController extends Controller
             return true;
         }
         return false;
+    }
+
+    public function actionMarkers($district_id)
+    {
+        print json_encode(Sale::gpsMarkers($district_id));
     }
 }

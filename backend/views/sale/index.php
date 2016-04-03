@@ -23,6 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 [
+                    'attribute' => 'object_id',
+                    'headerOptions' => ['width' => '50'],
+                ],
+                [
                     'attribute' => 'id',
                     'headerOptions' => ['width' => '50'],
                 ],
@@ -39,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filter' => District::getListAll(),
                     'name' => 'district.content.name',
                 ],
+                'address',
                 [
                     'attribute' => 'created_at',
                     'format' =>  ['date', 'dd.MM.Y'],
