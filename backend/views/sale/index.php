@@ -23,12 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 [
-                    'attribute' => 'object_id',
-                    'headerOptions' => ['width' => '50'],
-                ],
-                [
-                    'attribute' => 'id',
-                    'headerOptions' => ['width' => '50'],
+                    'attribute' => 'code',
+                    'headerOptions' => ['width' => '100'],
                 ],
                 'name',
                 [
@@ -64,9 +60,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'status',
                     'filter' => Sale::getStatusList(),
                     'name' => 'statusName',
+                    'pjax' => 1,
                     'cssClasses' => [
                         Sale::STATUS_HIDE => 'default',
                         Sale::STATUS_ACTIVE => 'success',
+                    ],
+                ],
+                [
+                    'class' => SetColumn::className(),
+                    'attribute' => 'sold',
+                    'filter' => Sale::getSoldList(),
+                    'name' => 'soldName',
+                    'cssClasses' => [
+                        Sale::SOLD_ACTUAL => 'success',
+                        Sale::SOLD_US => 'default',
+                        Sale::SOLD_OTHER => 'default',
                     ],
                 ],
 

@@ -2,7 +2,7 @@ var N = 35.0457574;
 var E = 33.2241134;
 var zoom = 10;
 var gps = $('#sale-gps').val();
-if (gps != '') {
+if (gps) {
 	parseLatlng(gps);
 	zoom = 17;
 }
@@ -36,12 +36,20 @@ function setMarker(pos) {
 	});
 }
 
-function setMarkers(pos, title) {
+function setMarkers(pos, title, status, link) {
+	var icon;
+	if (status == 1)
+		icon = 'http://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png';
+	else
+		icon = 'http://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png';
 	var marker = new google.maps.Marker({
 		position: pos,
 		map: map,
 		title: title,
-		icon: 'http://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png'
+		icon: icon
+	});
+	google.maps.event.addListener(marker, 'click', function() {
+		window.open(link);
 	});
 	markersArray.push(marker);
 }
@@ -92,16 +100,16 @@ $('#sale-address').change(function(){
 $('#district_id').change(function(){
 	$('#sale-gps, #sale-address').val('');
 	clearOverlays();
-	saleMarkers();
+	saleMarkers($('#district_id').val());
 }).each(function(){
-	saleMarkers();
+	saleMarkers($('#district_id').val());
 });
 
-function saleMarkers() {
-	$.get('/sale/markers', { district_id: $('#district_id').val() }, function(data) {
+function saleMarkers(district_id) {
+	$.get('/sale/markers', { district_id: district_id }, function(data) {
 		for (var key in data) {
 			parseLatlng(data[key]['pos']);
-			setMarkers(new google.maps.LatLng(N, E), data[key]['title']);
+			setMarkers(new google.maps.LatLng(N, E), data[key]['title'], data[key]['status'], data[key]['link']);
 		}
 	}, 'json');
 }

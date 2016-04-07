@@ -2,15 +2,19 @@
 
 namespace common\models;
 
+use backend\models\SaleFiles;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\BaseFileHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "sale".
  *
  * @property integer $id
+ * @property integer $code
+ * @property integer $object_id
  * @property integer $region_id
  * @property integer $district_id
  * @property integer $type_id
@@ -45,8 +49,13 @@ class Sale extends ActiveRecord
 {
     const STATUS_HIDE = 0;
     const STATUS_ACTIVE = 1;
+
     const TOP_DISABLED = 0;
     const TOP_ENABLED = 1;
+
+    const SOLD_ACTUAL = 1;
+    const SOLD_US = 2;
+    const SOLD_OTHER = 3;
 
     /**
      * @inheritdoc
@@ -94,6 +103,8 @@ class Sale extends ActiveRecord
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_HIDE]],
             ['top', 'default', 'value' => self::TOP_DISABLED],
             ['top', 'in', 'range' => [self::TOP_ENABLED, self::TOP_DISABLED]],
+            ['sold', 'default', 'value' => self::SOLD_ACTUAL],
+            ['sold', 'in', 'range' => [self::SOLD_ACTUAL, self::SOLD_US, self::SOLD_OTHER]],
             [['view_ids', 'facility_ids'], 'each', 'rule' => ['integer']],
         ];
     }
@@ -158,6 +169,21 @@ class Sale extends ActiveRecord
         return $a[$this->status];
     }
 
+    public static function getSoldList()
+    {
+        return [
+            self::SOLD_ACTUAL => Yii::t('app', 'Actual'),
+            self::SOLD_US => Yii::t('app', 'Sold us'),
+            self::SOLD_OTHER => Yii::t('app', 'Sold other'),
+        ];
+    }
+
+    public function getSoldName()
+    {
+        $a = self::getSoldList();
+        return $a[$this->sold];
+    }
+
     /**
      * @inheritdoc
      */
@@ -166,6 +192,7 @@ class Sale extends ActiveRecord
         return [
             'id' => 'ID',
             'object_id' => Yii::t('app', 'Object'),
+            'code' => Yii::t('app', 'Code'),
             'user_id' => Yii::t('app', 'User'),
             'region_id' => Yii::t('app', 'Region'),
             'district_id' => Yii::t('app', 'District'),
@@ -196,6 +223,7 @@ class Sale extends ActiveRecord
             'note_admin' => Yii::t('app', 'Note for admin'),
             'address' => Yii::t('app', 'Address'),
             'status' => Yii::t('app', 'Status'),
+            'sold' => Yii::t('app', 'Sold'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
             'view_ids' => Yii::t('app', 'View from the window'),
@@ -216,12 +244,21 @@ class Sale extends ActiveRecord
 
     public static function gpsMarkers($district_id)
     {
-        $temp = self::find()->where(['district_id' => $district_id])->select(['gps','address','object_id'])->groupBy('object_id')->orderBy(['id' => SORT_DESC])->asArray()->all();
+        $temp = self::find();
+
+        if ($district_id > 0) {
+            $temp = $temp->where(['district_id' => $district_id]);
+        }
+
+        $temp = $temp->select(['status','gps','address','object_id','name','created_at'])->groupBy('object_id')->orderBy(['id' => SORT_DESC])->asArray()->all();
+
         $items = [];
         foreach ($temp as $t) {
             $items[] = [
+                'link' => Url::toRoute(['sale/create', 'object_id' => $t['object_id']]),
+                'status' => $t['status'],
                 'pos' => $t['gps'],
-                'title' => 'ID '.$t['object_id'].' ('.$t['address'].')'
+                'title' => 'ID '.$t['object_id'].' ('.$t['address'].') '.$t['name'].' - '.date('d.m.Y', $t['created_at'])
             ];
         }
         return $items;
@@ -266,6 +303,11 @@ class Sale extends ActiveRecord
     public function getPhotos()
     {
         return $this->hasMany(SalePhoto::className(), ['sale_id' => 'id']);
+    }
+
+    public function getFiles()
+    {
+        return $this->hasMany(SaleFiles::className(), ['sale_id' => 'id']);
     }
 
     public function getRegion()
@@ -324,17 +366,18 @@ class Sale extends ActiveRecord
         return false;
     }
 
-    public function afterSave($insert, $changedAttributes){
+    public function afterSave($insert, $changedAttributes)
+    {
         parent::afterSave($insert, $changedAttributes);
 
         // Photo copy - Start
-        if (Yii::$app->request->post('photos')) {
-            $new_path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$this->id;
+        if ($insert && Yii::$app->request->post('photos')) {
+            $new_path = Yii::$app->params['uploadSalePath'] . DIRECTORY_SEPARATOR . $this->id;
             BaseFileHelper::createDirectory($new_path);
             foreach (Yii::$app->request->post('photos') as $k => $v) {
                 $old_photo = SalePhoto::findOne($k);
                 if ($old_photo) {
-                    $old = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$v.DIRECTORY_SEPARATOR.$old_photo->id.'.jpg';
+                    $old = Yii::$app->params['uploadSalePath'] . DIRECTORY_SEPARATOR . $v . DIRECTORY_SEPARATOR . $old_photo->id . '.jpg';
                     if (file_exists($old)) {
                         $new_photo = new SalePhoto();
                         $new_photo->sale_id = $this->id;
@@ -342,7 +385,7 @@ class Sale extends ActiveRecord
                             $new_photo->sort = $new_photo->id;
                             $new_photo->hash = md5_file($old);
                             if ($new_photo->save()) {
-                                if (!copy($old, $new_path.DIRECTORY_SEPARATOR.$new_photo->id.'.jpg')) {
+                                if (!copy($old, $new_path . DIRECTORY_SEPARATOR . $new_photo->id . '.jpg')) {
                                     $new_photo->delete();
                                 }
                             }

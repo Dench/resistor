@@ -116,18 +116,23 @@ a.desc:after {
 }
 .file-preview-frame img {
     height: 160px;
-    vertical-align: baseline;
 }
 .file-footer-caption {
     display: none;
 }
 .file-actions {
-    position: relative;
-    margin-top: -33px;
+    margin-top: -28px;
     padding: 0 5px;
+    position: absolute;
+    right: 0;
 }
 .navbar .fa {
     width: 20px;
+}
+a.attachment {
+    display: block;
+    line-height: 32px;
+    padding-right: 38px;
 }
 /*.fileinput-remove {
     display: none;

@@ -38,6 +38,7 @@ return [
             'class'=>'common\components\LangUrlManager',
             'rules' => [
                 '/' => 'site/index',
+                '/download/<id:\d+>/<name>' => 'download/index'
             ]
         ],
         'i18n' => [

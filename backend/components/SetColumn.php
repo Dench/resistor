@@ -12,6 +12,8 @@ class SetColumn extends DataColumn
      * @var callable
      */
     public $name;
+
+    public $pjax;
     /**
      *
      * @var array

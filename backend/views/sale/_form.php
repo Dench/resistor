@@ -1,8 +1,8 @@
 <?php
 
+use backend\assets\MapAsset;
 use common\models\District;
 use common\models\Facilities;
-use common\models\Object;
 use common\models\Region;
 use common\models\Sale;
 use common\models\SalePhoto;
@@ -12,6 +12,8 @@ use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
+
+MapAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Sale */
@@ -107,12 +109,24 @@ use yii\bootstrap\ActiveForm;
                             <?= $form->field($model, 'covered')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'uncovered')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'plot')->textInput(['maxlength' => true]) ?>
+                            <div class="form-group">
+                                <label><?= Yii::t('app', 'Object') ?></label>
+                                <?php
+                                    if ($model->object_id) {
+                                        $object = 'ID '.$model->object->id.' ('.$model->object->sale->address.') '.date('d.m.Y', $model->object->sale->created_at);
+                                    } else {
+                                        $object = Yii::t('app', 'New object');
+                                    }
+                                    echo Html::textInput('', $object, ['class' => 'form-control', 'readonly' => true]);
+                                ?>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'year')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'bedroom')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'bathroom')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'sold')->dropDownList($model->soldList) ?>
                         </div>
                         <div class="col-md-4">
                             <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
@@ -162,28 +176,6 @@ use yii\bootstrap\ActiveForm;
                                 </div>
                                 <div class="col-md-6">
                                     <?= $form->field($model, 'gps')->textInput(['maxlength' => true]) ?>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <?=
-                                    $form->field($model, 'object_id')->widget(DepDrop::classname(), [
-                                        'data' => Object::getList($model->district_id),
-                                        'options'=> [
-                                            'id' => 'object_id',
-                                            'prompt' => Yii::t('app', 'New object')
-                                        ],
-                                        'pluginOptions' => [
-                                            'depends' => ['district_id'],
-                                            'placeholder' => false,
-                                            'url' => Url::to(['/object/list']),
-                                        ]
-                                    ]);
-                                    ?>
-                                </div>
-                                <div class="col-md-6">
-
                                 </div>
                             </div>
 
@@ -289,6 +281,46 @@ use yii\bootstrap\ActiveForm;
                     <?= $form->field($model, 'owner')->textarea(['rows' => 3]) ?>
                 </div>
             </div>
+
+            <?php if ($model->id): ?>
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= Yii::t('app', 'Add Attachments') ?></h3>
+                </div>
+                <div class="box-body">
+                    <?php
+                        $preview = [];
+                        $preview_config = [];
+                        foreach($model->files as $item){
+                            $preview[] = Html::a($item->name, Url::toRoute(['download/index', 'id' => $item->sale_id, 'name' => $item->name]), ['class' => 'attachment']);
+                            $preview_config[] = [
+                                'url' => 'delete-file',
+                                'key' => $item->id
+                            ];
+                        }
+                        echo FileInput::widget([
+                            'name' => 'files',
+                            'pluginOptions' => [
+                                'uploadUrl' => Url::to(['upload-file']),
+                                'showCaption' => false,
+                                'showRemove' => false,
+                                'showUpload' => false,
+                                'overwriteInitial' => false,
+                                'dropZoneEnabled' => false,
+                                'showClose' => false,
+                                'browseClass' => 'btn btn-primary btn-block',
+                                'initialPreview' => $preview,
+                                'initialPreviewConfig' => $preview_config,
+                                'uploadExtraData' => [
+                                    'sale_id' => $model->id
+                                ]
+                            ],
+                            'options' => ['multiple' => true]
+                        ]);
+                    ?>
+                </div>
+            </div>
+            <?php endif; ?>
 
         </div>
     </div>

@@ -66,10 +66,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'headerOptions' => ['width' => '40'],
-                'template' => '{link}',
+                'template' => '{link} {create}',
                 'buttons' => [
                     'link' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app', 'View'), Url::toRoute(['sale/update', 'id' => $model->sale->id]), ['class' => 'btn btn-primary btn-xs']);
+                    },
+                    'create' => function ($url, $model, $key) {
                         return Html::a(Yii::t('app', 'Create'), Url::toRoute(['sale/create', 'object_id' => $model->id]), ['class' => 'btn btn-success btn-xs']);
                     },
                 ],

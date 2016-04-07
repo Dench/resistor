@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\SaleFiles;
 use common\models\Lang;
 use common\models\Object;
 use common\models\SaleLang;
@@ -53,8 +54,6 @@ class SaleController extends Controller
 
     public function init()
     {
-        Yii::$app->view->registerJsFile('http://maps.googleapis.com/maps/api/js',['position' => \yii\web\View::POS_HEAD]);
-        Yii::$app->view->registerJsFile('/js/gapi.js', ['depends' => 'yii\web\JqueryAsset']);
     }
 
     /**
@@ -92,7 +91,6 @@ class SaleController extends Controller
     public function actionCreate($object_id = 0)
     {
         $model = new Sale();
-        $model->status = 1;
 
         if ($object_id) {
             $object = Object::findOne($object_id);
@@ -103,7 +101,13 @@ class SaleController extends Controller
                     $model->$k = $v;
                 }
             }
+            $model->view_ids = ArrayHelper::toArray($object->sale->view_ids);
+            $model->facility_ids = ArrayHelper::toArray($object->sale->facility_ids);
         }
+
+        $model->status = 1;
+        $model->sold = 1;
+        $model->code = rand(100000000,999999999);
 
         for ($i = 1; $i <= Lang::find()->count(); $i++) {
             $model_content[$i] = new SaleLang();
@@ -121,6 +125,8 @@ class SaleController extends Controller
                 $content->lang_id = $key;
                 $content->save(false);
             }
+            $model->code = sprintf("%02d", $model->region_id).sprintf("%02d", $model->district_id).$model->id;
+            $model->save();
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -151,6 +157,8 @@ class SaleController extends Controller
             foreach ($model_content as $key => $content) {
                 $content->save(false);
             }
+            $model->code = sprintf("%02d", $model->region_id).sprintf("%02d", $model->district_id).$model->id;
+            $model->update();
             return $this->redirect(['/sale']);
         } else {
             return $this->render('update', [
@@ -216,6 +224,41 @@ class SaleController extends Controller
                     } else {
                         $model->hash = md5_file($path.DIRECTORY_SEPARATOR.$name);
                         $model->save();
+                    }
+                }
+            }
+            sleep(1);
+            return true;
+        }
+        return false;
+    }
+
+    public function actionDeleteFile()
+    {
+        $id = Yii::$app->request->post('key');
+        $model = SaleFiles::findOne($id);
+        if ($model ->delete())
+            return true;
+        return false;
+    }
+
+    public function actionUploadFile()
+    {
+        if (Yii::$app->request->isPost) {
+            $id = Yii::$app->request->post('sale_id');
+            $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$id;
+            BaseFileHelper::createDirectory($path);
+            $file = UploadedFile::getInstanceByName('files');
+            if (file_exists($path.DIRECTORY_SEPARATOR.$file->name)) {
+                return false;
+            }
+            $model = new SaleFiles();
+            $model->sale_id = $id;
+            $model->name = $file->name;
+            if ($model->save()) {
+                if ($model->save()) {
+                    if (!$file->saveAs($path.DIRECTORY_SEPARATOR.$model->name)) {
+                        $model->delete();
                     }
                 }
             }

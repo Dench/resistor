@@ -32,7 +32,7 @@ class SaleSearch extends Sale
     {
         return [
             [[
-                'id', 'object_id', 'region_id', 'district_id', 'type_id', 'parking_id', 'bathroom', 'bedroom',
+                'id', 'code', 'object_id', 'region_id', 'district_id', 'type_id', 'parking_id', 'bathroom', 'bedroom',
                 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating',
                 'year_from', 'year_to',
                 'covered_from', 'covered_to',
@@ -41,7 +41,7 @@ class SaleSearch extends Sale
                 'bathroom_from', 'bathroom_to',
                 'bedroom_from', 'bedroom_to',
                 'price_from', 'price_to',
-                'storage', 'tennis', 'status', 'created_at', 'updated_at', 'top', 'title'
+                'storage', 'tennis', 'status', 'sold', 'created_at', 'updated_at', 'top', 'title'
             ], 'integer'],
             [[
                 'name', 'commission', 'gps', 'contacts', 'owner', 'address', 'view_ids', 'facility_ids'
@@ -85,6 +85,7 @@ class SaleSearch extends Sale
 
         $query->andFilterWhere([
             'sale.id' => $this->id,
+            'code' => $this->code,
             'object_id' => $this->object_id,
             'region_id' => $this->region_id,
             'district_id' => $this->district_id,
@@ -100,6 +101,7 @@ class SaleSearch extends Sale
             'storage' => $this->storage,
             'tennis' => $this->tennis,
             'status' => $this->status,
+            'sold' => $this->sold,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'top' => $this->top,
