@@ -134,6 +134,6 @@ a.attachment {
     line-height: 32px;
     padding-right: 38px;
 }
-/*.fileinput-remove {
+.file-upload-indicator {
     display: none;
-}*/
+}
