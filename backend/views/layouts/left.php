@@ -7,7 +7,7 @@
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
                     ['label' => 'Menu', 'options' => ['class' => 'header']],
-                    ['label' => Yii::t('app', 'Sales'), 'icon' => 'fa fa-tags', 'url' => ['/sale', 'sort' => '-created_at']],
+                    ['label' => Yii::t('app', 'Sales'), 'icon' => 'fa fa-tags', 'url' => ['/sale']],
                     ['label' => Yii::t('app', 'Objects'), 'icon' => 'fa fa-home', 'url' => ['/object']],
                     ['label' => Yii::t('app', 'Map'), 'icon' => 'fa fa-map-marker', 'url' => ['/map']],
                     ['label' => 'Menu', 'options' => ['class' => 'header']],
