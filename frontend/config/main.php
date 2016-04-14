@@ -36,7 +36,7 @@ return [
             'showScriptName' => false,
             'class'=>'common\components\LangUrlManager',
             'rules' => [
-                '<action:(login|logout|about|signup|contact|request-password-reset|reset-password)>' => 'site/<action>',
+                '<action:(login|logout|agent|about|signup|contact|request-password-reset|reset-password)>' => 'site/<action>',
                 '/' => 'site/index',
                 'personal' => 'personal/index',
                 'sale/<id:\d+>' => 'sale/index',

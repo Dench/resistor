@@ -12,6 +12,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 AppAssetIE9::register($this);
@@ -51,7 +52,7 @@ FontAwesome::register($this);
             <div class="col-xs-3 col-sm-2 col-md-2">
                 <?php
                     if (!Yii::$app->user->isGuest) {
-                        echo Html::a('<i class="fa fa-user fa-fw"></i> '.Yii::t('app', 'Personal'), '/personal');
+                        echo Html::a('<i class="fa fa-user fa-fw"></i> '.Yii::t('app', 'Personal'), Url::toRoute('personal/index'));
                     }
                 ?>
             </div>
@@ -72,7 +73,7 @@ FontAwesome::register($this);
     $menuItems = [
         ['label' => Yii::t('app', 'Home'), 'url' => ['/'], 'active' => (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'index')],
         ['label' => Yii::t('app', 'Property search'), 'url' => ['/search'], 'active' => Yii::$app->controller->id == 'search'],
-        ['label' => Yii::t('app', 'Agents'), 'url' => ['/site/agent']],
+        ['label' => Yii::t('app', 'Agents to'), 'url' => ['/site/agent']],
         ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
         ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
     ];

@@ -118,9 +118,9 @@ class Sale extends ActiveRecord
     public static function getParkingList()
     {
         return [
-            1 => 'Private parking',
-            2 => 'Communal parking',
-            3 => 'Garage',
+            1 => Yii::t('app', 'Private parking'),
+            2 => Yii::t('app', 'Communal parking'),
+            3 => Yii::t('app', 'Garage'),
         ];
     }
 
@@ -135,9 +135,9 @@ class Sale extends ActiveRecord
     public static function getTypeList()
     {
         return [
-            1 => 'Townhouse',
-            2 => 'Villa',
-            3 => 'Apartments',
+            1 => Yii::t('app', 'Townhouse'),
+            2 => Yii::t('app', 'Villa'),
+            3 => Yii::t('app', 'Apartments'),
         ];
     }
 

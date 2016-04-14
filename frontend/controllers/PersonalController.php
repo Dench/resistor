@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Broker;
 use common\models\User;
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -11,7 +13,18 @@ class PersonalController extends Controller
 {
     public function actionIndex()
     {
-        if (\Yii::$app->user->isGuest) {
+        $user = $this->findModel(Yii::$app->user->identity->getId());
+        $broker = Broker::findOne($user->id);
+
+        return $this->render('index', [
+            'user' => $user,
+            'broker' => $broker
+        ]);
+    }
+
+    public function actionUser()
+    {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -22,13 +35,54 @@ class PersonalController extends Controller
                 $model->setPassword($model->password);
             }
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'The update was successful.');
-                return $this->redirect('');
+                Yii::$app->session->setFlash('success', Yii::t('app', 'The update was successful.'));
+                return $this->redirect(Url::toRoute('personal/index'));
             }
         }
 
-        return $this->render('index', [
-        	'model' => $model,
+        return $this->render('user', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionBroker()
+    {
+        $model = Broker::findOne(Yii::$app->user->identity->getId());
+        $old = $model->sale_add;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate() && $model->getDirtyAttributes()) {
+                $mes = [];
+                foreach ($model->getDirtyAttributes() as $k => $v) {
+                    if ($k == 'name' && $model->type_id == 1) {
+                        $mes[$k] = [ Yii::t('app', 'Full name'), $model->name ];
+                    } else {
+                        $mes[$k] = [$model->getAttributeLabel($k), $model->$k];
+                    }
+                }
+                if ($mes['sale_add']) {
+                    unset($mes['sale_add']);
+                }
+                if ($old != $model->sale_add) {
+                   $mes[] = [ Yii::t('app', 'I want to add real estate'), ($model->sale_add ? Yii::t('app', 'Yes') : Yii::t('app', 'No')) ];
+                }
+                $message = "";
+                foreach ($mes as $m) {
+                    $message .= "<p><b>".$m[0].":</b> ".$m[1]."</p>";
+                }
+                $new = Broker::findOne($model->user_id);
+                if ($message) {
+                    $new->edit = $message;
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Sent admin to verify.'));
+                } else {
+                    $new->edit = '';
+                }
+                $new->save();
+                return $this->redirect(Url::toRoute('personal/index'));
+            }
+        }
+
+        return $this->render('broker', [
+            'model' => $model,
         ]);
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use backend\models\Agent;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -92,6 +93,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function getGroup()
     {
         return $this->hasOne(Group::className(), ['id' => 'group_id']);
+    }
+
+    public function getBroker()
+    {
+        return $this->hasOne(Broker::className(), ['user_id' => 'id']);
     }
 
     public function getStatusName()
