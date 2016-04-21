@@ -31,7 +31,7 @@ function setMark(pos) {
 	markerArray.push(marker);
 	google.maps.event.addListener(marker, "dragend", function() {
 		getLatlng(marker.getPosition());
-		$('#sale-gps').val(N+','+E); 
+		$('#sale-gps').val(N+','+E);
 	});
 }
 
