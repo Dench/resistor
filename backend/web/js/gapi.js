@@ -21,6 +21,20 @@ if (zoom == 17) {
 	setMarker(myLatlng);
 }
 
+function setMark(pos) {
+	map.setCenter(pos);
+	var marker = new google.maps.Marker({
+		position: pos,
+		map: map,
+		draggable: true
+	});
+	markerArray.push(marker);
+	google.maps.event.addListener(marker, "dragend", function() {
+		getLatlng(marker.getPosition());
+		$('#sale-gps').val(N+','+E);
+	});
+}
+
 function setMarker(pos) {
 	var marker = new google.maps.Marker({
 		position: pos,
@@ -94,9 +108,16 @@ function codeAddress(zoom) {
 	});
 }
 
-$('#sale-address').change(function(){
+$('#sale-gps').next().click(function(){
+	clearOverlay();
+	parseLatlng($(this).prev().val());
+	setMark(new google.maps.LatLng(N, E));
+});
+
+$('#sale-address').next().click(function(){
 	codeAddress(17);
 });
+
 $('#district_id').change(function(){
 	$('#sale-gps, #sale-address').val('');
 	clearOverlays();

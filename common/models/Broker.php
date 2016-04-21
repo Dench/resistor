@@ -66,7 +66,7 @@ class Broker extends ActiveRecord
             'phone' => Yii::t('app', 'Phone'),
             'email' => Yii::t('app', 'Email'),
             'address' => Yii::t('app', 'Address'),
-            'contact' => Yii::t('app', 'Contact'),
+            'contact' => Yii::t('app', 'Additional contacts'),
             'recommend' => Yii::t('app', 'Who recommended?'),
             'note_user' => Yii::t('app', 'Comments'),
             'note_admin' => Yii::t('app', 'Note for admin'),
@@ -87,6 +87,11 @@ class Broker extends ActiveRecord
     {
         $a = self::getTypeList();
         return $a[$this->type_id];
+    }
+
+    public static function notifyEdit()
+    {
+        return self::find()->where(['!=', 'edit', ''])->count();
     }
 
     /**

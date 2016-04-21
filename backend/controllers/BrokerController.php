@@ -97,6 +97,8 @@ class BrokerController extends Controller
     {
         $model = $this->findModel($id);
 
+        if (Yii::$app->request->post('ok')) $model->edit = '';
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/broker']);
         }

@@ -13,6 +13,10 @@ class PersonalController extends Controller
 {
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $user = $this->findModel(Yii::$app->user->identity->getId());
         $broker = Broker::findOne($user->id);
 
@@ -47,6 +51,10 @@ class PersonalController extends Controller
 
     public function actionBroker()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = Broker::findOne(Yii::$app->user->identity->getId());
         $old = $model->sale_add;
         if ($model->load(Yii::$app->request->post())) {

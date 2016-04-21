@@ -73,6 +73,19 @@ use yii\widgets\MaskedInput;
                 </div>
             </div>
         </div>
+        <?php if ($model->edit): ?>
+        <div class="col-md-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <?= Yii::t('app', 'Registration data') ?>
+                </div>
+                <div class="box-body">
+                    <?= $model->edit ?>
+                    <?= Html::label(Html::checkbox('ok', false, ['name' => 'ok']).' OK') ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 
     <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

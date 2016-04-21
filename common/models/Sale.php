@@ -88,11 +88,14 @@ class Sale extends ActiveRecord
     public function rules()
     {
         return [
+            ['price', 'filter', 'filter' => function ($value) {
+                return preg_replace('/,/', '', $value);
+            }],
             [['type_id', 'region_id', 'district_id'], 'required'],
             [['price','covered', 'uncovered', 'plot'], 'string', 'max' => 11],
             [['year'], 'string', 'max' => 4],
             [['bathroom', 'bedroom'], 'string', 'max' => 2],
-            [['object_id', 'region_id', 'district_id', 'year', 'price', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
+            [['object_id', 'region_id', 'district_id', 'year', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
                 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'title',
                 'type_id', 'pool', 'parking_id', 'created_at', 'updated_at'], 'integer'],
             [['contacts', 'owner', 'address', 'note_user', 'note_admin'], 'string'],

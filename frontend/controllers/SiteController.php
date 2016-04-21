@@ -3,13 +3,14 @@ namespace frontend\controllers;
 
 use common\models\Sale;
 use common\models\SaleSearch;
-use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use Yii;
 use yii\base\InvalidParamException;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -92,7 +93,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -155,8 +156,8 @@ class SiteController extends Controller
     {
         $model = new LoginForm();
         return $this->render('agent', [
-        'model' => $model,
-    ]);
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -167,10 +168,12 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
+        $model->type_id = 1;
+        
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                    return $this->goPersonal();
                 }
             }
         }
@@ -227,5 +230,10 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function goPersonal()
+    {
+        return Yii::$app->getResponse()->redirect(Url::toRoute('personal/index'));
     }
 }

@@ -12,6 +12,7 @@ use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
+use yii\widgets\MaskedInput;
 
 MapAsset::register($this);
 
@@ -129,7 +130,15 @@ MapAsset::register($this);
                             <?= $form->field($model, 'sold')->dropDownList($model->soldList) ?>
                         </div>
                         <div class="col-md-4">
-                            <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'price')->widget(MaskedInput::className(), [
+                                'clientOptions' => [
+                                    'alias' =>  'decimal',
+                                    'groupSeparator' => '.',
+                                    'autoGroup' => true,
+                                    'rightAlign' => false
+                                ],
+                                'options' => ['maxlength' => 11, 'class' => 'form-control']
+                            ]) ?>
                             <?= $form->field($model, 'title')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                             <?= $form->field($model, 'commission')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'status')->inline()->radioList(Sale::getStatusList()) ?>
@@ -172,10 +181,10 @@ MapAsset::register($this);
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+                                    <?= $form->field($model, 'address', ['template' => "{label}\n<div class=\"input-group\">{input}\n<span class=\"input-group-btn\"><button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span></button></span></div>\n{hint}\n{error}"])->textInput(['maxlength' => true]) ?>
                                 </div>
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'gps')->textInput(['maxlength' => true]) ?>
+                                    <?= $form->field($model, 'gps', ['template' => "{label}\n<div class=\"input-group\">{input}\n<span class=\"input-group-btn\"><button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span></button></span></div>\n{hint}\n{error}"])->textInput(['maxlength' => true]) ?>
                                 </div>
                             </div>
 

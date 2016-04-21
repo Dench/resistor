@@ -1,8 +1,9 @@
 <aside class="main-sidebar">
 
     <section class="sidebar">
-
         <?php
+            $notifyEdit = common\models\Broker::notifyEdit();
+            $notifyEdit = $notifyEdit ? " (".$notifyEdit.")" : '';
             $items = [
                 ['label' => Yii::t('app', 'Sales'), 'options' => ['class' => 'header']],
                 ['label' => Yii::t('app', 'Sales'), 'icon' => 'fa fa-tags', 'url' => ['/sale']],
@@ -11,7 +12,7 @@
 
                 ['label' => Yii::t('app', 'Users'), 'options' => ['class' => 'header']],
                 ['label' => Yii::t('app', 'Users'), 'icon' => 'fa fa-user', 'url' => ['/user']],
-                ['label' => Yii::t('app', 'Agents'), 'icon' => 'fa fa-user', 'url' => ['/broker']],
+                ['label' => Yii::t('app', 'Agents').$notifyEdit, 'icon' => 'fa fa-user', 'url' => ['/broker']],
 
                 ['label' => Yii::t('app', 'Params'), 'options' => ['class' => 'header']],
                 ['label' => Yii::t('app', 'Regions'), 'icon' => 'fa fa-map', 'url' => ['/region']],

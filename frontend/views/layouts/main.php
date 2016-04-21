@@ -94,7 +94,7 @@ FontAwesome::register($this);
             <div class="row">
                 <div class="col-sm-8">
                     <div class="copy">
-                        All Rights Reserved ® <a href="#" target="_blank">Cyprus</a>
+                        <?= Yii::t('app', 'All Rights Reserved') ?> ® <a href="#" target="_blank">Cyprus</a>
                     </div>
                 </div>
                 <div class="col-sm-4 text-right">

@@ -18,7 +18,7 @@ $this->title = Yii::t('app', 'Edit');
             <div class="col-md-6">
                 <?php $form = ActiveForm::begin(); ?>
 
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label($model->type_id == 1 ? Yii::t('app', 'Full name') : Yii::t('app', 'Name')) ?>
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label($model->type_id == 1 ? Yii::t('app', 'Full name') : Yii::t('app', 'Company name')) ?>
 
                 <?php
                 if ($model->type_id == 1) {
@@ -50,10 +50,12 @@ $this->title = Yii::t('app', 'Edit');
                 <?php ActiveForm::end(); ?>
 
             </div>
+            <?php if ($model->edit): ?>
             <div class="col-md-6">
                 <h3><?= Yii::t('app', 'Sent admin to verify.') ?></h3>
                 <?= $model->edit ?>
             </div>
+            <?php endif; ?>
         </div>
 
     </div>

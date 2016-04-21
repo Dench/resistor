@@ -34,6 +34,7 @@ $this->title = Yii::t('app', 'Agents');
 
                     <div class="form-group">
                         <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                        <?= Html::a(Yii::t('app', 'Sign up'), Url::toRoute('site/signup'), ['class' => 'btn btn-link']) ?>
                     </div>
 
                 <?php ActiveForm::end(); ?>

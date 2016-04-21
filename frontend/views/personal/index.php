@@ -12,6 +12,7 @@ $this->title = Yii::t('app', 'Personal');
 <section class="wrapper-sm">
     <div class="container">
 
+        <?= Html::a('<i class="fa fa-sign-out"></i> '.Yii::t('app', 'Logout'), ['site/logout'], ['data-method' => 'post', 'class' => 'btn btn-primary pull-right']) ?>
         <h1><?= $this->title ?></h1>
 
         <div class="row">
