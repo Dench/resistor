@@ -43,30 +43,30 @@ $this->title = $model->name;
                                 <div class="panel-body">
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-fw fa-map-marker"></i> <?= Html::encode($model->region->content->name) ?>, <?= Html::encode($model->district->content->name) ?></li>
-                                        <? if ($model->covered): ?>
+                                        <?php if ($model->covered): ?>
                                             <li><i class="fa fa-fw fa-th"></i> <strong><?= $model->getAttributeLabel('covered') ?>:</strong> <?= $model->covered ?> m<sup>2</sup></li>
-                                        <? endif ?>
-                                        <? if ($model->uncovered): ?>
+                                        <?php endif ?>
+                                        <?php if ($model->uncovered): ?>
                                             <li><i class="fa fa-fw fa-th"></i> <strong><?= $model->getAttributeLabel('uncovered') ?>:</strong> <?= $model->uncovered ?> m<sup>2</sup></li>
-                                        <? endif ?>
-                                        <? if ($model->plot): ?>
+                                        <?php endif ?>
+                                        <?php if ($model->plot): ?>
                                             <li><i class="fa fa-fw fa-th"></i> <strong><?= $model->getAttributeLabel('plot') ?>:</strong> <?= $model->plot ?> m<sup>2</sup></li>
-                                        <? endif ?>
-                                        <? if ($model->year): ?>
+                                        <?php endif ?>
+                                        <?php if ($model->year): ?>
                                             <li><i class="fa fa-fw fa-calendar"></i> <strong><?= $model->getAttributeLabel('year') ?>:</strong> <?= $model->year ?></li>
-                                        <? endif ?>
-                                        <? if ($model->bedroom): ?>
+                                        <?php endif ?>
+                                        <?php if ($model->bedroom): ?>
                                             <li><i class="fa fa-fw fa-columns"></i> <strong><?= $model->getAttributeLabel('bedroom') ?>:</strong> <?= $model->bedroom ?></li>
-                                        <? endif ?>
-                                        <? if ($model->year): ?>
+                                        <?php endif ?>
+                                        <?php if ($model->year): ?>
                                             <li><i class="fa fa-fw fa-female"></i> <strong><?= $model->getAttributeLabel('bathroom') ?>:</strong> <?= $model->bathroom ?></li>
-                                        <? endif ?>
-                                        <? if ($model->parking): ?>
+                                        <?php endif ?>
+                                        <?php if ($model->parking): ?>
                                             <li><i class="fa fa-fw fa-truck"></i> <strong><?= $model->getAttributeLabel('parking_id') ?>:</strong> <?= $model->parking ?></li>
-                                        <? endif ?>
-                                        <? if ($model->price): ?>
+                                        <?php endif ?>
+                                        <?php if ($model->price): ?>
                                             <li><i class="fa fa-fw fa-eur"></i> <strong><?= $model->getAttributeLabel('price') ?>:</strong> <?= number_format($model->price, 0, ',', '.') ?></li>
-                                        <? endif ?>
+                                        <?php endif ?>
                                     </ul>
                                 </div>
                             </div>

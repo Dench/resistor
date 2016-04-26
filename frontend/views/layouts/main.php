@@ -52,7 +52,7 @@ FontAwesome::register($this);
             <div class="col-xs-3 col-sm-2 col-md-2">
                 <?php
                     if (!Yii::$app->user->isGuest) {
-                        echo Html::a('<i class="fa fa-user fa-fw"></i> '.Yii::t('app', 'Personal'), Url::toRoute('personal/index'));
+                        echo Html::a('<i class="fa fa-user fa-fw"></i> <span class="hidden-xs">'.Yii::t('app', 'Cabinet').'</span>', Url::toRoute('personal/index'));
                     }
                 ?>
             </div>
@@ -64,7 +64,7 @@ FontAwesome::register($this);
 </section>
 <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/source/img/logo.png', ['alt' => Yii::$app->params['sitename'], 'height' => '100%']),
+        'brandLabel' => Html::img('@web/img/palalini.jpg', ['alt' => Yii::$app->params['sitename'], 'height' => '100%']),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-default navbar-static-top',

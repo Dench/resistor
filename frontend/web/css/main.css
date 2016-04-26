@@ -129,7 +129,7 @@ footer .social-networks {
 #top a:hover {
     color: #FFF;
     text-decoration: none;
-    background: #14957C;
+    background: #8e84a8;
 }
 #top span,
 #top a {
@@ -153,7 +153,7 @@ footer .social-networks {
 }
 #current-lang {
     font-weight: bold;
-    background: #138871;
+    background: #5a4983;
     display: inline-block;
     width: 50%;
 }

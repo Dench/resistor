@@ -260,7 +260,7 @@ MapAsset::register($this);
 
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('app', 'Description') ?></h3>
+                    <h3 class="box-title"><?= Yii::t('app', 'Description (visible)') ?></h3>
                 </div>
                 <div class="box-body">
                     <?php

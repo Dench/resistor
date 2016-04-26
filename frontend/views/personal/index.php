@@ -7,7 +7,7 @@ use common\helpers\Format;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-$this->title = Yii::t('app', 'Personal');
+$this->title = Yii::t('app', 'Cabinet');
 ?>
 <section class="wrapper-sm">
     <div class="container">
@@ -34,36 +34,38 @@ $this->title = Yii::t('app', 'Personal');
             </div>
             <div class="col-md-7">
                 <?php
-                echo DetailView::widget([
-                    'model' => $broker,
-                    'attributes' => [
-                        [
-                            'attribute' => 'type_id',
-                            'value' => $broker->typeName,
+                if (!empty($broker)) {
+                    echo DetailView::widget([
+                        'model' => $broker,
+                        'attributes' => [
+                            [
+                                'attribute' => 'type_id',
+                                'value' => $broker->typeName,
+                            ],
+                            [
+                                'attribute' => 'name',
+                                'label' => $broker->type_id ? Yii::t('app', 'Full name') : Yii::t('app', 'Name'),
+                                'value' => $broker->name,
+                            ],
+                            'company',
+                            [
+                                'attribute' => 'phone',
+                                'value' => Format::phone($broker->phone, 2),
+                            ],
+                            'email',
+                            'address',
+                            'contact',
+                            'recommend',
+                            'note_user',
+                            [
+                                'attribute' => 'sale_add',
+                                'value' => $broker->sale_add ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
+                            ],
                         ],
-                        [
-                            'attribute' => 'name',
-                            'label' => $broker->type_id ? Yii::t('app', 'Full name') : Yii::t('app', 'Name'),
-                            'value' => $broker->name,
-                        ],
-                        'company',
-                        [
-                            'attribute' => 'phone',
-                            'value' => Format::phone($broker->phone, 2),
-                        ],
-                        'email',
-                        'address',
-                        'contact',
-                        'recommend',
-                        'note_user',
-                        [
-                            'attribute' => 'sale_add',
-                            'value' => $broker->sale_add ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
-                        ],
-                    ],
-                ]);
+                    ]);
+                    echo Html::a(Yii::t('app', 'Edit'), ['broker'], ['class' => 'btn btn-primary']);
+                }
                 ?>
-                <?= Html::a(Yii::t('app', 'Edit'), ['broker'], ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
 

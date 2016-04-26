@@ -78,8 +78,8 @@ class Broker extends ActiveRecord
     public static function getTypeList()
     {
         return [
-            1 => Yii::t('app', 'Agent'),
-            2 => Yii::t('app', 'Company'),
+            1 => Yii::t('app', 'Agent'), // Частный агент
+            2 => Yii::t('app', 'Company'), // Представитель компании
         ];
     }
 

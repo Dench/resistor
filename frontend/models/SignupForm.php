@@ -63,13 +63,13 @@ class SignupForm extends Model
         return [
             'user_id' => 'User ID',
             'type_id' => Yii::t('app', 'Type'),
-            'username' => Yii::t('app', 'Username'),
-            'password' => Yii::t('app', 'Password to login'),
-            'name' => Yii::t('app', 'Name'),
-            'company' => Yii::t('app', 'Works in the company'),
+            'username' => Yii::t('app', 'Username'), // Выберите имя пользователя
+            'password' => Yii::t('app', 'Password to login'), // Выберите пароль для входа
+            'name' => Yii::t('app', 'Name'), // Укажите ваше полное имя // Укажите название компании
+            'company' => Yii::t('app', 'Works in the company'), // Название компании (в случае если Вы работаете в компании)
             'phone' => Yii::t('app', 'Phone'),
             'email' => Yii::t('app', 'Email'),
-            'address' => Yii::t('app', 'Address'),
+            'address' => Yii::t('app', 'Address'), // Фактический адрес
             'contact' => Yii::t('app', 'Additional contacts'),
             'recommend' => Yii::t('app', 'Who recommended?'),
             'note_user' => Yii::t('app', 'Comments'),

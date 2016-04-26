@@ -118,8 +118,9 @@ class SaleController extends Controller
         if ($model->load(Yii::$app->request->post()) &&
             Model::loadMultiple($model_content, Yii::$app->request->post()) &&
             Model::validateMultiple($model_content) &&
-            $model->save())
+            $model->validate() && $model->district_id > 0)
         {
+            $model->save();
             foreach ($model_content as $key => $content) {
                 $content->id = $model->id;
                 $content->lang_id = $key;

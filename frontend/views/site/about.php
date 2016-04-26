@@ -107,15 +107,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <code><?= __FILE__ ?></code>
 
-        <?php if (!Yii::$app->user->identity->group_id): ?>
+        <?php if (empty(Yii::$app->user->identity->group_id)): ?>
             <h1>Guest</h1>
         <?php endif ?>
 
-        <?php if (Yii::$app->user->identity->group_id == 1): ?>
+        <?php if (@Yii::$app->user->identity->group_id == 1): ?>
             <h1>Admin</h1>
         <?php endif ?>
 
-        <?php if (Yii::$app->user->identity->group_id > 0): ?>
+        <?php if (@Yii::$app->user->identity->group_id > 0): ?>
             <h1>User</h1>
         <?php endif ?>
 
