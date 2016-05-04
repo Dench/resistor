@@ -7,25 +7,27 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = Yii::t('app', 'TITLE_REQUEST_PASSWORD_RESET');
+$this->title = Yii::t('app', 'Request a password reset');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-request-password-reset">
-    <h1><?= Html::encode($this->title) ?></h1>
+<section class="wrapper-md">
+    <div class="container">
 
-    <p>Please fill out your email. A link to reset password will be sent there.</p>
+        <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
+        <div class="row">
+            <div class="col-lg-5">
+                <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
 
-                <?= $form->field($model, 'email') ?>
+                    <?= $form->field($model, 'email')->label(\Yii::t('app','Your E-mail')) ?>
 
-                <div class="form-group">
-                    <?= Html::submitButton(Yii::t('app', 'BUTTON_SEND'), ['class' => 'btn btn-primary']) ?>
-                </div>
+                    <div class="form-group">
+                        <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary']) ?>
+                    </div>
 
-            <?php ActiveForm::end(); ?>
+                <?php ActiveForm::end(); ?>
+            </div>
         </div>
+
     </div>
-</div>
+</section>

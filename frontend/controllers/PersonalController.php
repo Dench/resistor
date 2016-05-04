@@ -56,7 +56,6 @@ class PersonalController extends Controller
         }
 
         $model = Broker::findOne(Yii::$app->user->identity->getId());
-        $old = $model->sale_add;
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate() && $model->getDirtyAttributes()) {
                 $mes = [];
@@ -66,12 +65,6 @@ class PersonalController extends Controller
                     } else {
                         $mes[$k] = [$model->getAttributeLabel($k), $model->$k];
                     }
-                }
-                if ($mes['sale_add']) {
-                    unset($mes['sale_add']);
-                }
-                if ($old != $model->sale_add) {
-                   $mes[] = [ Yii::t('app', 'I want to add real estate'), ($model->sale_add ? Yii::t('app', 'Yes') : Yii::t('app', 'No')) ];
                 }
                 $message = "";
                 foreach ($mes as $m) {

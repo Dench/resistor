@@ -26,13 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?= $form->field($model, 'type_id')->dropDownList(Broker::getTypeList())->label(Yii::t('app', 'Who are you?')) ?>
 
-                    <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label($model->type_id == 1 ? Yii::t('app', 'Full name') : Yii::t('app', 'Company name')) ?>
+                    <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label($model->type_id == 1 ? Yii::t('app', 'Enter your full name') : Yii::t('app', 'Enter company name')) ?>
 
                     <?= $form->field($model, 'company')->textInput(['maxlength' => true]); ?>
 
-                    <?= $form->field($model, 'phone')->widget(MaskedInput::className(), [
-                        'mask' => '999999999999',
-                    ]) ?>
+                    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]); ?>
 
                     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
                 </div>
@@ -45,13 +43,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?= $form->field($model, 'note_user')->textarea(['rows' => 6]) ?>
 
-                    <?= $form->field($model, 'sale_add')->dropDownList([0 => Yii::t('app', 'No'), 1 => Yii::t('app', 'Yes')], ['style' => 'width: 100px'])->label(Yii::t('app', 'I want to add real estate')) ?>
                 </div>
             </div>
 
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
             </div>
+
+            <div class="form-group required">
+                <label class="control-label"></label> - <?= Yii::t('app', 'required fields') ?>
+            </div>
+
+
 
         <?php ActiveForm::end(); ?>
     </div>

@@ -247,18 +247,16 @@ class Sale extends ActiveRecord
 
     public static function gpsMarkers($district_id)
     {
-        $temp = self::find();
-
+        $temp = Object::find()->joinWith(['sale']);
         if ($district_id > 0) {
             $temp = $temp->where(['district_id' => $district_id]);
         }
-
-        $temp = $temp->select(['status','gps','address','object_id','name','created_at'])->groupBy('object_id')->orderBy(['id' => SORT_DESC])->asArray()->all();
-
+        $temp = $temp->asArray()->all();
         $items = [];
         foreach ($temp as $t) {
+            $t = $t['sale'];
             $items[] = [
-                'link' => Url::toRoute(['sale/create', 'object_id' => $t['object_id']]),
+                'link' => Url::toRoute(['sale/update', 'id' => $t['id']]),
                 'status' => $t['status'],
                 'pos' => $t['gps'],
                 'title' => 'ID '.$t['object_id'].' ('.$t['address'].') '.$t['name'].' - '.date('d.m.Y', $t['created_at'])

@@ -2,9 +2,10 @@
 namespace frontend\models;
 
 use common\models\Broker;
+use common\models\Group;
 use common\models\User;
-use yii\base\Model;
 use Yii;
+use yii\base\Model;
 
 /**
  * Signup form
@@ -36,6 +37,8 @@ class SignupForm extends Model
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
+            ['group_id', 'default', 'value' => Group::GROUP_DEFAULT],
+
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
@@ -47,10 +50,9 @@ class SignupForm extends Model
 
             [['name', 'phone', 'address'], 'required'],
             [['type_id', 'sale_add'], 'integer'],
-            [['note_user'], 'string'],
+            [['note_user', 'phone'], 'string'],
             [['name', 'company'], 'string', 'max' => 64],
-            [['phone'], 'string', 'max' => 12, 'min' => 12],
-            ['phone', 'match', 'pattern' => '/^[0-9]{12}$/'],
+            [['phone'], 'string', 'max' => 20, 'min' => 7],
             [['address', 'contact', 'recommend'], 'string', 'max' => 255],
         ];
     }
@@ -63,13 +65,13 @@ class SignupForm extends Model
         return [
             'user_id' => 'User ID',
             'type_id' => Yii::t('app', 'Type'),
-            'username' => Yii::t('app', 'Username'), // Выберите имя пользователя
-            'password' => Yii::t('app', 'Password to login'), // Выберите пароль для входа
-            'name' => Yii::t('app', 'Name'), // Укажите ваше полное имя // Укажите название компании
-            'company' => Yii::t('app', 'Works in the company'), // Название компании (в случае если Вы работаете в компании)
+            'username' => Yii::t('app', 'Choose a login name'),
+            'password' => Yii::t('app', 'Choose a password to login'),
+            'name' => Yii::t('app', 'Enter your full name'), // Enter company name
+            'company' => Yii::t('app', 'Company name (if)'),
             'phone' => Yii::t('app', 'Phone'),
             'email' => Yii::t('app', 'Email'),
-            'address' => Yii::t('app', 'Address'), // Фактический адрес
+            'address' => Yii::t('app', 'Actual address'),
             'contact' => Yii::t('app', 'Additional contacts'),
             'recommend' => Yii::t('app', 'Who recommended?'),
             'note_user' => Yii::t('app', 'Comments'),

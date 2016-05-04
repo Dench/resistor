@@ -16,7 +16,7 @@ $this->title = Yii::t('app', 'Cabinet');
         <h1><?= $this->title ?></h1>
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 mv">
                 <?php
                 echo DetailView::widget([
                     'model' => $user,
@@ -32,7 +32,7 @@ $this->title = Yii::t('app', 'Cabinet');
                 ?>
                 <?= Html::a(Yii::t('app', 'Edit'), ['user'], ['class' => 'btn btn-primary']) ?>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 mv">
                 <?php
                 if (!empty($broker)) {
                     echo DetailView::widget([

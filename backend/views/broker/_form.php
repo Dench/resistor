@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Broker;
+use common\models\Group;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
@@ -16,7 +17,6 @@ use yii\widgets\MaskedInput;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-        <?php if (!$model->user_id): ?>
         <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
@@ -28,10 +28,11 @@ use yii\widgets\MaskedInput;
                     <?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
 
                     <?= $form->field($user, 'password')->passwordInput() ?>
+
+                    <?= $form->field($user, 'group_id')->dropDownList(Group::getList()) ?>
                 </div>
             </div>
         </div>
-        <?php endif; ?>
         <div class="col-md-8">
             <div class="box">
                 <div class="box-header with-border">
@@ -50,9 +51,7 @@ use yii\widgets\MaskedInput;
                             }
                             ?>
 
-                            <?= $form->field($model, 'phone')->widget(MaskedInput::className(), [
-                                'mask' => '999999999999',
-                            ]) ?>
+                            <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
                             <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

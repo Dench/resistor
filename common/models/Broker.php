@@ -40,13 +40,13 @@ class Broker extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'name', 'phone', 'email', 'address'], 'required'],
+            [['user_id', 'name', 'email', 'address'], 'required'],
             [['user_id', 'type_id', 'sale_add'], 'integer'],
-            [['note_user', 'note_admin', 'edit'], 'string'],
+            ['sale_add', 'default', 'value' => 1],
+            [['note_user', 'note_admin', 'edit', 'phone'], 'string'],
             ['email', 'email'],
             [['name', 'company', 'email'], 'string', 'max' => 64],
-            [['phone'], 'string', 'max' => 12, 'min' => 12],
-            ['phone', 'match', 'pattern' => '/^[0-9]{12}$/'],
+            [['phone'], 'string', 'max' => 20, 'min' => 7],
             [['address', 'contact', 'recommend'], 'string', 'max' => 255],
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -60,6 +60,7 @@ class Broker extends ActiveRecord
     {
         return [
             'user_id' => 'User ID',
+            'group_id' => Yii::t('app', 'Group'),
             'type_id' => Yii::t('app', 'Type'),
             'name' => Yii::t('app', 'Name'),
             'company' => Yii::t('app', 'Works in the company'),
@@ -75,11 +76,16 @@ class Broker extends ActiveRecord
         ];
     }
 
+    public function getGroupId()
+    {
+        return $this->user->group_id;
+    }
+
     public static function getTypeList()
     {
         return [
-            1 => Yii::t('app', 'Agent'), // Частный агент
-            2 => Yii::t('app', 'Company'), // Представитель компании
+            1 => Yii::t('app', 'Private agent'),
+            2 => Yii::t('app', 'Representative of the company'),
         ];
     }
 

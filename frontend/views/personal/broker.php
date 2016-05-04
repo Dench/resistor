@@ -26,9 +26,7 @@ $this->title = Yii::t('app', 'Edit');
                 }
                 ?>
 
-                <?= $form->field($model, 'phone')->widget(MaskedInput::className(), [
-                    'mask' => '999999999999',
-                ]) ?>
+                <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
@@ -39,8 +37,6 @@ $this->title = Yii::t('app', 'Edit');
                 <?= $form->field($model, 'recommend')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'note_user')->textarea(['rows' => 6]) ?>
-
-                <?= $form->field($model, 'sale_add')->dropDownList([0 => Yii::t('app', 'No'), 1 => Yii::t('app', 'Yes')], ['style' => 'width: 100px'])->label(Yii::t('app', 'I want to add real estate')) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary']) ?>

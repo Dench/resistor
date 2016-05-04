@@ -18,7 +18,7 @@ class BrokerSearch extends Broker
     {
         return [
             [['user_id', 'type_id', 'sale_add'], 'integer'],
-            [['name', 'company', 'phone', 'email', 'address', 'contact', 'recommend', 'note_user', 'note_admin'], 'safe'],
+            [['name', 'company', 'phone', 'email', 'address', 'contact', 'recommend', 'note_user', 'note_admin', 'edit'], 'safe'],
         ];
     }
 

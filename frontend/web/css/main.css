@@ -1,24 +1,18 @@
-html,
-body {
+html {
     height: 100%;
 }
-
-.wrap {
+body {
+    position: relative;
     min-height: 100%;
-    height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
 }
-
-.wrap > .container {
-    padding: 70px 15px 20px;
+#wrap {
+    padding-bottom: 100px;
 }
-
-.footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 .jumbotron {
@@ -217,4 +211,15 @@ section.post h1 {
 }
 .carousel {
     margin-bottom: 20px;
+}
+div.required label.control-label:after {
+    content: " *";
+    color: red;
+}
+.mv {
+    margin: 20px 0;
+}
+.clear-pager {
+    clear: both;
+    text-align: center;
 }

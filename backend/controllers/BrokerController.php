@@ -67,6 +67,8 @@ class BrokerController extends Controller
         $model = new Broker();
         $user = new User();
 
+        $user->group_id = 2;
+
         $model->type_id = Yii::$app->request->get('type_id');
 
         if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
@@ -96,15 +98,19 @@ class BrokerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $user = User::findOne($model->user_id);
 
         if (Yii::$app->request->post('ok')) $model->edit = '';
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/broker']);
+        if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
+            if ($user->save() && $model->save()) {
+                return $this->redirect(['/broker']);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'user' => $user,
         ]);
     }
 

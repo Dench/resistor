@@ -3,6 +3,11 @@
     <section class="sidebar">
         <?php
             $notifyEdit = common\models\Broker::notifyEdit();
+            $agentUrl = ['/broker', 'sort' => '-group_id'];
+            if ($notifyEdit) {
+                $notifyEdit = " (".$notifyEdit.")";
+                $agentUrl = ['/broker', 'sort' => '-edit'];
+            }
             $notifyEdit = $notifyEdit ? " (".$notifyEdit.")" : '';
             $items = [
                 ['label' => Yii::t('app', 'Sales'), 'options' => ['class' => 'header']],
@@ -12,7 +17,7 @@
 
                 ['label' => Yii::t('app', 'Users'), 'options' => ['class' => 'header']],
                 ['label' => Yii::t('app', 'Users'), 'icon' => 'fa fa-user', 'url' => ['/user']],
-                ['label' => Yii::t('app', 'Agents').$notifyEdit, 'icon' => 'fa fa-user', 'url' => ['/broker']],
+                ['label' => Yii::t('app', 'Agents').$notifyEdit, 'icon' => 'fa fa-user', 'url' => $agentUrl],
 
                 ['label' => Yii::t('app', 'Params'), 'options' => ['class' => 'header']],
                 ['label' => Yii::t('app', 'Regions'), 'icon' => 'fa fa-map', 'url' => ['/region']],

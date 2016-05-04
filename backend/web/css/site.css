@@ -137,3 +137,7 @@ a.attachment {
 .file-upload-indicator {
     display: none;
 }
+div.required label.control-label:after {
+    content: " *";
+    color: red;
+}

@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
  */
 class Group extends ActiveRecord
 {
-    const GROUP_DEFAULT = 2;
+    const GROUP_DEFAULT = 3;
     /**
      * @inheritdoc
      */
@@ -45,6 +45,12 @@ class Group extends ActiveRecord
             'id' => 'ID',
             'name' => Yii::t('app', 'Name'),
         ];
+    }
+
+    public function getGroupName()
+    {
+        $a = self::getList();
+        return $a[$this->id];
     }
 
     /**

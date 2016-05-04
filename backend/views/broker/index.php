@@ -2,6 +2,7 @@
 
 use backend\components\SetColumn;
 use common\models\Broker;
+use common\models\Group;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -17,6 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+            'rowOptions' => function ($model, $index, $widget, $grid) {
+                if ($model->edit != '' || $model->user->group_id == Group::GROUP_DEFAULT) {
+                    return ['class' => 'danger'];
+                } else {
+                    return [];
+                }
+            },
             'columns' => [
                 [
                     'attribute' => 'user_id',
@@ -27,6 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'type_id',
                     'filter' => Broker::getTypeList(),
                     'name' => 'typeName',
+                ],
+                [
+                    'class' => SetColumn::className(),
+                    'attribute' => 'user.group_id',
+                    'filter' => Group::getList(),
+                    'name' => 'user.group.groupName',
                 ],
                 'name',
                 'company',

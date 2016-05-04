@@ -36,6 +36,8 @@ class SalePhoto extends ActiveRecord
         return [
             [['sale_id'], 'required'],
             [['sale_id', 'sort'], 'integer'],
+            [['hash'], 'default', 'value' => ''],
+            [['sort'], 'default', 'value' => 0],
             [['hash'], 'string']
         ];
     }
@@ -44,7 +46,14 @@ class SalePhoto extends ActiveRecord
     {
         $ids = (new \yii\db\Query())->from('sale')->where(['object_id' => $object_id])->column();
 
-        return self::find()->where(['in', 'sale_id', $ids])->groupBy('hash')->asArray()->all();
+        $temp = self::find()->where(['in', 'sale_id', $ids])->asArray()->all();
+
+        $items = [];
+
+        foreach ($temp as $t) {
+            $items[$t['hash']] = $t;
+        }
+        return $items;
     }
 
     /**

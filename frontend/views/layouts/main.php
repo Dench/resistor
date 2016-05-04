@@ -31,6 +31,7 @@ FontAwesome::register($this);
 </head>
 
 <body>
+<div id="wrap">
 <?php $this->beginBody() ?>
 
 <section id="top" class="bg-primary">
@@ -87,7 +88,7 @@ FontAwesome::register($this);
 <?= Alert::widget() ?>
 
 <?= $content ?>
-
+</div>
 <footer class="footer-container">
     <section class="footer-secondary">
         <div class="container">
