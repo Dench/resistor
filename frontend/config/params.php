@@ -18,7 +18,4 @@ return [
     'image_none' => [
         'small' => '/img/none_small.jpg',
     ],
-    'phone1' => '(093) 984-46-59',
-    'phone2' => '(093) 984-46-59',
-    'email' => 'info@cyprus.com',
 ];

@@ -37,7 +37,7 @@ FontAwesome::register($this);
 <section id="top" class="bg-primary">
     <div class="container">
         <div class="row">
-            <div class="col-xs-6 col-sm-8 col-md-8">
+            <div class="col-xs-6 col-sm-8 col-md-8 text-nowrap">
                 <?php
                     if (Yii::$app->params['phone1']) {
                         echo '<span><i class="fa fa-phone"></i> '.Yii::$app->params['phone1'].'</span>';

@@ -79,7 +79,7 @@ use yii\widgets\ActiveForm;
             ])->label(Yii::t('app', 'Bath')) ?>
         </div>
         <div class="col-sm-4 col-md-2">
-            <label style="font-weight: normal; font-size: 12px;"><?= Html::a(Yii::t('app', 'Advanced search'), Url::toRoute(['/search', 'advanced' => 1])) ?></label>
+            <label class="search"><i class="fa fa-search"></i> <?= Html::a(Yii::t('app', 'Advanced search'), Url::toRoute(['/search', 'advanced' => 1])) ?></label>
             <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary btn-block']) ?>
         </div>
     </div>

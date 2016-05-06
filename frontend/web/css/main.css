@@ -223,3 +223,22 @@ div.required label.control-label:after {
     clear: both;
     text-align: center;
 }
+.bg-dark label.search,
+.bg-highlight label.search{
+    white-space: nowrap;
+}
+.bg-dark label.search a {
+    color: #FFF;
+}
+.bg-dark label.search a,
+.bg-highlight label.search a{
+    font-size: 13px;
+    text-decoration: underline;
+}
+.bg-dark label.search a:hover,
+.bg-highlight label.search a:hover {
+    text-decoration: none;
+}
+.navbar {
+    overflow: hidden;
+}
