@@ -95,19 +95,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 #top {
     line-height: 36px;
 }
-@media (max-width: 768px) {
-    #top .container {
-        padding-left: 10px;
-        padding-right: 0;
-    }
-    .bg-custom-home h1 {
-        font-size: 1.8em;
-    }
-    footer,
-    footer .text-right {
-        text-align: center;
-    }
-}
 footer .social-networks {
     display: inline-block;
 }
@@ -209,9 +196,6 @@ section.post h1 {
 .tools a {
     margin-bottom: 5px;
 }
-.carousel {
-    margin-bottom: 20px;
-}
 div.required label.control-label:after {
     content: " *";
     color: red;
@@ -241,4 +225,75 @@ div.required label.control-label:after {
 }
 .navbar {
     overflow: hidden;
+}
+.property-main {
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: center;
+}
+.property-contact .fa {
+    font-size: 56px;
+}
+.property-phone {
+    white-space: nowrap;
+}
+.property-price span {
+    font-size: 30px;
+    display: block;
+    white-space: nowrap;
+}
+.property-id {
+    padding-bottom: 50px;
+}
+.property-price {
+    padding-bottom: 40px;
+}
+.property-contact {
+    padding-bottom: 40px;
+}
+.property-list {
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+.property-description {
+    margin-bottom: 20px;
+}
+.property-gallery {
+}
+.property-gallery a {
+    margin-bottom: 25px;
+}
+.property-gallery img {
+    width: 100%;
+    padding: 3px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 3px;
+}
+
+
+
+
+
+
+@media (max-width: 768px) {
+    #top .container {
+        padding-left: 10px;
+        padding-right: 0;
+    }
+    .bg-custom-home h1 {
+        font-size: 1.8em;
+    }
+    footer,
+    footer .text-right {
+        text-align: center;
+    }
+}
+@media (max-width: 1200px) {
+    .property-phone {
+        text-align: left;
+    }
+    .property-contact .text-primary {
+        text-align: right;
+    }
 }

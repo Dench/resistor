@@ -10,6 +10,17 @@ use yii\web\NotFoundHttpException;
 
 class PhotoController extends Controller
 {
+    public function actionSlider($id)
+    {
+        if ($file = SalePhoto::resize($id, Yii::$app->params['salePhotoSlider'])) {
+            header('Content-Type: image/jpeg');
+            print file_get_contents($file);
+        } else {
+            throw new NotFoundHttpException('Photo not found!');
+        }
+        die();
+    }
+
     public function actionBig($id)
     {
         if ($file = SalePhoto::resize($id, Yii::$app->params['salePhotoBig'])) {

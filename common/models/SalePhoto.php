@@ -67,6 +67,8 @@ class SalePhoto extends ActiveRecord
     public function afterDelete() {
         $file = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$this->sale_id.DIRECTORY_SEPARATOR.$this->id.'.jpg';
         if (file_exists($file)) unlink($file);
+        $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoSlider']['path'].$this->id.'.jpg';
+        if (file_exists($file)) unlink($file);
         $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoBig']['path'].$this->id.'.jpg';
         if (file_exists($file)) unlink($file);
         $file = Yii::getAlias('@frontend/web').Yii::$app->params['salePhotoSmall']['path'].$this->id.'.jpg';

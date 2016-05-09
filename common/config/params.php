@@ -7,9 +7,14 @@ return [
         'width' => 600,
         'height' => 450,
     ],
-    'salePhotoBig' => [
+    'salePhotoSlider' => [
         'width' => 900,
         'height' => 450,
+        'path' => '/photo/slider/'
+    ],
+    'salePhotoBig' => [
+        'width' => 1024,
+        'height' => 768,
         'path' => '/photo/big/'
     ],
     'salePhotoSmall' => [

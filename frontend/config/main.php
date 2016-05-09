@@ -40,7 +40,7 @@ return [
                 '/' => 'site/index',
                 'personal' => 'personal/index',
                 'sale/<id:\d+>' => 'sale/index',
-                'photo/<action:(big|small|thumb)>/<id:\d+>.jpg' => 'photo/<action>',
+                'photo/<action:(slider|big|small|thumb)>/<id:\d+>.jpg' => 'photo/<action>',
             ]
         ],
         'i18n' => [
