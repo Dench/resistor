@@ -25,7 +25,7 @@
         "kartik-v/yii2-sortable": "*",
         "voskobovich/yii2-many-many-behavior": "^3.0",
         "bower-asset/bootstrap-select": "~1.10.0",
-        "bower-asset/photoswipe": "*",
+        "bower-asset/photoswipe": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
