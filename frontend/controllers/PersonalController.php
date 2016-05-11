@@ -115,8 +115,6 @@ class PersonalController extends Controller
             foreach ($model_content as $key => $content) {
                 $content->save(false);
             }
-            $model->code = sprintf("%02d", $model->region_id).sprintf("%02d", $model->district_id).$model->id;
-            $model->update();
             return $this->redirect(['/personal']);
         } else {
             return $this->render('sale/update', [
@@ -136,7 +134,7 @@ class PersonalController extends Controller
             $model_content[$i]['id'] = 0;
         }
 
-        $model->status = 1;
+        $model->status = Sale::STATUS_AWAITING;
         $model->sold = 1;
         $model->code = rand(100000000,999999999);
 
@@ -151,9 +149,7 @@ class PersonalController extends Controller
                 $content->lang_id = $key;
                 $content->save(false);
             }
-            $model->code = sprintf("%02d", $model->region_id).sprintf("%02d", $model->district_id).$model->id;
-            $model->save();
-            return $this->redirect(['update', 'id' => $model->id]);
+            return $this->redirect(['sale-update', 'id' => $model->id]);
         } else {
             return $this->render('sale/create', [
                 'model' => $model,

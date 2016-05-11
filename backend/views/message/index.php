@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Phrases');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
-    <div class="box-body">
+    <div class="box-body table-responsive">
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,

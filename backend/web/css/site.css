@@ -96,7 +96,7 @@ a.desc:after {
 .form-control:hover {
     border-color: #B5BDCC;
 }
-
+/*
 .file-preview {
     border: none;
     padding: 0;
@@ -126,6 +126,7 @@ a.desc:after {
     position: absolute;
     right: 0;
 }
+*/
 .navbar .fa {
     width: 20px;
 }

@@ -49,6 +49,7 @@ class Sale extends ActiveRecord
 {
     const STATUS_HIDE = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_AWAITING = 2;
 
     const TOP_DISABLED = 0;
     const TOP_ENABLED = 1;
@@ -103,7 +104,7 @@ class Sale extends ActiveRecord
             [['address'], 'string', 'max' => 255],
             [['commission', 'gps'], 'string', 'max' => 40],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_HIDE]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_HIDE, self::STATUS_AWAITING]],
             ['top', 'default', 'value' => self::TOP_DISABLED],
             ['top', 'in', 'range' => [self::TOP_ENABLED, self::TOP_DISABLED]],
             ['sold', 'default', 'value' => self::SOLD_ACTUAL],
@@ -163,6 +164,7 @@ class Sale extends ActiveRecord
         return [
             self::STATUS_ACTIVE => Yii::t('app', 'Acvive'),
             self::STATUS_HIDE => Yii::t('app', 'Hide'),
+            self::STATUS_AWAITING => Yii::t('app', 'Awaiting'),
         ];
     }
 
@@ -401,6 +403,9 @@ class Sale extends ActiveRecord
             }
         }
         // Photo copy - End
+
+        $code = sprintf("%02d", $this->region_id) . sprintf("%03d", $this->district_id) . $this->id;
+        Yii::$app->db->createCommand()->update('sale', ['code' => $code], ['id' => $this->id])->execute();
     }
 
 }

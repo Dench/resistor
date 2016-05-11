@@ -40,6 +40,9 @@ $this->title = Yii::t('app', 'Agents');
                 <?php ActiveForm::end(); ?>
             </div>
             <div class="col-md-4">
+                <?php
+                
+                ?>
             </div>
         </div>
 

@@ -1,5 +1,7 @@
 <?php
 return [
+    'baseHost' => BASE_HOST,
+    'adminEmail' => 'admin@' . BASE_HOST,
     'user.passwordResetTokenExpire' => 3600,
     'langDef' => 2,
     'uploadSalePath' => dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'sale',

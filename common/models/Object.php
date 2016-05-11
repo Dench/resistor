@@ -16,7 +16,6 @@ class Object extends ActiveRecord
 
     public $name;
     public $address;
-    public $status;
     public $region_id;
     public $district_id;
     /**
@@ -35,6 +34,17 @@ class Object extends ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
         ];
+    }
+
+    public function getStatus()
+    {
+        return $this->sale->status;
+    }
+
+    public function getStatusName()
+    {
+        $a = Sale::getStatusList();
+        return $a[$this->status];
     }
 
     /**

@@ -46,7 +46,7 @@ $this->title = $model->name;
                             Property ID: <?= $model->code ?>
                         </div>
                         <div class="col-xs-7 col-sm-4 col-md-3 col-lg-12 property-price">
-                            Current Price: <span>€ 2,950,000</span>
+                            Current Price: <span>€ <?= number_format($model->price, 0, '.', ',') ?></span>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12 property-contact hidden-xs">
                             <div class="row">

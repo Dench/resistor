@@ -68,26 +68,40 @@ MapAsset::register($this);
                             'minImageHeight' => Yii::$app->params['salePhotoMin']['height'],
                             'showCaption' => false,
                             'showRemove' => false,
-                            'showUpload' => false,
+                            //'showUpload' => false,
                             'overwriteInitial' => false,
                             'dropZoneEnabled' => false,
                             'showClose' => false,
                             'initialPreview' => $preview,
                             'initialPreviewConfig' => $preview_config,
-                            'browseClass' => 'btn btn-primary btn-block',
+                            //'browseClass' => 'btn btn-primary btn-block',
                             'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                             'browseLabel' =>  Yii::t('app', 'Select Photo'),
                             'allowedFileExtensions' => ['jpg'],
                             'uploadUrl' => Url::to(['upload-photo']),
                             'uploadExtraData' => [
                                 'sale_id' => $model->id
-                            ]
+                            ],
                         ],
                         'options' => [
                             'accept' => 'image/jpeg',
                             'multiple' => true
                         ]
                     ]);
+                    /*echo FileInput::widget([
+                        'name' => 'attachment_48[]',
+                        'options'=>[
+                            'multiple'=>true
+                        ],
+                        'pluginOptions' => [
+                            'uploadUrl' => Url::to(['/site/file-upload']),
+                            'uploadExtraData' => [
+                                'album_id' => 20,
+                                'cat_id' => 'Nature'
+                            ],
+                            'maxFileCount' => 10
+                        ]
+                    ]);*/
                     ?>
                 </div>
 
@@ -141,7 +155,7 @@ MapAsset::register($this);
                             ]) ?>
                             <?= $form->field($model, 'title')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                             <?= $form->field($model, 'commission')->textInput(['maxlength' => true]) ?>
-                            <?= $form->field($model, 'status')->inline()->radioList(Sale::getStatusList()) ?>
+                            <?= $form->field($model, 'status')->dropDownList(Sale::getStatusList()) ?>
                             <?= $form->field($model, 'top')->inline()->checkbox(['value' => 1]) ?>
                         </div>
                     </div>

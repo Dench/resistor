@@ -27,7 +27,7 @@ use yii\helpers\Html;
             <i class="fa fa-fw fa-info-circle"></i> <?= Yii::t('app', 'Bedrooms') ?>: <?= $item->bedroom ?> | <?= Yii::t('app', 'Bath') ?>: <?= $item->bathroom ?>
         </div>
         <div class="thumbnail-meta">
-            <i class="fa fa-fw fa-eur"></i> <span class="h3 heading-default"><?= number_format($item->price, 0, ',', '.') ?></span>
+            <i class="fa fa-fw fa-eur"></i> <span class="h3 heading-default"><?= number_format($item->price, 0, '.', ',') ?></span>
             <a href="<?= $item->url ?>" class="btn btn-link pull-right" rel="nofollow"><i class="fa fa-arrow-right"></i></a>
         </div>
     </div>

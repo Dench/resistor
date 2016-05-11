@@ -17,7 +17,7 @@ $this->title = Yii::t('app', 'Sales');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
-    <div class="box-body">
+    <div class="box-body table-responsive">
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
@@ -60,10 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'status',
                     'filter' => Sale::getStatusList(),
                     'name' => 'statusName',
-                    'pjax' => 1,
                     'cssClasses' => [
                         Sale::STATUS_HIDE => 'default',
                         Sale::STATUS_ACTIVE => 'success',
+                        Sale::STATUS_AWAITING => 'warning',
                     ],
                 ],
                 [
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => '{link} {update} {delete}',
                     'buttons' => [
                         'link' => function ($url, $model, $key) {
-                            return Html::a('<span class="fa fa-eye"></span>', Url::to(Yii::$app->params['frontend_home'].'/'.Lang::getCurrent()->code.'/sale/'.$model->id), ['target' => '_blank']);
+                            return Html::a('<span class="fa fa-eye"></span>', Url::to(Yii::$app->params['http'].'/'.Lang::getCurrent()->code.'/sale/'.$model->id), ['target' => '_blank']);
                         },
                     ],
                 ],

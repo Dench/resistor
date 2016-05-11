@@ -12,13 +12,14 @@ use common\models\Object;
  */
 class ObjectSearch extends Object
 {
+    public $status;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id','region_id','district_id'], 'integer'],
+            [['id','region_id','district_id','status'], 'integer'],
             [['name','address'], 'string']
         ];
     }
@@ -59,6 +60,7 @@ class ObjectSearch extends Object
         $query->andFilterWhere([
             'object.id' => $this->id,
             'sale.region_id' => $this->region_id,
+            'sale.status' => $this->status,
             'sale.district_id' => $this->district_id,
         ]);
 

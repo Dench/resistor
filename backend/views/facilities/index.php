@@ -10,7 +10,7 @@ $this->title = Yii::t('app', 'Facilities');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
-    <div class="box-body">
+    <div class="box-body table-responsive">
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [

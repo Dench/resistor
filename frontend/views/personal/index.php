@@ -16,22 +16,6 @@ $this->title = Yii::t('app', 'Cabinet');
         <h1><?= $this->title ?></h1>
 
         <div class="row">
-            <div class="col-md-5 mv">
-                <?php
-                echo DetailView::widget([
-                    'model' => $user,
-                    'attributes' => [
-                        'username',
-                        [
-                            'attribute' => 'password',
-                            'value' => '******',
-                        ],
-                        'email',
-                    ],
-                ]);
-                ?>
-                <?= Html::a(Yii::t('app', 'Edit'), ['user'], ['class' => 'btn btn-primary']) ?>
-            </div>
             <div class="col-md-7 mv">
                 <?php
                 if (!empty($broker)) {
@@ -66,6 +50,25 @@ $this->title = Yii::t('app', 'Cabinet');
                     echo Html::a(Yii::t('app', 'Edit'), ['broker'], ['class' => 'btn btn-primary']);
                 }
                 ?>
+            </div>
+            <div class="col-md-5 mv">
+                <?php
+                echo DetailView::widget([
+                    'model' => $user,
+                    'attributes' => [
+                        'username',
+                        [
+                            'attribute' => 'password',
+                            'value' => '******',
+                        ],
+                        'email',
+                    ],
+                ]);
+                ?>
+                <?= Html::a(Yii::t('app', 'Edit'), ['user'], ['class' => 'btn btn-primary']) ?>
+            </div>
+            <div class="col-md-5 mv">
+                <?= Html::a(Yii::t('app', 'Add property'), ['sale-create'], ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
 

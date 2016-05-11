@@ -12,8 +12,6 @@ class SetColumn extends DataColumn
      * @var callable
      */
     public $name;
-
-    public $pjax;
     /**
      *
      * @var array
@@ -24,8 +22,12 @@ class SetColumn extends DataColumn
     {
         $value = $this->getDataCellValue($model, $key, $index);
         $name = $this->getStatusName($model, $key, $index, $value);
-        $class = ArrayHelper::getValue($this->cssClasses, $value, 'default');
-        $html = Html::tag('span', Html::encode($name), ['class' => 'label label-' . $class]);
+        if ($this->cssClasses) {
+            $class = ArrayHelper::getValue($this->cssClasses, $value, 'default');
+            $html = Html::tag('span', Html::encode($name), ['class' => 'label label-' . $class]);
+        } else {
+            $html = Html::encode($name);
+        }
         return $value === null ? $this->grid->emptyCell : $html;
     }
  

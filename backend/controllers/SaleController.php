@@ -126,8 +126,6 @@ class SaleController extends Controller
                 $content->lang_id = $key;
                 $content->save(false);
             }
-            $model->code = sprintf("%02d", $model->region_id).sprintf("%02d", $model->district_id).$model->id;
-            $model->save();
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -158,8 +156,6 @@ class SaleController extends Controller
             foreach ($model_content as $key => $content) {
                 $content->save(false);
             }
-            $model->code = sprintf("%02d", $model->region_id).sprintf("%02d", $model->district_id).$model->id;
-            $model->update();
             return $this->redirect(['/sale']);
         } else {
             return $this->render('update', [
@@ -219,6 +215,7 @@ class SaleController extends Controller
             if ($model->save()) {
                 $model->sort = $model->id;
                 $name = $model->id.'.jpg';
+                //Yii::info($path.DIRECTORY_SEPARATOR.$name);
                 if ($model->save()) {
                     if (!$file->saveAs($path.DIRECTORY_SEPARATOR.$name)) {
                         $model->delete();

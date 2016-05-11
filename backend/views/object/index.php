@@ -16,7 +16,7 @@ $this->title = Yii::t('app', 'Objects');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
-    <div class="box-body">
+    <div class="box-body table-responsive">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -58,10 +58,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => SetColumn::className(),
                 'attribute' => 'status',
                 'filter' => Sale::getStatusList(),
-                'value' => 'sale.statusName',
+                'name' => 'statusName',
                 'cssClasses' => [
                     Sale::STATUS_HIDE => 'default',
                     Sale::STATUS_ACTIVE => 'success',
+                    Sale::STATUS_AWAITING => 'warning',
                 ],
             ],
             [

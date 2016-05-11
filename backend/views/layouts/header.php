@@ -18,7 +18,7 @@ use yii\helpers\Html;
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <li><?= Html::a('<i class="fa fa-home"></i>'.Yii::t('app', 'To site'), Yii::$app->params['frontend_home'].'/', ['target' => '_blank']) ?></li>
+                <li><?= Html::a('<i class="fa fa-home"></i>'.Yii::t('app', 'To site'), Yii::$app->params['http'].'/', ['target' => '_blank']) ?></li>
                 <li><?= Html::a('<i class="fa fa-sign-out"></i>'.Yii::t('app', 'Logout'), ['site/logout'], ['data-method' => 'post']) ?></li>
             </ul>
         </div>

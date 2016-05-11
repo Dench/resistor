@@ -1,6 +1,5 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
     'watermark' => [
         'file' => dirname(dirname(__DIR__)).
             DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR.'web'.
