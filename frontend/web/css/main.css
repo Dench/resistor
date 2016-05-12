@@ -15,6 +15,11 @@ footer {
     width: 100%;
 }
 
+.h2.line {
+    border-bottom: 1px solid #CCCCCC;
+    padding-bottom: 5px;
+}
+
 .jumbotron {
     text-align: center;
     background-color: transparent;
@@ -153,6 +158,7 @@ footer .social-networks {
 .thumbnail {
     cursor: pointer;
     box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
 }
 .wrapper-md {
     padding: 3em 0;
@@ -254,12 +260,18 @@ div.required label.control-label:after {
 }
 .property-list {
     font-size: 19px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+}
+.property-list li {
+    white-space: nowrap;
 }
 .property-description {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    font-size: 18px;
+    text-align: justify;
 }
-.property-gallery {
+.property-gallery .row {
+    padding: 10px 0;
 }
 .property-gallery a {
     margin-bottom: 25px;

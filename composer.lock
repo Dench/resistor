@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "55ec4935ac5ac450de621cdad46d3726",
-    "content-hash": "1e355f94249104be64cb8d9320d06d18",
+    "hash": "89131e299edac0bc32dd82643936b78a",
+    "content-hash": "8f6193e886793a9330e749b7631445e6",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -464,6 +464,51 @@
                 "yii"
             ],
             "time": "2013-12-10 17:49:58"
+        },
+        {
+            "name": "codru/yii2-static-map",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codru/yii2-static-map.git",
+                "reference": "6cb95270f7037e91c422b5b5f1cc6e0725b32461"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codru/yii2-static-map/zipball/6cb95270f7037e91c422b5b5f1cc6e0725b32461",
+                "reference": "6cb95270f7037e91c422b5b5f1cc6e0725b32461",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "yiisoft/yii2-codeception": "~2.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "codru\\staticmap\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxim Vasiliev",
+                    "email": "codrilla@gmail.com"
+                }
+            ],
+            "description": "Extension for generating static maps (for example for contacts page). Now supports google map and openstreet map",
+            "keywords": [
+                "google maps",
+                "openstreet map",
+                "static map",
+                "yii2"
+            ],
+            "time": "2016-02-01 20:00:27"
         },
         {
             "name": "dmstr/yii2-adminlte-asset",
@@ -1662,7 +1707,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/yii2-widget-depdrop": 20,
-        "kartik-v/yii2-widget-fileinput": 20
+        "kartik-v/yii2-widget-fileinput": 20,
+        "codru/yii2-static-map": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

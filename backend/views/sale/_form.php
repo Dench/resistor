@@ -23,7 +23,7 @@ MapAsset::register($this);
 
 <div class="sale-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?php if (!$model->id && $model->object_id): ?>
     <div class="box">
@@ -55,7 +55,7 @@ MapAsset::register($this);
                     $preview = [];
                     $preview_config = [];
                     foreach($model->photos as $item){
-                        $preview[] = Html::img(Yii::$app->params['http'].Yii::$app->params['salePhotoThumb']['path'].$item->id.'.jpg');
+                        $preview[] = Html::img(Yii::$app->params['http'].Yii::$app->params['salePhotoThumb']['path'].$item->id.'.jpg', ['height' => '160']);
                         $preview_config[] = [
                             'url' => 'delete-photo',
                             'key' => $item->id
@@ -88,20 +88,6 @@ MapAsset::register($this);
                             'multiple' => true
                         ]
                     ]);
-                    /*echo FileInput::widget([
-                        'name' => 'attachment_48[]',
-                        'options'=>[
-                            'multiple'=>true
-                        ],
-                        'pluginOptions' => [
-                            'uploadUrl' => Url::to(['/site/file-upload']),
-                            'uploadExtraData' => [
-                                'album_id' => 20,
-                                'cat_id' => 'Nature'
-                            ],
-                            'maxFileCount' => 10
-                        ]
-                    ]);*/
                     ?>
                 </div>
 

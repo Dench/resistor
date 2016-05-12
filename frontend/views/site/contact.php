@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <p><i class="fa fa-phone"></i> 620-860-3068</p>
                     <p><i class="fa fa-phone"></i> 620-860-3068</p>
                     <p><i class="fa fa-envelope"></i> info@business.com</p>
-                    <hr>
+                    <!--<hr>
                     <p>
                     </p><ul class="social-networks">
                         <li><a class="btn btn-twitter" href="#link"><i class="fa fa-fw fa-twitter"></i></a></li>
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li><a class="btn btn-foursquare" href="#link"><i class="fa fa-fw fa-foursquare"></i></a></li>
                         <li><a class="btn btn-vk" href="#link"><i class="fa fa-fw fa-vk"></i></a></li>
                     </ul>
-                    <p></p>
+                    <p></p>-->
                 </div><!-- /.well -->
             </div><!-- /.col -->
             <div class="col-sm-12 col-md-4">

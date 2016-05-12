@@ -96,37 +96,6 @@ a.desc:after {
 .form-control:hover {
     border-color: #B5BDCC;
 }
-/*
-.file-preview {
-    border: none;
-    padding: 0;
-    margin-bottom: 10px;
-}
-.file-preview-frame {
-    border: none;
-    border-radius: 2px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
-    margin: 0 10px 0 0;
-    height: auto;
-    padding: 4px;
-    overflow: hidden;
-}
-.file-preview-frame:not(.file-preview-error):hover {
-    box-shadow: 0 0 5px rgba(0, 0, 0, .6);
-}
-.file-preview-frame img {
-    height: 160px;
-}
-.file-footer-caption {
-    display: none;
-}
-.file-actions {
-    margin-top: -28px;
-    padding: 0 5px;
-    position: absolute;
-    right: 0;
-}
-*/
 .navbar .fa {
     width: 20px;
 }
@@ -141,4 +110,12 @@ a.attachment {
 div.required label.control-label:after {
     content: " *";
     color: red;
+}
+
+.file-footer-caption {
+    line-height: 0;
+    color: #FFF;
+}
+.file-thumb-progress {
+    top: 0;
 }

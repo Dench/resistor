@@ -71,12 +71,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'bathroom')->dropDownList([1,2,3,4], [
-                'class' => 'form-control selectpicker show-tick',
-                'data-style' => 'btn-primary',
-                'title' => Yii::t('app', 'Choose One'),
-                'prompt' => Yii::t('app', 'Any')
-            ])->label(Yii::t('app', 'Bath')) ?>
+            <?= $form->field($model, 'code')->label(Yii::t('app', 'Property ID'))->textInput(['placeholder' => Yii::t('app', 'Insert property ID')]) ?>
         </div>
         <div class="col-sm-4 col-md-2">
             <label class="search"><i class="fa fa-search"></i> <?= Html::a(Yii::t('app', 'Advanced search'), Url::toRoute(['/search', 'advanced' => 1])) ?></label>
@@ -267,7 +262,7 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="row">
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'id')->textInput() ?>
+            <?= $form->field($model, 'code')->textInput()->label(Yii::t('app','Property ID')) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
             <?= $form->field($model, 'furniture')->dropDownList(Sale::getYesList(), [
@@ -302,7 +297,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <label style="font-weight: normal; font-size: 12px;"><?= Html::a(Yii::t('app', 'Simple search'), Url::toRoute(['/search'])) ?></label>
+            <label class="search"><i class="fa fa-search"></i> <?= Html::a(Yii::t('app', 'Simple search'), Url::toRoute(['/search'])) ?></label>
             <?= Html::hiddenInput('advanced', 1); ?>
             <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary btn-block']) ?>
         </div>

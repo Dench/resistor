@@ -113,6 +113,11 @@ class Sale extends ActiveRecord
         ];
     }
 
+    public function getFullName()
+    {
+        return $this->region->content->name.' '.$this->typeName.' - '.$this->name;
+    }
+
     public function getParking()
     {
         $temp = self::getParkingList();
@@ -122,8 +127,8 @@ class Sale extends ActiveRecord
     public static function getParkingList()
     {
         return [
-            1 => Yii::t('app', 'Private parking'),
-            2 => Yii::t('app', 'Communal parking'),
+            1 => Yii::t('app', 'Private'),
+            2 => Yii::t('app', 'Communal'),
             3 => Yii::t('app', 'Garage'),
         ];
     }
@@ -131,9 +136,15 @@ class Sale extends ActiveRecord
     public static function getYesList()
     {
         return [
-            Yii::t('app', 'Yes'),
-            Yii::t('app', 'No')
+            1 => Yii::t('app', 'Yes'),
+            0 => Yii::t('app', 'No')
         ];
+    }
+
+    public static function getYesOrNo($q)
+    {
+        $a = self::getYesList();
+        return $a[$q];
     }
 
     public static function getTypeList()
@@ -143,6 +154,12 @@ class Sale extends ActiveRecord
             2 => Yii::t('app', 'Villa'),
             3 => Yii::t('app', 'Apartments'),
         ];
+    }
+
+    public function getTypeName()
+    {
+        $a = self::getTypeList();
+        return $a[$this->type_id];
     }
 
     public static function getTopList()

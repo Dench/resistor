@@ -210,12 +210,12 @@ class SaleController extends Controller
             $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$id;
             BaseFileHelper::createDirectory($path);
             $file = UploadedFile::getInstanceByName('photos');
+            if (!$file) return false;
             $model = new SalePhoto();
             $model->sale_id = $id;
             if ($model->save()) {
                 $model->sort = $model->id;
                 $name = $model->id.'.jpg';
-                //Yii::info($path.DIRECTORY_SEPARATOR.$name);
                 if ($model->save()) {
                     if (!$file->saveAs($path.DIRECTORY_SEPARATOR.$name)) {
                         $model->delete();
