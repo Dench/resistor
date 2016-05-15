@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "89131e299edac0bc32dd82643936b78a",
-    "content-hash": "8f6193e886793a9330e749b7631445e6",
+    "hash": "107ee1e9b0d7394fc2dd58fa95042f8f",
+    "content-hash": "cecc61cd6294a422435dbf5805b69e49",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -142,16 +142,16 @@
         },
         {
             "name": "bower-asset/fontawesome",
-            "version": "v4.6.2",
+            "version": "v4.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "e7cc59d666ed0826656f695afad7c56e95eb6513"
+                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e7cc59d666ed0826656f695afad7c56e95eb6513",
-                "reference": "e7cc59d666ed0826656f695afad7c56e95eb6513",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/8e241f209faa1dd2182c9fdc9c352d8806504a4e",
+                "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e",
                 "shasum": ""
             },
             "type": "bower-asset-library",
@@ -661,6 +661,58 @@
             "time": "2013-07-10 17:25:36"
         },
         {
+            "name": "jisoft/yii2-sypexgeo",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JiSoft/yii2-sypexgeo.git",
+                "reference": "faa8930cbebc183014cb653827508e9b187ed4c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JiSoft/yii2-sypexgeo/zipball/faa8930cbebc183014cb653827508e9b187ed4c1",
+                "reference": "faa8930cbebc183014cb653827508e9b187ed4c1",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "jisoft\\sypexgeo\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "zapimir",
+                    "email": "zapimir@zapimir.net"
+                },
+                {
+                    "name": "BINOVATOR",
+                    "email": "info@sypex.net"
+                },
+                {
+                    "name": "jisoft",
+                    "email": "jisoft.dn@gmail.com"
+                }
+            ],
+            "description": "Yii2 extension for Sypex Geo API (http://sypexgeo.net)",
+            "homepage": "https://github.com/JiSoft/yii2-sypexgeo",
+            "keywords": [
+                "geo",
+                "geoip",
+                "geolocation",
+                "sypexgeo",
+                "yii2"
+            ],
+            "time": "2014-06-16 06:21:37"
+        },
+        {
             "name": "kartik-v/bootstrap-fileinput",
             "version": "v4.3.1",
             "source": {
@@ -908,12 +960,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
-                "reference": "36f9f493c2d814529f2a195422a8af2e020fc80c"
+                "reference": "c9471b2489feec5534d4ac42cede6ee0677170f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/36f9f493c2d814529f2a195422a8af2e020fc80c",
-                "reference": "36f9f493c2d814529f2a195422a8af2e020fc80c",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/c9471b2489feec5534d4ac42cede6ee0677170f8",
+                "reference": "c9471b2489feec5534d4ac42cede6ee0677170f8",
                 "shasum": ""
             },
             "require": {
@@ -950,7 +1002,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 16:10:58"
+            "time": "2016-05-13 17:23:21"
         },
         {
             "name": "rmrevin/yii2-fontawesome",
@@ -1708,7 +1760,8 @@
     "stability-flags": {
         "kartik-v/yii2-widget-depdrop": 20,
         "kartik-v/yii2-widget-fileinput": 20,
-        "codru/yii2-static-map": 20
+        "codru/yii2-static-map": 20,
+        "jisoft/yii2-sypexgeo": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
