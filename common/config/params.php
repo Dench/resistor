@@ -6,8 +6,8 @@ return [
     'langDef' => 2,
     'uploadSalePath' => dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.'sale',
     'salePhotoMin' => [
-        'width' => 600,
-        'height' => 450,
+        'width' => 100,
+        'height' => 100,
     ],
     'salePhotoSlider' => [
         'width' => 900,

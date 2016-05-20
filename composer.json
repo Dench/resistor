@@ -27,7 +27,8 @@
         "bower-asset/bootstrap-select": "~1.10.0",
         "bower-asset/photoswipe": "*",
         "codru/yii2-static-map": "@dev",
-        "jisoft/yii2-sypexgeo": "@dev"
+        "jisoft/yii2-sypexgeo": "@dev",
+        "kop/yii2-scroll-pager": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

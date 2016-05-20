@@ -143,8 +143,9 @@ class Sale extends ActiveRecord
 
     public static function getYesOrNo($q)
     {
+        if (empty($q)) return false;
         $a = self::getYesList();
-        return $a[$q];
+        return @$a[$q];
     }
 
     public static function getTypeList()

@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'itemView' => '_item',
                     'layout' => "{summary}\n{items}\n<div class=\"clear-pager\">{pager}</div>",
+                    //'pager' => ['class' => \kop\y2sp\ScrollPager::className()],
                 ]);
             ?>
         </div>

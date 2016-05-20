@@ -69,11 +69,15 @@ class SaleSearch extends Sale
     {
         $query = Sale::find();
 
-        $query->joinWith(['views', 'facilities']);
+        //$query->joinWith(['views', 'facilities']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]]
+            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 20,
+                //'validatePage' => false,
+            ],
         ]);
 
         $this->load($params);
@@ -82,6 +86,15 @@ class SaleSearch extends Sale
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        if ($this->view_ids) {
+            $query->leftJoin('sale_view', 'sale_view.sale_id = sale.id');
+            $query->groupBy('sale.id');
+        }
+        if ($this->facility_ids) {
+            $query->leftJoin('sale_facilities', 'sale_facilities.sale_id = sale.id');
+            $query->groupBy('sale.id');
         }
 
         $query->andFilterWhere([
@@ -130,7 +143,8 @@ class SaleSearch extends Sale
             ->andFilterWhere(['<=', 'bedroom', $this->bedroom_to])
             ->andFilterWhere(['in', 'sale_view.view_id', $this->view_ids])
             ->andFilterWhere(['in', 'sale_facilities.facility_id', $this->facility_ids]);
-
+        //$command = $query->createCommand();
+        //echo $command->sql;
         return $dataProvider;
     }
 }
