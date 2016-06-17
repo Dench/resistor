@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="contact-box bg-primary">
                         <i class="fa fa-phone"></i>
                         <div>
-                            <?= Yii::$app->params['phone1'] ?>
+                            <a href="#"><?= Yii::$app->params['phone1'] ?></a>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><?= Yii::t('app', 'Greek / English speaking manager') ?></h4>
                     <div class="contact-box">
                         <i class="fa fa-phone"></i>
-                        <div><?= Yii::$app->params['phone2'] ?></div>
+                        <div><a href="#"><?= Yii::$app->params['phone2'] ?></a></div>
                     </div>
                 </div>
                 <div class="contact-block">

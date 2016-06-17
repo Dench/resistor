@@ -15,10 +15,10 @@ use yii\helpers\Url;
  * @property integer $id
  * @property integer $code
  * @property integer $object_id
+ * @property integer $user_id
  * @property integer $region_id
  * @property integer $district_id
  * @property integer $type_id
- * @property string $name
  * @property integer $year
  * @property string $commission
  * @property integer $price
@@ -44,6 +44,13 @@ use yii\helpers\Url;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $top
+ * @property boolean $vat
+ * 
+ * @property array view_ids
+ * @property array facility_ids
+ * @property array stage_ids
+ * 
+ * @property SaleLang content
  */
 class Sale extends ActiveRecord
 {
@@ -53,10 +60,16 @@ class Sale extends ActiveRecord
 
     const TOP_DISABLED = 0;
     const TOP_ENABLED = 1;
+    
+    const VAT_TRUE = 1;
+    const VAT_FALSE = 0;
 
     const SOLD_ACTUAL = 1;
     const SOLD_US = 2;
     const SOLD_OTHER = 3;
+
+    private static $_type_list;
+    private static $_stage_list;
 
     /**
      * @inheritdoc
@@ -78,6 +91,7 @@ class Sale extends ActiveRecord
                 'relations' => [
                     'view_ids' => 'views',
                     'facility_ids' => 'facilities',
+                    'stage_ids' => 'stages',
                 ],
             ],
         ];
@@ -93,14 +107,13 @@ class Sale extends ActiveRecord
                 return preg_replace('/,/', '', $value);
             }],
             [['type_id', 'region_id', 'district_id'], 'required'],
-            [['price','covered', 'uncovered', 'plot'], 'string', 'max' => 11],
+            /*[['price','covered', 'uncovered', 'plot'], 'string', 'max' => 11],
             [['year'], 'string', 'max' => 4],
-            [['bathroom', 'bedroom'], 'string', 'max' => 2],
-            [['object_id', 'region_id', 'district_id', 'year', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
+            [['bathroom', 'bedroom'], 'string', 'max' => 2],*/
+            [['id', 'object_id', 'region_id', 'district_id', 'year', 'covered', 'uncovered', 'plot', 'bathroom', 'bedroom',
                 'solarpanel', 'sauna', 'furniture', 'conditioner', 'heating', 'storage', 'tennis', 'status', 'title',
                 'type_id', 'pool', 'parking_id', 'created_at', 'updated_at'], 'integer'],
-            [['contacts', 'owner', 'address', 'note_user', 'note_admin'], 'string'],
-            [['name'], 'string', 'max' => 64],
+            [['price', 'contacts', 'owner', 'address', 'note_user', 'note_admin'], 'string'],
             [['address'], 'string', 'max' => 255],
             [['commission', 'gps'], 'string', 'max' => 40],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
@@ -109,13 +122,15 @@ class Sale extends ActiveRecord
             ['top', 'in', 'range' => [self::TOP_ENABLED, self::TOP_DISABLED]],
             ['sold', 'default', 'value' => self::SOLD_ACTUAL],
             ['sold', 'in', 'range' => [self::SOLD_ACTUAL, self::SOLD_US, self::SOLD_OTHER]],
-            [['view_ids', 'facility_ids'], 'each', 'rule' => ['integer']],
+            [['view_ids', 'facility_ids', 'stage_ids'], 'each', 'rule' => ['integer']],
+            [['code', 'commission', 'contacts', 'owner', 'note_user', 'note_admin', 'address'], 'default', 'value' => ''],
+            [['vat'], 'boolean']
         ];
     }
 
-    public function getFullName()
+    public function getName()
     {
-        return $this->region->content->name.' '.$this->typeName.' - '.$this->name;
+        return $this->content->name;
     }
 
     public function getParking()
@@ -150,11 +165,15 @@ class Sale extends ActiveRecord
 
     public static function getTypeList()
     {
-        return [
-            1 => Yii::t('app', 'Townhouse'),
-            2 => Yii::t('app', 'Villa'),
-            3 => Yii::t('app', 'Apartments'),
-        ];
+        if (!self::$_type_list) {
+            self::$_type_list = [
+                1 => Yii::t('app', 'Villa'),
+                2 => Yii::t('app', 'Apartments'),
+                3 => Yii::t('app', 'Townhouse'),
+                4 => Yii::t('app', 'Building plot'),
+            ];
+        }
+        return self::$_type_list;
     }
 
     public function getTypeName()
@@ -183,6 +202,14 @@ class Sale extends ActiveRecord
             self::STATUS_ACTIVE => Yii::t('app', 'Acvive'),
             self::STATUS_HIDE => Yii::t('app', 'Hide'),
             self::STATUS_AWAITING => Yii::t('app', 'Awaiting'),
+        ];
+    }
+
+    public static function getVatList()
+    {
+        return [
+            self::VAT_TRUE => Yii::t('app', 'Plus VAT'),
+            self::VAT_FALSE => Yii::t('app', 'VAT exempt'),
         ];
     }
 
@@ -220,7 +247,6 @@ class Sale extends ActiveRecord
             'region_id' => Yii::t('app', 'Region'),
             'district_id' => Yii::t('app', 'District'),
             'type_id' => Yii::t('app', 'Property type'),
-            'name' => Yii::t('app', 'Property name'),
             'year' => Yii::t('app', 'Year built'),
             'commission' => Yii::t('app', 'Commission'),
             'price' => Yii::t('app', 'Price'),
@@ -251,7 +277,10 @@ class Sale extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated'),
             'view_ids' => Yii::t('app', 'View from the window'),
             'facility_ids' => Yii::t('app', 'Facilities'),
+            'stage_ids' => Yii::t('app', 'Facilities'),
             'top' => Yii::t('app', 'Top'),
+            'vat' => Yii::t('app', 'VAT'),
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 
@@ -364,6 +393,13 @@ class Sale extends ActiveRecord
 
     }
 
+    public function getStages()
+    {
+        return $this->hasMany(Stage::className(), ['id' => 'stage_id'])
+            ->viaTable('sale_stage', ['sale_id' => 'id']);
+
+    }
+
     public function afterDelete()
     {
         SalePhoto::delPhotos($this->id);
@@ -379,7 +415,9 @@ class Sale extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if (!$this->id) {
-                $this->user_id = Yii::$app->user->identity->id;
+                if (!$this->user_id) {
+                    $this->user_id = Yii::$app->user->identity->id;
+                }
                 if ($this->object_id<1) {
                     $object = new Object();
                     $object->save();

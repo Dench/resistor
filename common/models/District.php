@@ -18,6 +18,9 @@ use yii\helpers\ArrayHelper;
  */
 class District extends ActiveRecord
 {
+    private static $_list;
+    private static $_list_all;
+
     /**
      * @inheritdoc
      */
@@ -65,11 +68,19 @@ class District extends ActiveRecord
 
     public static function getList($id)
     {
-        return ArrayHelper::map(self::find()->where(['region_id' => $id])->all(), 'id', 'content.name');
+        if (empty(self::$_list[$id])) {
+            self::$_list[$id] = ArrayHelper::map(self::find()->where(['region_id' => $id])->all(), 'id', 'content.name');
+        }
+
+        return self::$_list[$id];
     }
 
     public static function getListAll()
     {
-        return ArrayHelper::map(self::find()->all(), 'id', 'content.name');
+        if (!self::$_list_all) {
+            self::$_list_all = ArrayHelper::map(self::find()->all(), 'id', 'content.name');
+        }
+
+        return self::$_list_all;
     }
 }

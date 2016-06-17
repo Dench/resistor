@@ -24,7 +24,15 @@ use yii\helpers\Html;
             <p><i class="fa fa-fw fa-map-marker"></i> <?= $item->region ?>, <?= $item->district ?></p>
         </div>
         <div class="thumbnail-meta">
-            <i class="fa fa-fw fa-info-circle"></i> <?= Yii::t('app', 'Bedrooms') ?>: <?= $item->bedroom ?> | <?= Yii::t('app', 'Bath') ?>: <?= $item->bathroom ?>
+            <i class="fa fa-fw fa-info-circle"></i>
+            <?php
+            if ($item->bedroom) {
+                echo Yii::t('app', 'Bedrooms').": ".$item->bedroom;
+            }
+            if ($item->bathroom) {
+                echo " | ".Yii::t('app', 'Bath').": ".$item->bathroom;
+            }
+            ?>
         </div>
         <div class="thumbnail-meta">
             <i class="fa fa-fw fa-eur"></i> <span class="h3 heading-default"><?= number_format($item->price, 0, '.', ',') ?></span>

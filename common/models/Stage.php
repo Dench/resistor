@@ -6,32 +6,31 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "view".
+ * This is the model class for table "stage".
  *
  * @property integer $id
- *
  */
-class View extends ActiveRecord
+class Stage extends ActiveRecord
 {
     private static $_list;
-
+    
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'view';
+        return 'stage';
     }
 
     /**
      * @param null $lang_id
-     * @return ViewLang|ActiveRecord
+     * @return StageLang|ActiveRecord
      */
     public function getContent($lang_id = null)
     {
         $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
 
-        return $this->hasOne(ViewLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
+        return $this->hasOne(StageLang::className(), ['id' => 'id'])->where('lang_id = :lang_id', [':lang_id' => $lang_id]);
     }
 
     /**

@@ -16,11 +16,6 @@ class SaleItem extends Widget
     public $bathroom;
     public $url;
 
-    public function init()
-    {
-        parent::init();
-    }
-
     public function run()
     {
         return $this->render('saleItem', [

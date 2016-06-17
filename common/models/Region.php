@@ -15,6 +15,8 @@ use yii\helpers\ArrayHelper;
  */
 class Region extends ActiveRecord
 {
+    private static $_list;
+
     /**
      * @inheritdoc
      */
@@ -52,6 +54,10 @@ class Region extends ActiveRecord
 
     public static function getList()
     {
-        return ArrayHelper::map(self::find()->all(), 'id', 'content.name');
+        if (!self::$_list) {
+            self::$_list = ArrayHelper::map(self::find()->all(), 'id', 'content.name');
+        }
+
+        return self::$_list;
     }
 }

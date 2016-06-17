@@ -6,9 +6,8 @@ use yii\base\Widget;
 
 class LangChange extends Widget
 {
-    public function init() {}
-
-    public function run() {
+    public function run()
+    {
         return $this->render('lang', [
             'current' => Lang::getCurrent(),
             'langs' => Lang::find()->where('id != :current_id', [':current_id' => Lang::getCurrent()->id])->all(),

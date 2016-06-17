@@ -5,21 +5,38 @@
 use frontend\assets\PhotoSwipe;
 use yii\bootstrap\Carousel;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 
 PhotoSwipe::register($this);
 
 Yii::$app->view->registerJsFile('@web/js/photoswipe.js', ['depends' => 'frontend\assets\PhotoSwipe']);
 $script = <<< JS
     initPhotoSwipeFromDOM('.property-gallery');
+    $('#modal-btn').on('click', function() {
+        $('#modal').modal('show')
+            .find('#modal-content')
+            .load($(this).attr('data-target'));
+    });
 JS;
 Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
 
-$this->title = $model->fullName;
+$this->title = $model->name;
 ?>
+
+<?php
+yii\bootstrap\Modal::begin([
+    'header' => '<h4>' . Yii::t('app', 'Send a message') . '</h4>',
+    'id' => 'modal',
+    'size' => 'modal-md',
+]);
+?>
+<div id='modal-content'></div>
+<?php yii\bootstrap\Modal::end(); ?>
+
 <section class="wrapper-md post">
     <div class="container">
         <article>
-            <h1><?= Html::encode($model->fullName) ?></h1>
+            <h1><?= Html::encode($model->name) ?></h1>
             <div class="row">
                 <div class="col-lg-9">
                     <?php
@@ -66,7 +83,7 @@ $this->title = $model->fullName;
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-12 hidden-sm hidden-xs">
-                            <a href="#"><?= Yii::t('app', 'Send messenge') ?></a>
+                            <a href="#" id="modal-btn" data-target="<?= Url::to(['/site/send-message']); ?>"><?= Yii::t('app', 'Send a message') ?></a>
                         </div>
                     </div>
                 </div>
@@ -215,7 +232,13 @@ $this->title = $model->fullName;
             <div class="row property-description">
                 <div class="col-lg-12">
                     <div class="h2 line"><?= Yii::t('app', 'Description') ?></div>
-                    <?= nl2br(Html::encode($model->content->description)) ?>
+                    <?php
+                        if (strpos($model->content->description, '>')) {
+                            echo $model->content->description;
+                        } else {
+                            echo nl2br($model->content->description);
+                        }
+                    ?>
                 </div>
             </div>
             <?php endif ?>

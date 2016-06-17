@@ -1,11 +1,13 @@
 <?php
 
+use backend\assets\BootstrapSelect;
 use backend\assets\MapAsset;
 use common\models\District;
 use common\models\Facilities;
 use common\models\Region;
 use common\models\Sale;
 use common\models\SalePhoto;
+use common\models\Stage;
 use common\models\View;
 use kartik\depdrop\DepDrop;
 use kartik\file\FileInput;
@@ -15,6 +17,7 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\MaskedInput;
 
 MapAsset::register($this);
+BootstrapSelect::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Sale */
@@ -105,6 +108,14 @@ MapAsset::register($this);
                 <div class="box-body">
 
                     <div class="row">
+                        <?php
+                        foreach ($model_content as $key => $content) {
+                            echo "<div class=\"col-md-12\">".$form->field($content, "[$key]name")->textInput(['maxlength' => true])->label(Yii::t('app', 'Name')." (".Yii::t('app', 'Lang_'.$key).")")."</div>";
+                        }
+                        ?>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <?= $form->field($model, 'type_id')->dropDownList($model->typeList, ['prompt' => '']) ?>
                             <?= $form->field($model, 'covered')->textInput(['maxlength' => true]) ?>
@@ -123,11 +134,11 @@ MapAsset::register($this);
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'year')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'bedroom')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'bathroom')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'sold')->dropDownList($model->soldList) ?>
+                            <?= $form->field($model, 'title')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
                         </div>
                         <div class="col-md-4">
                             <?= $form->field($model, 'price')->widget(MaskedInput::className(), [
@@ -139,10 +150,14 @@ MapAsset::register($this);
                                 ],
                                 'options' => ['maxlength' => 11, 'class' => 'form-control']
                             ]) ?>
-                            <?= $form->field($model, 'title')->dropDownList(Sale::getYesList(), ['prompt' => '']) ?>
+                            <?= $form->field($model, 'vat')->dropDownList(Sale::getVatList(), ['prompt' => '']) ?>
+                            <?= $form->field($model, 'stage_ids')->dropDownList(Stage::getList(), [
+                                'class' => 'form-control selectpicker',
+                                'multiple' => 'multiple'
+                            ])->label(Yii::t('app', 'Stage')) ?>
                             <?= $form->field($model, 'commission')->textInput(['maxlength' => true]) ?>
                             <?= $form->field($model, 'status')->dropDownList(Sale::getStatusList()) ?>
-                            <?= $form->field($model, 'top')->inline()->checkbox(['value' => 1]) ?>
+                            <?= $form->field($model, 'top')->checkbox(['value' => 1]) ?>
                         </div>
                     </div>
 
@@ -163,7 +178,7 @@ MapAsset::register($this);
                                 </div>
                                 <div class="col-md-6">
                                     <?=
-                                    $form->field($model, 'district_id')->widget(DepDrop::classname(), [
+                                    $form->field($model, 'district_id')->widget(DepDrop::className(), [
                                         'data' => District::getList($model->region_id),
                                         'options'=> ['id' => 'district_id'],
                                         'pluginOptions' => [
@@ -190,7 +205,7 @@ MapAsset::register($this);
 
                             <div id="map_canvas" style="height: 300px; margin-bottom: 20px;"></div>
 
-                            <?= $form->field($model, 'view_ids')->checkBoxList(View::getList()) ?>
+                            <?= $form->field($model, 'view_ids')->checkboxList(View::getList()) ?>
 
                         </div>
                     </div>

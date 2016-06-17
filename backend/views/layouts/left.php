@@ -26,6 +26,8 @@
                 ['label' => Yii::t('app', 'Views'), 'icon' => 'fa fa-picture-o', 'url' => ['/view']],
 
                 ['label' => 'Menu', 'options' => ['class' => 'header']],
+                ['label' => Yii::t('app', 'Parser'), 'icon' => 'fa fa-file-excel-o', 'url' => ['/parser']],
+                ['label' => Yii::t('app', 'Aliases'), 'icon' => 'fa fa-file-excel-o', 'url' => ['/alias']],
                 ['label' => Yii::t('app', 'Phrases'), 'icon' => 'fa fa-font', 'url' => ['/message']],
             ];
 

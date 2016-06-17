@@ -26,7 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'code',
                     'headerOptions' => ['width' => '100'],
                 ],
-                'name',
+                [
+                    'class' => SetColumn::className(),
+                    'attribute' => 'name',
+                    'name' => 'name',
+                    'value' => 'content.name'
+                ],
                 [
                     'class' => SetColumn::className(),
                     'attribute' => 'region_id',

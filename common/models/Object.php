@@ -14,7 +14,6 @@ use yii\helpers\ArrayHelper;
 class Object extends ActiveRecord
 {
 
-    public $name;
     public $address;
     public $region_id;
     public $district_id;
@@ -39,6 +38,11 @@ class Object extends ActiveRecord
     public function getStatus()
     {
         return $this->sale->status;
+    }
+
+    public function getName()
+    {
+        return @$this->sale->name;
     }
 
     public function getStatusName()

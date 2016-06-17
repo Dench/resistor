@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $lang_id
  * @property string $description
+ * @property string $name
  *
  */
 class SaleLang extends ActiveRecord
@@ -29,9 +30,10 @@ class SaleLang extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'lang_id'], 'required'],
+            [['id', 'lang_id', 'name'], 'required'],
             [['id', 'lang_id'], 'integer'],
-            [['description'], 'string']
+            [['name'], 'string', 'max' => 255],
+            [['description'], 'safe']
         ];
     }
 
@@ -44,6 +46,7 @@ class SaleLang extends ActiveRecord
             'id' => 'ID',
             'lang_id' => Yii::t('app', 'Lang'),
             'description' => Yii::t('app', 'Description'),
+            'name' => Yii::t('app', 'Name'),
         ];
     }
 }

@@ -25,6 +25,7 @@ class SaleSearch extends Sale
     public $bedroom_to;
     public $price_from;
     public $price_to;
+    public $name;
     /**
      * @inheritdoc
      */
@@ -88,6 +89,11 @@ class SaleSearch extends Sale
             return $dataProvider;
         }
 
+        if (!empty($this->name)) {
+            $query->leftJoin('sale_lang', 'sale_lang.id = sale.id');
+            $query->groupBy('sale.id');
+        }
+
         if ($this->view_ids) {
             $query->leftJoin('sale_view', 'sale_view.sale_id = sale.id');
             $query->groupBy('sale.id');
@@ -121,7 +127,7 @@ class SaleSearch extends Sale
             'top' => $this->top,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'sale_lang.name', $this->name])
             ->andFilterWhere(['like', 'commission', $this->commission])
             ->andFilterWhere(['like', 'gps', $this->gps])
             ->andFilterWhere(['like', 'contacts', $this->contacts])

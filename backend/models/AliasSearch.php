@@ -5,23 +5,21 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Object;
+use backend\models\ParserAlias;
 
 /**
- * ObjectSearch represents the model behind the search form about `common\models\Object`.
+ * AliasSearch represents the model behind the search form about `backend\models\ParserAlias`.
  */
-class ObjectSearch extends Object
+class AliasSearch extends ParserAlias
 {
-    public $status;
-    public $name;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id','region_id','district_id','status'], 'integer'],
-            [['name','address'], 'string']
+            [['name', 'category'], 'safe'],
+            [['id'], 'integer'],
         ];
     }
 
@@ -43,7 +41,9 @@ class ObjectSearch extends Object
      */
     public function search($params)
     {
-        $query = Object::find()->joinWith(['sale']);//->orderBy(['id' => SORT_DESC]);
+        $query = ParserAlias::find();
+
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -59,14 +59,11 @@ class ObjectSearch extends Object
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'object.id' => $this->id,
-            'sale.region_id' => $this->region_id,
-            'sale.status' => $this->status,
-            'sale.district_id' => $this->district_id,
+            'id' => $this->id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'address', $this->address]);
+            ->andFilterWhere(['like', 'category', $this->category]);
 
         return $dataProvider;
     }
