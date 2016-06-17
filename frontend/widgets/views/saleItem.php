@@ -20,7 +20,7 @@ use yii\helpers\Html;
             </div>
         </div>
         <div class="thumbnail-meta">
-            <p><i class="fa fa-fw fa-home"></i> <?= Html::encode($item->name) ?></p>
+            <!-- <p><i class="fa fa-fw fa-home"></i> <?= Html::encode($item->name) ?></p> -->
             <p><i class="fa fa-fw fa-map-marker"></i> <?= $item->region ?>, <?= $item->district ?></p>
         </div>
         <div class="thumbnail-meta">
