@@ -19,7 +19,7 @@ use yii\helpers\Json;
  */
 class Parse extends \yii\db\ActiveRecord
 {
-    const SCENARIO_ARTISTODEV = 6;
+    const SCENARIO_ARTISTODEV = 3;
 
     /**
      * @inheritdoc
