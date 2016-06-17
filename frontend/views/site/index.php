@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $search frontend\models\SaleSearch */
+/* @var $search common\models\SaleSearch */
 /* @var $last array */
 /* @var $week array */
 /* @var $searchModel common\models\SaleSearch */
@@ -11,7 +11,7 @@ use yii\bootstrap\Carousel;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'Home';
+$this->title = Yii::$app->params['sitename'];
 ?>
 
 <section class="wrapper-lg bg-custom-home">
