@@ -21,7 +21,50 @@ class ParserController extends Controller
         return $this->render('index');
     }
     
-    public function actionPrepare($url, $lang)
+    public function  actionPafilia($url, $lang)
+    {
+        Lang::setCurrent($lang);
+
+        $type_list = ParserAlias::type();
+
+        $file = $url;
+        $file = '../../upload/pafilia';
+
+        $ids = Parse::saveXml($file, Parse::SCENARIO_PAFILIA);
+
+        $temp = Parse::find()->with('content')->where(['id' => $ids])->all();
+
+        $items = [];
+        foreach ($temp as $t) {
+            $data = Json::decode($t->content->data);
+            if ($t->sale_id) {
+                $sale = Sale::findOne(['id' => $t->sale_id]);
+                $content = SaleLang::findOne(['id' => $t->sale_id, 'lang_id' => Lang::getCurrent()->id]);
+            } else {
+                $sale = new Sale();
+                $sale->user_id = $t->user_id;
+                $content = new SaleLang();
+                $content->lang_id = Lang::getCurrent()->id;
+            }
+
+            $content->name = $data['propertyname'];
+            $sale->bedroom = $data['bedrooms'];
+            $sale->bathroom = $data['bathrooms'];
+            $sale->price = round($data['price']);
+
+            $origin = [];
+            if (isset($type_list[$data['propertyType']])) {
+                $sale->type_id = $type_list[$data['propertyType']];
+            } else {
+                $origin['type'] = $data['propertyType'];
+            }
+
+            $image_array = [];
+        }
+
+    }
+    
+    public function actionAristo($url, $lang)
     {
         Lang::setCurrent($lang);
 
@@ -35,7 +78,7 @@ class ParserController extends Controller
         //$file = '../../upload/xml';
         $file = $url;
 
-        $ids = Parse::saveXml($file, Parse::SCENARIO_ARTISTODEV);
+        $ids = Parse::saveXml($file, Parse::SCENARIO_ARISTO);
 
         $temp = Parse::find()->with('content')->where(['id' => $ids])->all();
 

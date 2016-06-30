@@ -74,6 +74,8 @@ class BrokerController extends Controller
         if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
             $model->user_id = 1;
             if ($model->validate() && $user->validate()) {
+                $user->setPassword($user->password);
+                $user->generateAuthKey();
                 if ($user->save()) {
                     $model->user_id = $user->id;
                     if ($model->save()) {

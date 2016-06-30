@@ -50,6 +50,7 @@ class Broker extends ActiveRecord
             [['address', 'contact', 'recommend'], 'string', 'max' => 255],
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            ['edit', 'default', 'value' => '']
         ];
     }
 

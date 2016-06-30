@@ -45,6 +45,7 @@ use yii\helpers\Url;
  * @property integer $updated_at
  * @property integer $top
  * @property boolean $vat
+ * @property boolean $gps_hide
  * 
  * @property array view_ids
  * @property array facility_ids
@@ -124,7 +125,7 @@ class Sale extends ActiveRecord
             ['sold', 'in', 'range' => [self::SOLD_ACTUAL, self::SOLD_US, self::SOLD_OTHER]],
             [['view_ids', 'facility_ids', 'stage_ids'], 'each', 'rule' => ['integer']],
             [['code', 'commission', 'contacts', 'owner', 'note_user', 'note_admin', 'address'], 'default', 'value' => ''],
-            [['vat'], 'boolean']
+            [['vat', 'gps_hide'], 'boolean']
         ];
     }
 
@@ -281,6 +282,7 @@ class Sale extends ActiveRecord
             'top' => Yii::t('app', 'Top'),
             'vat' => Yii::t('app', 'VAT'),
             'name' => Yii::t('app', 'Name'),
+            'gps_hide' => Yii::t('app', 'Hide'),
         ];
     }
 

@@ -315,6 +315,9 @@ div.required label.control-label:after {
 .contact-box.bg-primary a {
     color: #FFF;
 }
+.spacer-lg {
+    line-height: 0;
+}
 
 
 
@@ -335,6 +338,9 @@ div.required label.control-label:after {
     footer,
     footer .text-right {
         text-align: center;
+    }
+    .padding-lg {
+        padding: 2em;
     }
 }
 @media (max-width: 1200px) {

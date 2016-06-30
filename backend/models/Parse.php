@@ -19,7 +19,8 @@ use yii\helpers\Json;
  */
 class Parse extends \yii\db\ActiveRecord
 {
-    const SCENARIO_ARTISTODEV = 3;
+    const SCENARIO_ARISTO = 3;
+    const SCENARIO_PAFILIA = 4;
 
     /**
      * @inheritdoc
@@ -81,12 +82,20 @@ class Parse extends \yii\db\ActiveRecord
     public static function saveXml($file, $user_id, $lang_id = null, $force = null)
     {
         $lang_id = ($lang_id === null) ? Lang::getCurrent()->id : $lang_id;
-        
+
         $properties = simplexml_load_file($file);
 
         $property_ids = [];
-        foreach ($properties as $property) {
-            $property_ids[] = $property->propertyID;
+        if ($user_id == Parse::SCENARIO_ARISTO) {
+            foreach ($properties as $property) {
+                $property_ids[] = (string)$property->propertyID;
+            }
+        }
+        if ($user_id == Parse::SCENARIO_PAFILIA) {
+            $properties = $properties->properties->property;
+            foreach ($properties as $property) {
+                $property_ids[] = str_replace('property-', '', (string)$property->attributes()->id);
+            }
         }
         $parses = Parse::find()->where(['user_id' => $user_id, 'remote_id' => $property_ids])->indexBy('remote_id')->all();
 
@@ -98,8 +107,13 @@ class Parse extends \yii\db\ActiveRecord
 
         $ids = [];
         foreach ($properties as $property) {
-
-            $property_id = (string)$property->propertyID;
+            $property_id = 0;
+            if ($user_id == Parse::SCENARIO_ARISTO) {
+                $property_id = (string)$property->propertyID;
+            }
+            if ($user_id == Parse::SCENARIO_PAFILIA) {
+                $property_id = str_replace('property-', '', (string)$property->attributes()->id);
+            }
             $content = false;
 
             if (!isset($parses[$property_id])) {

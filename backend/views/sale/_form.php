@@ -200,6 +200,7 @@ BootstrapSelect::register($this);
                                 </div>
                                 <div class="col-md-6">
                                     <?= $form->field($model, 'gps', ['template' => "{label}\n<div class=\"input-group\">{input}\n<span class=\"input-group-btn\"><button class=\"btn btn-default\" type=\"button\"><span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span></button></span></div>\n{hint}\n{error}"])->textInput(['maxlength' => true]) ?>
+                                    <?= $form->field($model, 'gps_hide')->checkbox() ?>
                                 </div>
                             </div>
 

@@ -63,12 +63,17 @@ use yii\widgets\ActiveForm;
             ])->label(Yii::t('app', 'Type')) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
-            <?= $form->field($model, 'bedroom')->dropDownList([1,2,3,4], [
+            <?= $form->field($model, 'bedroom_from')->dropDownList([
+                    1 => '1 ' . Yii::t('app', 'and more'),
+                    2 => '2 ' . Yii::t('app', 'and more'),
+                    3 => '3 ' . Yii::t('app', 'and more'),
+                    4 => '4 ' . Yii::t('app', 'and more'),
+                ], [
                 'class' => 'form-control selectpicker show-tick',
                 'data-style' => 'btn-primary',
                 'title' => Yii::t('app', 'Choose One'),
                 'prompt' => Yii::t('app', 'Any')
-            ]) ?>
+            ])->label(Yii::t('app', 'Bedrooms')) ?>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-2">
             <?= $form->field($model, 'code')->label(Yii::t('app', 'Property ID'))->textInput(['placeholder' => Yii::t('app', 'Insert property ID')]) ?>

@@ -98,7 +98,9 @@ yii\bootstrap\Modal::begin([
                     </div>
                 </div>
                 <div class="row">
+                    <?php if (!$model->gps_hide): ?>
                     <div class="col-lg-3 col-md-4 col-sm-6">
+                        <a href="https://www.google.com.ua/maps/place/<?= $model->gps ?>" target="_blank">
                         <?= \codru\staticmap\StaticMap::widget(
                             [
                                 'map' => [
@@ -119,7 +121,9 @@ yii\bootstrap\Modal::begin([
                                 ],
                             ]
                         ) ?>
+                        </a>
                     </div>
+                    <?php endif; ?>
                     <div class="col-lg-9 col-md-8 col-sm-6">
                         <div class="row">
                             <ul class="col-lg-5 col-md-6 list-unstyled">
