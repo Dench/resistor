@@ -5,6 +5,7 @@ use common\models\Facilities;
 use common\models\Region;
 use common\models\Sale;
 use common\models\View;
+use frontend\assets\BootstrapSliderAsset;
 use kartik\depdrop\DepDrop;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -13,6 +14,28 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\SaleSearch */
 /* @var $form yii\widgets\ActiveForm */
+
+BootstrapSliderAsset::register($this);
+
+$script = <<< JS
+    $("#ex").slider({});
+JS;
+Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
+
+
+$css = <<< CSS
+    #exSlider .slider-selection {
+        background: #BABABA;
+    }
+    .slider-handle {
+        background-color: #8e84a8;
+        background-image: -webkit-linear-gradient(top, #736596 0, #8e84a8 100%);
+        background-image: -o-linear-gradient(top, #736596 0, #8e84a8 100%);
+        background-image: linear-gradient(to bottom, #736596 0, #8e84a8 100%);
+    }
+CSS;
+
+Yii::$app->view->registerCss($css);
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -81,6 +104,11 @@ use yii\widgets\ActiveForm;
         <div class="col-sm-4 col-md-2">
             <label class="search"><i class="fa fa-search"></i> <?= Html::a(Yii::t('app', 'Advanced search'), Url::toRoute(['/search', 'advanced' => 1])) ?></label>
             <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary btn-block']) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <b>€ <?= Sale::priceMin(); ?></b> <input id="ex" data-slider-id='exSlider' type="text" value="" data-slider-min="<?= Sale::priceMin(); ?>" data-slider-max="<?= Sale::priceMax(); ?>" data-slider-step="100" data-slider-value="[<?= Sale::priceMin(); ?>,<?= Sale::priceMax(); ?>]"/> <b>€ <?= Sale::priceMax(); ?></b>
         </div>
     </div>
 <?php else: ?>

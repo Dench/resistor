@@ -72,6 +72,9 @@ class Sale extends ActiveRecord
     private static $_type_list;
     private static $_stage_list;
 
+    private static $_min;
+    private static $_max;
+
     /**
      * @inheritdoc
      */
@@ -464,6 +467,22 @@ class Sale extends ActiveRecord
 
         $code = sprintf("%02d", $this->region_id) . sprintf("%03d", $this->district_id) . $this->id;
         Yii::$app->db->createCommand()->update('sale', ['code' => $code], ['id' => $this->id])->execute();
+    }
+
+    public static function priceMin()
+    {
+        if (!self::$_min) {
+            self::$_min = self::find()->min('price');
+        }
+        return self::$_min;
+    }
+
+    public static function priceMax()
+    {
+        if (!self::$_max) {
+            self::$_max = self::find()->max('price');
+        }
+        return self::$_max;
     }
 
 }
