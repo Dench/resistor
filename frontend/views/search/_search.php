@@ -18,7 +18,23 @@ use yii\widgets\ActiveForm;
 BootstrapSliderAsset::register($this);
 
 $script = <<< JS
-    $("#ex").slider({});
+    $("#ex").slider().on('slide', function(){
+        var val = this.value.split(',');
+        $('.ex-slider-min').text(parseInt(val[0]).formatMoney(0, '.', ','));
+        $('.ex-slider-max').text(parseInt(val[1]).formatMoney(0, '.', ','));
+        $('#price_from').val(val[0]);
+        $('#price_to').val(val[1]);
+    });
+    Number.prototype.formatMoney = function(c, d, t){
+    var n = this, 
+        c = isNaN(c = Math.abs(c)) ? 2 : c, 
+        d = d == undefined ? "." : d, 
+        t = t == undefined ? "," : t, 
+        s = n < 0 ? "-" : "", 
+        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+        j = (j = i.length) > 3 ? j % 3 : 0;
+       return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+     };
 JS;
 Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
 
@@ -32,6 +48,12 @@ $css = <<< CSS
         background-image: -webkit-linear-gradient(top, #736596 0, #8e84a8 100%);
         background-image: -o-linear-gradient(top, #736596 0, #8e84a8 100%);
         background-image: linear-gradient(to bottom, #736596 0, #8e84a8 100%);
+    }
+    .ex-slider-label {
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+        padding-right: 12px;
     }
 CSS;
 
@@ -108,7 +130,17 @@ Yii::$app->view->registerCss($css);
     </div>
     <div class="row">
         <div class="col-md-12">
-            <b>€ <?= Sale::priceMin(); ?></b> <input id="ex" data-slider-id='exSlider' type="text" value="" data-slider-min="<?= Sale::priceMin(); ?>" data-slider-max="<?= Sale::priceMax(); ?>" data-slider-step="100" data-slider-value="[<?= Sale::priceMin(); ?>,<?= Sale::priceMax(); ?>]"/> <b>€ <?= Sale::priceMax(); ?></b>
+            <div style="margin-top: 15px; height: 27px;">
+                <label><?= Yii::t('app', 'Price from') ?></label>
+                <?= \common\widgets\BootstrapSlider::widget([
+                    'min' => Sale::priceMin(),
+                    'max' => Sale::priceMax(),
+                    'val_min' => $model->price_from ? $model->price_from : Sale::priceMin(),
+                    'val_max' => $model->price_to ? $model->price_to : Sale::priceMax(),
+                ]) ?>
+                <?= Html::hiddenInput('SaleSearch[price_from]', $model->price_from, ['id' => 'price_from']) ?>
+                <?= Html::hiddenInput('SaleSearch[price_to]', $model->price_to, ['id' => 'price_to']) ?>
+            </div>
         </div>
     </div>
 <?php else: ?>
