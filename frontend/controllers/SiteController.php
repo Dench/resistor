@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Application;
 use common\models\Sale;
 use common\models\SaleSearch;
 use common\models\LoginForm;
@@ -127,6 +128,24 @@ class SiteController extends Controller
     public function actionContact()
     {
         return $this->render('contact');
+    }
+
+    /**
+     * Displays send page.
+     *
+     * @return mixed
+     */
+    public function actionSend()
+    {
+        $model = new Application();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you for contacting us.'));
+            return $this->redirect('contact');
+        } else {
+            return $this->render('send', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**

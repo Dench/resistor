@@ -29,6 +29,6 @@ class BootstrapSlider extends Widget
 
     public function run()
     {
-        echo '<b class="ex-slider-label">' . $this->currency . ' <span class="ex-slider-min">' . $this->val_min . '</span></b> <input id="' . $this->id . '" style="display: none;" data-slider-id="exSlider" data-slider-min="' . $this->min . '" data-slider-max="' . $this->max . '" data-slider-step="' . $this->step . '" data-slider-value="[' . $this->val_min . ',' . $this->val_max . ']"/> <b class="ex-slider-label">' . $this->currency . ' <span class="ex-slider-max">' . $this->val_max . '</span></b>';
+        echo '<span class="ex-wrap"><b class="ex-slider-label">' . $this->currency . ' <span class="ex-slider-min">' . $this->val_min . '</span></b> <input id="' . $this->id . '" style="display: none;" data-slider-id="exSlider" data-slider-min="' . $this->min . '" data-slider-max="' . $this->max . '" data-slider-step="' . $this->step . '" data-slider-value="[' . $this->val_min . ',' . $this->val_max . ']"/> <b class="ex-slider-label">' . $this->currency . ' <span class="ex-slider-max">' . $this->val_max . '</span></b></span>';
     }
 }

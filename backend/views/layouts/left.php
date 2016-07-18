@@ -9,8 +9,11 @@
                 $agentUrl = ['/broker', 'sort' => '-edit'];
             }
             $notifyEdit = $notifyEdit ? " (".$notifyEdit.")" : '';
+            $notifyApp = common\models\Application::notifyApp();
+            $notifyApp = $notifyApp ? " (".$notifyApp.")" : '';
             $items = [
                 ['label' => Yii::t('app', 'Sales'), 'options' => ['class' => 'header']],
+                ['label' => Yii::t('app', 'Application').$notifyApp, 'icon' => 'fa fa-envelope', 'url' => ['/application']],
                 ['label' => Yii::t('app', 'Sales'), 'icon' => 'fa fa-tags', 'url' => ['/sale']],
                 ['label' => Yii::t('app', 'Objects'), 'icon' => 'fa fa-home', 'url' => ['/object']],
                 ['label' => Yii::t('app', 'Map'), 'icon' => 'fa fa-map-marker', 'url' => ['/map']],

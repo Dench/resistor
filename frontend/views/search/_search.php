@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
 
 BootstrapSliderAsset::register($this);
 
+// TODO: Переделать
+
 $script = <<< JS
     $("#ex").slider().on('slide', function(){
         var val = this.value.split(',');
@@ -54,6 +56,9 @@ $css = <<< CSS
         width: 90px;
         text-align: right;
         padding-right: 12px;
+    }
+    .ex-wrap {
+        white-space: nowrap;
     }
 CSS;
 
