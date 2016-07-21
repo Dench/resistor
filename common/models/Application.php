@@ -26,8 +26,6 @@ use yii\behaviors\TimestampBehavior;
  */
 class Application extends \yii\db\ActiveRecord
 {
-    public $verifyCode;
-
     const STATUS_NEW = 0;
     const STATUS_READ = 1;
 
@@ -59,11 +57,10 @@ class Application extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email'], 'required'],
+            [['name', 'email'], 'required'],
             [['name', 'phone', 'email', 'mycity', 'rooms', 'distance', 'sqr', 'budget', 'region', 'text'], 'string', 'max' => 255],
             [['name', 'phone', 'email', 'mycity', 'rooms', 'distance', 'sqr', 'budget', 'region', 'text'], 'trim'],
             ['email', 'email'],
-            ['verifyCode', 'captcha'],
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => [self::STATUS_NEW, self::STATUS_READ]],
         ];
@@ -75,7 +72,6 @@ class Application extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'verifyCode' => Yii::t('app', 'Verification Code'),
             'id' => Yii::t('app', 'ID'),
             'time' => Yii::t('app', 'Time'),
             'name' => Yii::t('app', 'Full name'),

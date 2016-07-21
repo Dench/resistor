@@ -126,8 +126,7 @@ footer .social-networks {
     text-decoration: none;
     background: #8e84a8;
 }
-#top span,
-#top a {
+.top-pd {
     display: inline-block;
     padding: 0 10px;
     white-space: nowrap;
@@ -318,7 +317,9 @@ div.required label.control-label:after {
 .spacer-lg {
     line-height: 0;
 }
-
+.modal-header {
+    padding-bottom: 5px;
+}
 
 
 
@@ -341,6 +342,12 @@ div.required label.control-label:after {
     }
     .padding-lg {
         padding: 2em;
+    }
+    .top-pd-none {
+        padding: 0;
+    }
+    .top-pd-sx {
+        padding: 0 10px 0 0;
     }
 }
 @media (max-width: 1200px) {

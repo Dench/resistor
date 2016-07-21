@@ -18,6 +18,16 @@ AppAsset::register($this);
 AppAssetIE9::register($this);
 BootstrapSelect::register($this);
 FontAwesome::register($this);
+
+$script = <<< JS
+    $('#modal-send-btn').on('click', function() {
+        $('#modal-send').modal('show')
+            .find('#modal-send-content')
+            .load($(this).attr('data-target'));
+    });
+JS;
+Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -37,23 +47,24 @@ FontAwesome::register($this);
 <section id="top" class="bg-primary">
     <div class="container">
         <div class="row">
-            <div class="col-xs-6 col-sm-8 col-md-8 text-nowrap">
+            <div class="col-xs-6 col-sm-6 col-md-5 text-nowrap">
                 <?php
                     if (Yii::$app->params['phone1']) {
-                        echo '<span><i class="fa fa-phone"></i> '.Yii::$app->params['phone1'].'</span>';
+                        echo '<span class="top-pd top-pd-none"><i class="fa fa-phone"></i> '.Yii::$app->params['phone1'].'</span>';
                     }
                     if (Yii::$app->params['phone2']) {
-                        echo '<span class="hidden-xs"><i class="fa fa-phone"></i> '.Yii::$app->params['phone2'].'</span>';
+                        echo '<span class="top-pd hidden-xs"><i class="fa fa-phone"></i> '.Yii::$app->params['phone2'].'</span>';
                     }
                     if (Yii::$app->params['email']) {
-                        echo '<a href="#" class="hidden-xs"><i class="fa fa-envelope"></i> '.Yii::$app->params['email'].'</a>';
+                        echo '<a href="#" class="top-pd hidden-xs hidden-sm hidden-md"><i class="fa fa-envelope fa-fw"></i> '.Yii::$app->params['email'].'</a>';
                     }
                 ?>
             </div>
-            <div class="col-xs-3 col-sm-2 col-md-2">
+            <div class="col-xs-3 col-sm-4 col-md-5 text-right top-pd-sx text-nowrap">
                 <?php
+                    echo Html::a('<i class="fa fa-search fa-fw"></i> <span class="hidden-xs hidden-sm">'.Yii::t('app', 'Property search request').'</span><span class="hidden-xs hidden-md hidden-lg">'.Yii::t('app', 'Search').'</span>', '#', ['id' => 'modal-send-btn','class' => 'top-pd', 'data-target' => Url::to(['site/send'])]);
                     if (!Yii::$app->user->isGuest) {
-                        echo Html::a('<i class="fa fa-user fa-fw"></i> <span class="hidden-xs">'.Yii::t('app', 'Cabinet').'</span>', Url::toRoute('personal/index'));
+                        echo Html::a('<i class="fa fa-user fa-fw"></i> <span class="hidden-xs">'.Yii::t('app', 'Cabinet').'</span>', Url::toRoute('personal/index'), ['class' => 'top-pd']);
                     }
                 ?>
             </div>
@@ -110,6 +121,17 @@ FontAwesome::register($this);
         </div>
     </section>
 </footer>
+
+<?php
+yii\bootstrap\Modal::begin([
+    'header' => '<h2>' . Yii::t('app', 'Property search request') . '</h2>',
+    'id' => 'modal-send',
+    'size' => 'modal-md',
+]);
+?>
+<div id='modal-send-content'></div>
+<?php yii\bootstrap\Modal::end(); ?>
+
 <?php $this->endBody() ?>
 </body>
 </html>

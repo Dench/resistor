@@ -142,7 +142,7 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you for contacting us.'));
             return $this->redirect('contact');
         } else {
-            return $this->render('send', [
+            return $this->renderAjax('modalSend', [
                 'model' => $model,
             ]);
         }
