@@ -39,30 +39,6 @@ $script = <<< JS
      };
 JS;
 Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
-
-
-$css = <<< CSS
-    #exSlider .slider-selection {
-        background: #BABABA;
-    }
-    .slider-handle {
-        background-color: #8e84a8;
-        background-image: -webkit-linear-gradient(top, #736596 0, #8e84a8 100%);
-        background-image: -o-linear-gradient(top, #736596 0, #8e84a8 100%);
-        background-image: linear-gradient(to bottom, #736596 0, #8e84a8 100%);
-    }
-    .ex-slider-label {
-        display: inline-block;
-        width: 90px;
-        text-align: right;
-        padding-right: 12px;
-    }
-    .ex-wrap {
-        white-space: nowrap;
-    }
-CSS;
-
-Yii::$app->view->registerCss($css);
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -135,8 +111,7 @@ Yii::$app->view->registerCss($css);
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div style="margin-top: 15px; height: 27px;">
-                <label><?= Yii::t('app', 'Price from') ?></label>
+            <div style="margin-top: 15px;">
                 <?= \common\widgets\BootstrapSlider::widget([
                     'min' => Sale::priceMin(),
                     'max' => Sale::priceMax(),

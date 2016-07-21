@@ -126,7 +126,6 @@ Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
 yii\bootstrap\Modal::begin([
     'header' => '<h2>' . Yii::t('app', 'Property search request') . '</h2>',
     'id' => 'modal-send',
-    'size' => 'modal-md',
 ]);
 ?>
 <div id='modal-send-content'></div>

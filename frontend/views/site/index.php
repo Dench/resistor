@@ -18,7 +18,7 @@ $this->title = Yii::$app->params['sitename'];
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="widget padding-lg bg-dark">
+                <div class="widget padding-lg bg-dark home-block">
                     <h1 class="text-center text-light"><?= Yii::t('app', 'Slogan') ?></h1>
                     <br class="spacer-lg">
 
