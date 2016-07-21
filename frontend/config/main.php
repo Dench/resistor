@@ -44,6 +44,9 @@ return [
         'request' => [
             'class' => 'common\components\LangRequest'
         ],
+        'assetManager' => [
+            'appendTimestamp' => true,
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
