@@ -4,7 +4,6 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use yii\captcha\Captcha;
 
 $this->title = Yii::t('app', 'Search real estate');
 $this->params['breadcrumbs'][] = $this->title;
@@ -32,6 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <h2><?= Yii::t('app', 'Wishes to the object') ?></h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <?= $form->field($model, 'type_ids')->checkboxList(\common\models\Type::getList())->inline() ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-6">

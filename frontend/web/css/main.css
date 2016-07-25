@@ -261,10 +261,10 @@ div.required label.control-label:after {
     padding-bottom: 50px;
 }
 .property-price {
-    padding-bottom: 40px;
+    padding-bottom: 46px;
 }
 .property-contact {
-    padding-bottom: 40px;
+    padding-bottom: 46px;
 }
 .property-list {
     font-size: 19px;
@@ -342,6 +342,14 @@ div.required label.control-label:after {
 .home-block {
     padding-bottom: 25px;
 }
+a.bg-primary:hover, a.bg-primary:focus {
+    background-color: #2e2053;
+    color: #FFF;
+}
+a.btn-block {
+    text-decoration: none;
+    padding: 5px 0;
+}
 
 
 
@@ -379,6 +387,21 @@ div.required label.control-label:after {
     }
     .slider.slider-horizontal {
         width: 100%;
+    }
+}
+@media (max-width: 970px) {
+    .property-id {
+        padding-bottom: 20px;
+    }
+    .property-price {
+        padding-bottom: 20px;
+    }
+    .property-contact {
+        padding-bottom: 20px;
+    }
+    .property-modal {
+        margin: 0 auto 40px auto;
+        float: none;
     }
 }
 @media (max-width: 1200px) {

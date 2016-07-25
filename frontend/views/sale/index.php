@@ -12,11 +12,6 @@ PhotoSwipe::register($this);
 Yii::$app->view->registerJsFile('@web/js/photoswipe.js', ['depends' => 'frontend\assets\PhotoSwipe']);
 $script = <<< JS
     initPhotoSwipeFromDOM('.property-gallery');
-    $('#modal-btn').on('click', function() {
-        $('#modal').modal('show')
-            .find('#modal-content')
-            .load($(this).attr('data-target'));
-    });
 JS;
 Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
 
@@ -59,15 +54,15 @@ yii\bootstrap\Modal::begin([
                     }
                     ?>
                 </div>
-                <div class="col-lg-3">
-                    <div class="row property-main">
-                        <div class="col-xs-5 col-sm-3 col-md-3 col-lg-12 property-id">
+                <div class="col-lg-3 property-main">
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-3 col-md-2 col-lg-12 property-id">
                             <?= Yii::t('app', 'Property ID') ?>: <?= $model->code ?>
                         </div>
                         <div class="col-xs-7 col-sm-4 col-md-3 col-lg-12 property-price">
                             <?= Yii::t('app', 'Current Price') ?>: <span>€ <?= number_format($model->price, 0, '.', ',') ?></span>
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12 property-contact hidden-xs">
+                        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-12 property-contact hidden-xs">
                             <div class="row">
                                 <div class="col-xs-4 col-sm-3 col-md-3 col-lg-12 text-primary">
                                     <i class="fa fa-phone"></i>
@@ -82,8 +77,13 @@ yii\bootstrap\Modal::begin([
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 col-lg-12 hidden-sm hidden-xs">
-                            <a href="#" id="modal-btn" data-target="<?= Url::to(['/site/send-message']); ?>"><?= Yii::t('app', 'Send a message') ?></a>
+                        <div class="col-md-3 col-lg-12 hidden-sm hidden-xs">
+                            <a href="#" id="modal-btn" class="bg-primary btn-block" data-target="<?= Url::to(['/site/send']); ?>"><?= Yii::t('app', 'Search property individually') ?></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 hidden-md hidden-lg property-modal">
+                            <a href="#" id="modal-btn" class="bg-primary btn-block" data-target="<?= Url::to(['/site/send']); ?>"><?= Yii::t('app', 'Search property individually') ?></a>
                         </div>
                     </div>
                 </div>

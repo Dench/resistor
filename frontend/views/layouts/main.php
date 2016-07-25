@@ -20,7 +20,7 @@ BootstrapSelect::register($this);
 FontAwesome::register($this);
 
 $script = <<< JS
-    $('#modal-send-btn').on('click', function() {
+    $('#modal-send-btn, #modal-btn').on('click', function() {
         $('#modal-send').modal('show')
             .find('#modal-send-content')
             .load($(this).attr('data-target'));

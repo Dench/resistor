@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -48,6 +49,12 @@ class Application extends \yii\db\ActiveRecord
                 'createdAtAttribute' => 'time',
                 'updatedAtAttribute' => false,
             ],
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    'type_ids' => 'types',
+                ],
+            ],
         ];
     }
 
@@ -63,6 +70,7 @@ class Application extends \yii\db\ActiveRecord
             ['email', 'email'],
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => [self::STATUS_NEW, self::STATUS_READ]],
+            [['type_ids'], 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -85,6 +93,7 @@ class Application extends \yii\db\ActiveRecord
             'region' => Yii::t('app', 'Region'),
             'text' => Yii::t('app', 'Text'),
             'status' => Yii::t('app', 'Status'),
+            'type_ids' => Yii::t('app', 'Property type')
         ];
     }
 
@@ -161,5 +170,12 @@ class Application extends \yii\db\ActiveRecord
     {
         $a = self::getStatusList();
         return $a[$this->status];
+    }
+
+    public function getTypes()
+    {
+        return $this->hasMany(Type::className(), ['id' => 'type_id'])
+            ->viaTable('application_type', ['application_id' => 'id']);
+
     }
 }
