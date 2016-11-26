@@ -30,7 +30,8 @@
         "jisoft/yii2-sypexgeo": "@dev",
         "kop/yii2-scroll-pager": "dev-master",
         "bower-asset/seiyria-bootstrap-slider": "*",
-        "bower-asset/fontawesome": "*"
+        "bower-asset/fontawesome": "*",
+        "wbraganca/yii2-dynamicform": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
