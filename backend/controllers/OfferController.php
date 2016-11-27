@@ -4,15 +4,18 @@ namespace backend\controllers;
 
 use backend\models\ModelMultiple;
 use common\models\OfferItem;
+use common\models\OfferPhoto;
 use Exception;
 use Yii;
 use common\models\Offer;
 use backend\models\OfferSearch;
 use yii\helpers\ArrayHelper;
+use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 /**
@@ -132,6 +135,10 @@ class OfferController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
+            echo "<pre>";
+            print_r(Yii::$app->request->post());
+            die();
+
             $oldIDs = ArrayHelper::map($items, 'id', 'id');
             $items = ModelMultiple::createMultiple(OfferItem::className(), $items);
             ModelMultiple::loadMultiple($items, Yii::$app->request->post());
@@ -213,7 +220,7 @@ class OfferController extends Controller
     public function actionDeletePhoto()
     {
         $id = Yii::$app->request->post('key');
-        $model = SalePhoto::findOne($id);
+        $model = OfferPhoto::findOne($id);
         if ($model ->delete())
             return true;
         return false;
@@ -221,14 +228,16 @@ class OfferController extends Controller
 
     public function actionUploadPhoto()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         if (Yii::$app->request->isPost) {
-            $id = Yii::$app->request->post('sale_id');
-            $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$id;
-            BaseFileHelper::createDirectory($path);
+
+            Yii::info(Yii::$app->request->post());
+
+            $path = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'/temp';
             $file = UploadedFile::getInstanceByName('photos');
             if (!$file) return false;
-            $model = new SalePhoto();
-            $model->sale_id = $id;
+            $model = new OfferPhoto();
             if ($model->save()) {
                 $model->sort = $model->id;
                 $name = $model->id.'.jpg';
@@ -242,7 +251,9 @@ class OfferController extends Controller
                 }
             }
             sleep(1);
-            return true;
+            return [
+                'id' => $model->id
+            ];
         }
         return false;
     }

@@ -57,6 +57,7 @@ return [
                 'personal' => 'personal/index',
                 'sale/<id:\d+>' => 'sale/index',
                 'photo/<action:(slider|big|small|thumb)>/<id:\d+>.jpg' => 'photo/<action>',
+                'photo-offer/<action:(slider|big|small|thumb)>/<id:\d+>.jpg' => 'photo-offer/<action>',
             ]
         ],
         'i18n' => [

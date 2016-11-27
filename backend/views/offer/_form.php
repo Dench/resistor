@@ -19,7 +19,22 @@ $(".dynamicform_wrapper").on("beforeInsert", function(e, item) {
 
 $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
     console.log("afterInsert");
+    eventFile($('input[type="file"]'));
 });
+eventFile($('input[type="file"]'));
+function eventFile(obj) {
+    obj.on('fileloaded', function(event, file, previewId, index) {
+        $('.fileinput-upload-button').click();
+    });
+    obj.on('fileuploaded', function(event, data, previewId, index) {
+        //console.log(data.response);
+        console.log(index);
+        console.log(previewId);
+    });
+    obj.on('filedeleted', function(event, key) {
+        console.log('Key = ' + key);
+    });
+}
 
 $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
     if (! confirm("{$del_text}")) {
@@ -94,27 +109,34 @@ $this->registerJs($js);
                                 <?php
                                 $preview = [];
                                 $preview_config = [];
+                                foreach($item->photos as $it){
+                                    $preview[] = Html::img(Yii::$app->params['http'].Yii::$app->params['offerPhotoThumb']['path'].$it->id.'.jpg', ['height' => '60']);
+                                    $preview_config[] = [
+                                        'url' => 'delete-photo',
+                                        'key' => $it->id
+                                    ];
+                                }
+                                echo Html::hiddenInput("OfferPhoto[{$i}][item_id]", $item->id);
                                 echo FileInput::widget([
-                                    'name' => "[{$i}]photos",
+                                    'name' => "OfferPhoto[{$i}][photos]",
                                     'pluginOptions' => [
-                                        'minImageWidth' => Yii::$app->params['salePhotoMin']['width']/2,
-                                        'minImageHeight' => Yii::$app->params['salePhotoMin']['height']/2,
+                                        'minImageWidth' => Yii::$app->params['offerPhotoMin']['width']/2,
+                                        'minImageHeight' => Yii::$app->params['offerPhotoMin']['height']/2,
                                         'showCaption' => false,
                                         'showRemove' => false,
-                                        //'showUpload' => false,
                                         'overwriteInitial' => false,
                                         'dropZoneEnabled' => false,
                                         'showClose' => false,
                                         'initialPreview' => $preview,
                                         'initialPreviewConfig' => $preview_config,
-                                        //'browseClass' => 'btn btn-primary btn-block',
                                         'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
                                         'browseLabel' =>  Yii::t('app', 'Select Photo'),
                                         'allowedFileExtensions' => ['jpg'],
                                         'uploadUrl' => Url::to(['upload-photo']),
                                         'uploadExtraData' => [
-                                            'offer_id' => $item->id
                                         ],
+                                    ],
+                                    'pluginEvents' => [
                                     ],
                                     'options' => [
                                         'accept' => 'image/jpeg',
