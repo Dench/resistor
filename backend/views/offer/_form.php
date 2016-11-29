@@ -23,16 +23,15 @@ $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
 });
 eventFile($('input[type="file"]'));
 function eventFile(obj) {
-    obj.on('fileloaded', function(event, file, previewId, index) {
-        $('.fileinput-upload-button').click();
+    obj.on('fileloaded', function(event, file, previewId, index, reader) {
+        obj.fileinput('upload');
     });
     obj.on('fileuploaded', function(event, data, previewId, index) {
-        //console.log(data.response);
-        console.log(index);
-        console.log(previewId);
-    });
-    obj.on('filedeleted', function(event, key) {
-        console.log('Key = ' + key);
+        var inputHidden = $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', 'FileId['+data.response.index+'][]')
+            .val(data.response.file_id);
+        $('#'+previewId).append(inputHidden);
     });
 }
 
@@ -116,9 +115,9 @@ $this->registerJs($js);
                                         'key' => $it->id
                                     ];
                                 }
-                                echo Html::hiddenInput("OfferPhoto[{$i}][item_id]", $item->id);
+                                //echo Html::hiddenInput("OfferPhoto[{$i}][item_id]", $item->id);
                                 echo FileInput::widget([
-                                    'name' => "OfferPhoto[{$i}][photos]",
+                                    'name' => "Files[{$i}][file]",
                                     'pluginOptions' => [
                                         'minImageWidth' => Yii::$app->params['offerPhotoMin']['width']/2,
                                         'minImageHeight' => Yii::$app->params['offerPhotoMin']['height']/2,
@@ -158,6 +157,7 @@ $this->registerJs($js);
 <?php DynamicFormWidget::end(); ?>
 
 <div class="box-footer">
+    <div id="files"></div>
     <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 </div>
 

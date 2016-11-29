@@ -10,7 +10,6 @@ use Yii;
 use common\models\Offer;
 use backend\models\OfferSearch;
 use yii\helpers\ArrayHelper;
-use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -232,10 +231,20 @@ class OfferController extends Controller
 
         if (Yii::$app->request->isPost) {
 
-            Yii::info(Yii::$app->request->post());
+            $at = ['name', 'tmp_name', 'type', 'size', 'error'];
+            $files = [];
+            $index = key($_FILES['Files'][$at[0]]);
+            foreach ($at as $a) {
+                $f = array_shift($_FILES['Files'][$a]);
+                $files[$a] = $f['file'];
+            }
+            $_FILES = [];
+            $_FILES['upload'] = $files;
+
+            //Yii::info($_FILES, print_r(true));
 
             $path = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'/temp';
-            $file = UploadedFile::getInstanceByName('photos');
+            $file = UploadedFile::getInstanceByName('upload');
             if (!$file) return false;
             $model = new OfferPhoto();
             if ($model->save()) {
@@ -252,7 +261,8 @@ class OfferController extends Controller
             }
             sleep(1);
             return [
-                'id' => $model->id
+                'file_id' => $model->id,
+                'index' => $index
             ];
         }
         return false;
