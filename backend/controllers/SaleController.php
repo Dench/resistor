@@ -13,7 +13,7 @@ use common\models\Sale;
 use yii\base\Model;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use yii\helpers\BaseFileHelper;
+use yii\helpers\FileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -208,7 +208,7 @@ class SaleController extends Controller
         if (Yii::$app->request->isPost) {
             $id = Yii::$app->request->post('sale_id');
             $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$id;
-            BaseFileHelper::createDirectory($path);
+            FileHelper::createDirectory($path);
             $file = UploadedFile::getInstanceByName('photos');
             if (!$file) return false;
             $model = new SalePhoto();
@@ -245,7 +245,7 @@ class SaleController extends Controller
         if (Yii::$app->request->isPost) {
             $id = Yii::$app->request->post('sale_id');
             $path = Yii::$app->params['uploadSalePath'].DIRECTORY_SEPARATOR.$id;
-            BaseFileHelper::createDirectory($path);
+            FileHelper::createDirectory($path);
             $file = UploadedFile::getInstanceByName('files');
             if (file_exists($path.DIRECTORY_SEPARATOR.$file->name)) {
                 return false;

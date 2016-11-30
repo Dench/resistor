@@ -6,7 +6,7 @@ use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Yii;
 use yii\db\ActiveRecord;
-use yii\helpers\BaseFileHelper;
+use yii\helpers\FileHelper;
 use yii\imagine\Image;
 
 /**
@@ -82,7 +82,7 @@ class OfferPhoto extends ActiveRecord
             $item->delete();
         }
         $path = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.$item_id;
-        BaseFileHelper::removeDirectory($path);
+        FileHelper::removeDirectory($path);
     }
 
     public static function resize($id, $param)
@@ -115,5 +115,22 @@ class OfferPhoto extends ActiveRecord
             return $thumb;
         else
             return false;
+    }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        if ($result = parent::save($runValidation, $attributeNames)) {
+
+            $path_temp = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'temp';
+            $filename = $this->id.'.jpg';
+            if (file_exists($path_temp.DIRECTORY_SEPARATOR.$filename)) {
+                $path_item = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.$this->item_id;
+                FileHelper::createDirectory($path_item);
+                rename($path_temp.DIRECTORY_SEPARATOR.$filename, $path_item.DIRECTORY_SEPARATOR.$filename);
+            }
+
+        }
+
+        return $result;
     }
 }

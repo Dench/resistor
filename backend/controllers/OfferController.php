@@ -134,9 +134,13 @@ class OfferController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            echo "<pre>";
-            print_r(Yii::$app->request->post());
-            die();
+            $temp = Yii::$app->request->post('FileId');
+            $fileIDs = [];
+            foreach ($temp as $k => $item) {
+                foreach ($item as $i) {
+                    $fileIDs[$k][$i] = $i;
+                }
+            }
 
             $oldIDs = ArrayHelper::map($items, 'id', 'id');
             $items = ModelMultiple::createMultiple(OfferItem::className(), $items);
@@ -158,16 +162,25 @@ class OfferController extends Controller
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
+                OfferPhoto::updateAll(['item_id' => 0], ['item_id' => $id]);
                 try {
                     if ($flag = $model->save(false)) {
                         if (! empty($deletedIDs)) {
                             OfferItem::deleteAll(['id' => $deletedIDs]);
                         }
-                        foreach ($items as $item) {
+                        foreach ($items as $i => $item) {
                             $item->group_id = $model->id;
-                            if (! ($flag = $item->save(false))) {
+                            if (!($flag = $item->save(false))) {
                                 $transaction->rollBack();
                                 break;
+                            } else {
+                                if (isset($fileIDs[$i])) {
+                                    foreach ($fileIDs[$i] as $fid) {
+                                        $file = OfferPhoto::findOne($fid);
+                                        $file->item_id = $item->id;
+                                        $file->save();
+                                    }
+                                }
                             }
                         }
                     }
@@ -241,9 +254,9 @@ class OfferController extends Controller
             $_FILES = [];
             $_FILES['upload'] = $files;
 
-            //Yii::info($_FILES, print_r(true));
+            //Yii::info(print_r($_FILES, true));
 
-            $path = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'/temp';
+            $path = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'temp';
             $file = UploadedFile::getInstanceByName('upload');
             if (!$file) return false;
             $model = new OfferPhoto();
