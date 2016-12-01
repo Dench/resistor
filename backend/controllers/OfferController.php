@@ -76,6 +76,18 @@ class OfferController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
+            $temp = Yii::$app->request->post('FileId');
+            $fileIDs = [];
+            $fileIDs2 = [];
+            if (!empty($temp)) {
+                foreach ($temp as $k => $item) {
+                    foreach ($item as $i) {
+                        $fileIDs[$k][$i] = $i;
+                        $fileIDs2[$i] = $i;
+                    }
+                }
+            }
+
             $items = ModelMultiple::createMultiple(OfferItem::className());
             ModelMultiple::loadMultiple($items, Yii::$app->request->post());
 
@@ -96,18 +108,32 @@ class OfferController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($flag = $model->save(false)) {
-                        foreach ($items as $item) {
+                        foreach ($items as $i => $item) {
                             /** @var OfferItem $item */
                             $item->group_id = $model->id;
                             if (! ($flag = $item->save(false))) {
                                 $transaction->rollBack();
                                 break;
+                            } else {
+                                if (isset($fileIDs[$i])) {
+                                    foreach ($fileIDs[$i] as $fid) {
+                                        $file = OfferPhoto::findOne($fid);
+                                        $file->item_id = $item->id;
+                                        $file->save();
+                                        $file->rename();
+                                    }
+                                }
                             }
                         }
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $model->id]);
+                        $deletedIDs3 = OfferPhoto::findAll(['item_id' => null]);
+                        foreach ($deletedIDs3 as $del) {
+                            $del->delete();
+                        }
+                        Yii::$app->session->setFlash('success', Yii::t('app', 'Information saved'), true);
+                        return $this->redirect(['index']);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -136,9 +162,13 @@ class OfferController extends Controller
 
             $temp = Yii::$app->request->post('FileId');
             $fileIDs = [];
-            foreach ($temp as $k => $item) {
-                foreach ($item as $i) {
-                    $fileIDs[$k][$i] = $i;
+            $fileIDs2 = [];
+            if (!empty($temp)) {
+                foreach ($temp as $k => $item) {
+                    foreach ($item as $i) {
+                        $fileIDs[$k][$i] = $i;
+                        $fileIDs2[$i] = $i;
+                    }
                 }
             }
 
@@ -147,6 +177,8 @@ class OfferController extends Controller
             ModelMultiple::loadMultiple($items, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($items, 'id', 'id')));
 
+            
+            
             // ajax validation
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -160,12 +192,25 @@ class OfferController extends Controller
             $valid = $model->validate();
             $valid = ModelMultiple::validateMultiple($items) && $valid;
 
+            foreach ($model->items as $item) {
+                foreach ($item->photos as $photo) {
+                    if (!isset($fileIDs2[$photo->id])) {
+                        $deletedIDs2[$photo->id] = $photo->id;
+                    }
+                }
+            }
+
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
-                OfferPhoto::updateAll(['item_id' => 0], ['item_id' => $id]);
                 try {
                     if ($flag = $model->save(false)) {
-                        if (! empty($deletedIDs)) {
+                        if (!empty($deletedIDs2)) {
+                            foreach ($deletedIDs2 as $del) {
+                                $ph = OfferPhoto::findOne($del);
+                                $ph->delete();
+                            }
+                        }
+                        if (!empty($deletedIDs)) {
                             OfferItem::deleteAll(['id' => $deletedIDs]);
                         }
                         foreach ($items as $i => $item) {
@@ -179,6 +224,7 @@ class OfferController extends Controller
                                         $file = OfferPhoto::findOne($fid);
                                         $file->item_id = $item->id;
                                         $file->save();
+                                        $file->rename();
                                     }
                                 }
                             }
@@ -186,7 +232,12 @@ class OfferController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $model->id]);
+                        $deletedIDs3 = OfferPhoto::findAll(['item_id' => null]);
+                        foreach ($deletedIDs3 as $del) {
+                            $del->delete();
+                        }
+                        Yii::$app->session->setFlash('success', Yii::t('app', 'Information saved'), true);
+                        return $this->redirect(['index']);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -231,11 +282,7 @@ class OfferController extends Controller
 
     public function actionDeletePhoto()
     {
-        $id = Yii::$app->request->post('key');
-        $model = OfferPhoto::findOne($id);
-        if ($model ->delete())
-            return true;
-        return false;
+        return true;
     }
 
     public function actionUploadPhoto()

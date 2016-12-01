@@ -132,3 +132,30 @@ div.required label.control-label:after {
     margin-right: -10px;
     margin-left: -10px;
 }
+
+#dynamic-form .file-preview {
+    border-radius: 3px;
+    padding: 5px 5px 0 5px;
+}
+#dynamic-form .file-preview img {
+    border-radius: 2px;
+}
+#dynamic-form .file-preview-frame {
+    margin: 0 5px 5px 0;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+#dynamic-form .file-actions {
+    margin-top: -25px;
+    padding-right: 3px;
+}
+#dynamic-form .file-drag-handle {
+    display: none;
+}
+#dynamic-form .file-footer-caption {
+    display: none;
+}
+#dynamic-form .file-thumb-progress {
+    top: -135px;
+}

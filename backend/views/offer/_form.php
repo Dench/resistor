@@ -20,6 +20,7 @@ $(".dynamicform_wrapper").on("beforeInsert", function(e, item) {
 $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
     console.log("afterInsert");
     eventFile($('input[type="file"]'));
+    $('.file-input').last().addClass('file-input-new').find('.file-initial-thumbs').empty();
 });
 eventFile($('input[type="file"]'));
 function eventFile(obj) {
@@ -33,10 +34,17 @@ function eventFile(obj) {
             .val(data.response.file_id);
         $('#'+previewId).append(inputHidden);
     });
+    obj.on('filedeleted', function(event, key) {
+        $('input[type="hidden"]').each(function(){
+            if ($(this).val() == key) {
+                $(this).remove();
+            }
+        })
+    });
 }
 
 $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
-    if (! confirm("{$del_text}")) {
+    if (!confirm("{$del_text}")) {
         return false;
     }
     return true;
@@ -87,7 +95,6 @@ $this->registerJs($js);
             <div class="box-header with-border">
                 <h3 class="box-title pull-left"><?= Yii::t('app', 'Object') ?></h3>
                 <div class="box-tools pull-right">
-                    <button type="button" class="add-item btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
                     <button type="button" class="remove-item btn btn-danger btn-sm"><i class="glyphicon glyphicon-minus"></i></button>
                 </div>
             </div>
@@ -100,54 +107,60 @@ $this->registerJs($js);
                 ?>
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <?= $form->field($item, "[{$i}]name")->textInput(['maxlength' => true]) ?>
-                            </div>
-                            <div class="col-sm-12">
-                                <?php
-                                $preview = [];
-                                $preview_config = [];
-                                foreach($item->photos as $it){
-                                    $preview[] = Html::img(Yii::$app->params['http'].Yii::$app->params['offerPhotoThumb']['path'].$it->id.'.jpg', ['height' => '60']);
-                                    $preview_config[] = [
-                                        'url' => 'delete-photo',
-                                        'key' => $it->id
-                                    ];
-                                }
-                                //echo Html::hiddenInput("OfferPhoto[{$i}][item_id]", $item->id);
-                                echo FileInput::widget([
-                                    'name' => "Files[{$i}][file]",
-                                    'pluginOptions' => [
-                                        'minImageWidth' => Yii::$app->params['offerPhotoMin']['width']/2,
-                                        'minImageHeight' => Yii::$app->params['offerPhotoMin']['height']/2,
-                                        'showCaption' => false,
-                                        'showRemove' => false,
-                                        'overwriteInitial' => false,
-                                        'dropZoneEnabled' => false,
-                                        'showClose' => false,
-                                        'initialPreview' => $preview,
-                                        'initialPreviewConfig' => $preview_config,
-                                        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                                        'browseLabel' =>  Yii::t('app', 'Select Photo'),
-                                        'allowedFileExtensions' => ['jpg'],
-                                        'uploadUrl' => Url::to(['upload-photo']),
-                                        'uploadExtraData' => [
-                                        ],
-                                    ],
-                                    'pluginEvents' => [
-                                    ],
-                                    'options' => [
-                                        'accept' => 'image/jpeg',
-                                        'multiple' => true
-                                    ]
-                                ]);
-                                ?>
-                            </div>
-                        </div>
+                        <?= $form->field($item, "[{$i}]name")->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($item, "[{$i}]text")->textarea(['rows' => 5]) ?>
                     </div>
                     <div class="col-sm-6">
-                        <?= $form->field($item, "[{$i}]text")->textarea(['rows' => 5]) ?>
+                        <div class="form-group field-offeritem-0-text">
+                            <label class="control-label" for="offeritem-0-text"><?= Yii::t('app', 'Photos') ?></label>
+
+                        <?php
+                        $preview = [];
+                        $preview_config = [];
+                        foreach($item->photos as $it){
+                            $preview[] = Html::img(Yii::$app->params['http'].Yii::$app->params['offerPhotoThumb']['path'].$it->id.'.jpg', ['height' => '160']);
+                            $preview_config[] = [
+                                'url' => 'delete-photo',
+                                'key' => $it->id,
+                                'caption' => '<input type="hidden" name="FileId['.$i.'][]" value="'.$it->id.'">'
+                            ];
+                        }
+
+                        echo FileInput::widget([
+                            'name' => "Files[{$i}][file]",
+                            'pluginOptions' => [
+                                'minImageWidth' => Yii::$app->params['offerPhotoMin']['width']/2,
+                                'minImageHeight' => Yii::$app->params['offerPhotoMin']['height']/2,
+                                'overwriteInitial' => false,
+                                'dropZoneEnabled' => false,
+                                'showClose' => false,
+                                'showCaption' => false,
+                                'showRemove' => false,
+                                'showUpload' => false,
+                                'initialPreview' => $preview,
+                                'initialPreviewConfig' => $preview_config,
+                                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                                'browseLabel' =>  Yii::t('app', 'Select Photo'),
+                                'allowedFileExtensions' => ['jpg'],
+                                'uploadUrl' => Url::to(['upload-photo']),
+                                'uploadExtraData' => [
+                                ],
+                                'fileActionSettings' => [
+                                    'showZoom' => false,
+                                ],
+                                'layoutTemplates' => [
+                                    'modalMain' => false,
+                                ],
+                            ],
+                            'pluginEvents' => [
+                            ],
+                            'options' => [
+                                'accept' => 'image/jpeg',
+                                'multiple' => true
+                            ]
+                        ]);
+                        ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,8 +170,8 @@ $this->registerJs($js);
 <?php DynamicFormWidget::end(); ?>
 
 <div class="box-footer">
-    <div id="files"></div>
     <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::button('<i class="glyphicon glyphicon-plus"></i> '.Yii::t('app', 'Add object'), ['class' => 'add-item btn btn-danger']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

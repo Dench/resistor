@@ -72,4 +72,15 @@ class Offer extends ActiveRecord
     {
         return $this->hasMany(OfferItem::className(), ['group_id' => 'id']);
     }
+    
+    public function beforeDelete()
+    {
+        $items = OfferItem::findAll(['group_id' => $this->id]);
+        
+        foreach ($items as $item) {
+            $item->delete();
+        }
+        
+        return parent::beforeDelete();
+    }
 }

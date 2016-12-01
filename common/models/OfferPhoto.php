@@ -62,7 +62,14 @@ class OfferPhoto extends ActiveRecord
     }
 
     public function afterDelete() {
+        Yii::info('afterDelete'.$this->item_id);
         $file = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.$this->item_id.DIRECTORY_SEPARATOR.$this->id.'.jpg';
+        if (file_exists($file)) {
+            unlink($file);
+            $path = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.$this->item_id;
+            FileHelper::removeDirectory($path);
+        }
+        $file = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR.$this->id.'.jpg';
         if (file_exists($file)) unlink($file);
         $file = Yii::getAlias('@frontend/web').Yii::$app->params['offerPhotoSlider']['path'].$this->id.'.jpg';
         if (file_exists($file)) unlink($file);
@@ -117,20 +124,15 @@ class OfferPhoto extends ActiveRecord
             return false;
     }
 
-    public function save($runValidation = true, $attributeNames = null)
+    public function rename()
     {
-        if ($result = parent::save($runValidation, $attributeNames)) {
-
-            $path_temp = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'temp';
-            $filename = $this->id.'.jpg';
-            if (file_exists($path_temp.DIRECTORY_SEPARATOR.$filename)) {
-                $path_item = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.$this->item_id;
-                FileHelper::createDirectory($path_item);
-                rename($path_temp.DIRECTORY_SEPARATOR.$filename, $path_item.DIRECTORY_SEPARATOR.$filename);
-            }
-
+        $path_temp = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.'temp';
+        $filename = $this->id.'.jpg';
+        if (file_exists($path_temp.DIRECTORY_SEPARATOR.$filename)) {
+            $path_item = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.$this->item_id;
+            Yii::info($path_item);
+            FileHelper::createDirectory($path_item);
+            rename($path_temp.DIRECTORY_SEPARATOR.$filename, $path_item.DIRECTORY_SEPARATOR.$filename);
         }
-
-        return $result;
     }
 }
