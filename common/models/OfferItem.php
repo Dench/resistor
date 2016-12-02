@@ -16,6 +16,7 @@ use yii\helpers\FileHelper;
  *
  * @property Offer $group
  * @property OfferPhoto $photos
+ * @property array $images
  */
 class OfferItem extends ActiveRecord
 {
@@ -76,5 +77,20 @@ class OfferItem extends ActiveRecord
         $path = Yii::$app->params['uploadOfferPath'].DIRECTORY_SEPARATOR.$this->id;
         FileHelper::removeDirectory($path);
         return parent::afterDelete();
+    }
+
+    public function getImages()
+    {
+        $images['thumb'] = [];
+        $images['small'] = [];
+        $images['big'] = [];
+        $images['slider'] = [];
+        foreach ($this->photos as $i) {
+            $images['thumb'][$i['id']] = Yii::$app->params['offerPhotoThumb']['path'].$i['id'].'.jpg';
+            $images['small'][$i['id']] = Yii::$app->params['offerPhotoSmall']['path'].$i['id'].'.jpg';
+            $images['big'][$i['id']] = Yii::$app->params['offerPhotoBig']['path'].$i['id'].'.jpg';
+            $images['slider'][$i['id']] = Yii::$app->params['offerPhotoSlider']['path'].$i['id'].'.jpg';
+        }
+        return $images;
     }
 }

@@ -84,8 +84,24 @@ $this->registerJs($js);
     <div class="box-header with-border">
         <h3 class="box-title pull-left"><?= Yii::t('app', 'Offer') ?></h3>
     </div>
-    <div class="box-body">
-        <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
+    <div class="box-body row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'text')->textarea(['rows' => 8]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'phone1')->textInput(['maxlength' => true]) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'phone2')->textInput(['maxlength' => true]) ?>
+                </div>
+            </div>
+
+            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+        </div>
     </div>
 </div>
 
