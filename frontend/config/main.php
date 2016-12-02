@@ -58,6 +58,7 @@ return [
                 'sale/<id:\d+>' => 'sale/index',
                 'photo/<action:(slider|big|small|thumb)>/<id:\d+>.jpg' => 'photo/<action>',
                 'photo-offer/<action:(slider|big|small|thumb)>/<id:\d+>.jpg' => 'photo-offer/<action>',
+                'offer/<id:\d+>' => 'offer/index'
             ]
         ],
         'i18n' => [
