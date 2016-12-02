@@ -18,9 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                
-                'code',
-                'text:ntext',
+
+                [
+                    'attribute' => 'code',
+                    'content' => function($data){
+                        return Yii::$app->params['frontend_home'].'/offer/'.$data->code;
+                    }
+                ],
                 'created_at:datetime',
                 'updated_at:datetime',
     
