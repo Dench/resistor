@@ -64,15 +64,6 @@ $this->registerJs($js);
 
 <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 
-<div class="box">
-    <div class="box-header with-border">
-        <h3 class="box-title pull-left"><?= Yii::t('app', 'Offer') ?></h3>
-    </div>
-    <div class="box-body">
-        <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
-    </div>
-</div>
-
 <?php DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
     'widgetBody' => '.container-items', // required: css class selector
@@ -88,6 +79,15 @@ $this->registerJs($js);
         'text',
     ],
 ]); ?>
+
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title pull-left"><?= Yii::t('app', 'Offer') ?></h3>
+    </div>
+    <div class="box-body">
+        <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
+    </div>
+</div>
 
 <div class="container-items"><!-- widgetContainer -->
     <?php foreach ($items as $i => $item): ?>
@@ -167,11 +167,12 @@ $this->registerJs($js);
         </div>
     <?php endforeach; ?>
 </div>
-<?php DynamicFormWidget::end(); ?>
 
 <div class="box-footer">
     <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     <?= Html::button('<i class="glyphicon glyphicon-plus"></i> '.Yii::t('app', 'Add object'), ['class' => 'add-item btn btn-danger']) ?>
 </div>
+
+<?php DynamicFormWidget::end(); ?>
 
 <?php ActiveForm::end(); ?>
