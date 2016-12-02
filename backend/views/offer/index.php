@@ -28,7 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'created_at:datetime',
                 'updated_at:datetime',
     
-                ['class' => 'yii\grid\ActionColumn'],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'buttons' => [
+                        'view' => function ($url, $model) {
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-eye-open"></span>',
+                                Yii::$app->params['frontend_home'].'/offer/'.$model->code,
+                                [
+                                    'target' => '_blank'
+                                ]
+                            );
+                        }
+                    ],
+                ],
             ],
         ]); ?>
     </div>
