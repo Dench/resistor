@@ -12,6 +12,10 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property string $code
  * @property string $text
+ * @property string $name
+ * @property string $phone1
+ * @property string $phone2
+ * @property string $email
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -46,7 +50,8 @@ class Offer extends ActiveRecord
             [['code'], 'default', 'value' => function(){
                 return substr(md5(rand(1000,9999)), 0, 6);
             }],
-            [['text'], 'string'],
+            [['text', 'name', 'phone1', 'phone2'], 'string'],
+            ['email', 'email'],
             [['code'], 'string', 'max' => 32],
         ];
     }
@@ -60,6 +65,10 @@ class Offer extends ActiveRecord
             'id' => 'ID',
             'code' => Yii::t('app', 'Code'),
             'text' => Yii::t('app', 'Text'),
+            'name' => Yii::t('app', 'Full name'),
+            'phone1' => Yii::t('app', 'Phone'),
+            'phone2' => Yii::t('app', 'Phone'),
+            'email' => Yii::t('app', 'Email'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
         ];
