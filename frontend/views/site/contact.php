@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="contact-box bg-primary">
                         <i class="fa fa-envelope"></i>
                         <div>
-                            <?= Yii::$app->params['email'] ?>
+                            <a href="mailto:<?= Yii::$app->params['email'] ?>"><?= Yii::$app->params['email'] ?></a>
                         </div>
                     </div>
                 </div>

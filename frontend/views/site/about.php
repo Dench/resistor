@@ -122,7 +122,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </section>
 <?php
-$geo = new \jisoft\sypexgeo\Sypexgeo();
+/*$geo = new \jisoft\sypexgeo\Sypexgeo();
 
 // get by remote IP
 $geo->get();                // also returned geo data as array
@@ -131,4 +131,39 @@ echo $geo->ipAsLong,'<br>';
 var_dump($geo->country); echo '<br>';
 var_dump($geo->region);  echo '<br>';
 var_dump($geo->city);    echo '<br>';
+
+$data = \common\models\District::find()->orderBy('region_id')->all();
+
+$items = [];
+
+foreach ($data as $d) {
+    $en = \common\models\DistrictLang::findOne(['id' => $d->id, 'lang_id' => 1]);
+    $items[] = [
+        $d->region_id => $en->name,
+    ];
+}
+
+echo "<pre>";
+echo var_export54($items);
+echo "</pre>";
+
+function var_export54($var, $indent="") {
+    switch (gettype($var)) {
+        case "string":
+            return "'" . addcslashes($var, "\\\$\"\r\n\t\v\f") . "'";
+        case "array":
+            $indexed = array_keys($var) === range(0, count($var) - 1);
+            $r = [];
+            foreach ($var as $key => $value) {
+                $r[] = "$indent"
+                    . ($indexed ? "" : var_export54($key) . " => ")
+                    . var_export54($value, "$indent");
+            }
+            return "[" . implode(",\n", $r) . "" . $indent . "]";
+        case "boolean":
+            return $var ? "TRUE" : "FALSE";
+        default:
+            return var_export($var, TRUE);
+    }
+}*/
 ?>

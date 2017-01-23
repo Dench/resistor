@@ -56,7 +56,7 @@ Yii::$app->view->registerJs($script, yii\web\View::POS_READY);
                         echo '<span class="top-pd hidden-xs"><i class="fa fa-phone"></i> '.Yii::$app->params['phone2'].'</span>';
                     }
                     if (Yii::$app->params['email']) {
-                        echo '<a href="#" class="top-pd hidden-xs hidden-sm hidden-md"><i class="fa fa-envelope fa-fw"></i> '.Yii::$app->params['email'].'</a>';
+                        echo '<a href="mailto:'.Yii::$app->params['email'].'" class="top-pd hidden-xs hidden-sm hidden-md"><i class="fa fa-envelope fa-fw"></i> '.Yii::$app->params['email'].'</a>';
                     }
                 ?>
             </div>
